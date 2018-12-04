@@ -1,4 +1,4 @@
-/* Copyright (c) 2016,2017 The Linux Foundation. All rights reserved.
+/* Copyright (c) 2016-2018, The Linux Foundation. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -28,9 +28,7 @@
 package org.codeaurora.ims;
 
 import android.content.Context;
-import android.os.IBinder;
 import android.os.RemoteException;
-import android.os.ServiceManager;
 import android.telephony.ims.feature.ImsFeature;
 import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
@@ -40,28 +38,23 @@ import com.android.ims.ImsConfig;
 import com.android.ims.ImsException;
 import com.android.ims.ImsManager;
 
+import java.util.ArrayList;
+
 import org.codeaurora.ims.internal.IQtiImsExt;
 import org.codeaurora.ims.internal.IQtiImsExtListener;
 import org.codeaurora.ims.internal.IImsMultiIdentityInterface;
-import org.codeaurora.ims.QtiCallConstants;
 import org.codeaurora.ims.utils.QtiImsExtUtils;
 
 /**
  * Provides API's for IQtiImsExt Binder such as sending call transfer etc
- * This class is starting point for all the QtiImsExt actions.
- * You can acquire an instance of it by calling {@link getInstance getInstance()}
+ * You can acquire an instance of it by calling {@link QtiImsExtConnector().connect()}
  *
  * Note: The implementation of QtiImsExtManager is not synchronized hence this is
  * not a thread safe class, Assuming all the users will call the API's from the same thread
  */
 public class QtiImsExtManager {
 
-    private static String LOG_TAG = "QtiImsExtManager";
-
-    /**
-     * Key to retrieve service form the ServiceManager
-     */
-    public static final String SERVICE_ID = "qti.ims.ext";
+    private static final String LOG_TAG = "QtiImsExtManager";
 
     /**
      * All the QtiImsExt actions are performed using this interface,
@@ -70,17 +63,46 @@ public class QtiImsExtManager {
      */
     private IQtiImsExt mQtiImsExt;
     private Context mContext;
+    private ArrayList<ICleanupListener> mCleanupListeners = new ArrayList<>();
 
+    //TODO remove later. This is only for dependent modules compilation
     public QtiImsExtManager(Context context) {
+        this(context, null);
+    }
+
+    /*package-private*/
+    QtiImsExtManager(Context context, IQtiImsExt qtiImsExt) {
         mContext = context;
+        mQtiImsExt = qtiImsExt;
+    }
+
+    public void dispose() {
+        mCleanupListeners.forEach(c -> c.dispose());
+        mQtiImsExt = null;
+        mContext = null;
+    }
+
+    //Used to cleanup all Managers
+    public interface ICleanupListener {
+        void dispose();
+    }
+
+    public void addCleanupListener(ICleanupListener listener) {
+        if (listener != null) {
+            mCleanupListeners.add(listener);
+        }
+    }
+
+    public void removeCleanupListener(ICleanupListener listener) {
+        if (listener != null) {
+            mCleanupListeners.remove(listener);
+        }
     }
 
     public void setCallForwardUncondTimer(int phoneId, int startHour, int startMinute, int endHour,
             int endMinute, int action, int condition, int serviceClass, String number,
             IQtiImsExtListener listener) throws QtiImsException {
-        obtainBinder();
-        checkPhoneId(phoneId);
-        checkFeatureStatus(phoneId);
+        validateInvariants(phoneId);
         try {
             mQtiImsExt.setCallForwardUncondTimer(phoneId, startHour, startMinute, endHour,
                 endMinute, action, condition, serviceClass, number, listener);
@@ -91,9 +113,7 @@ public class QtiImsExtManager {
 
     public void getCallForwardUncondTimer(int phoneId, int reason, int serviceClass,
             IQtiImsExtListener listener) throws QtiImsException {
-        obtainBinder();
-        checkPhoneId(phoneId);
-        checkFeatureStatus(phoneId);
+        validateInvariants(phoneId);
         try {
             mQtiImsExt.getCallForwardUncondTimer(phoneId, reason, serviceClass, listener);
         } catch(RemoteException e) {
@@ -102,9 +122,7 @@ public class QtiImsExtManager {
     }
 
     public void getPacketCount(int phoneId, IQtiImsExtListener listener) throws QtiImsException {
-        obtainBinder();
-        checkPhoneId(phoneId);
-        checkFeatureStatus(phoneId);
+        validateInvariants(phoneId);
         try {
             mQtiImsExt.getPacketCount(phoneId, listener);
         } catch(RemoteException e) {
@@ -114,9 +132,7 @@ public class QtiImsExtManager {
 
     public void getPacketErrorCount(int phoneId, IQtiImsExtListener listener)
             throws QtiImsException {
-        obtainBinder();
-        checkPhoneId(phoneId);
-        checkFeatureStatus(phoneId);
+        validateInvariants(phoneId);
         try {
             mQtiImsExt.getPacketErrorCount(phoneId, listener);
         } catch(RemoteException e) {
@@ -125,9 +141,7 @@ public class QtiImsExtManager {
     }
 
     public void resumePendingCall(int phoneId, int videoState) throws QtiImsException {
-        obtainBinder();
-        checkPhoneId(phoneId);
-        checkFeatureStatus(phoneId);
+        validateInvariants(phoneId);
         try {
             mQtiImsExt.resumePendingCall(phoneId, videoState);
         } catch(RemoteException e) {
@@ -137,9 +151,7 @@ public class QtiImsExtManager {
 
     public void sendCallTransferRequest(int phoneId, int type, String number,
             IQtiImsExtListener listener) throws QtiImsException {
-        obtainBinder();
-        checkPhoneId(phoneId);
-        checkFeatureStatus(phoneId);
+        validateInvariants(phoneId);
         try {
             mQtiImsExt.sendCallTransferRequest(phoneId, type, number, listener);
         } catch(RemoteException e) {
@@ -149,9 +161,7 @@ public class QtiImsExtManager {
 
     public void sendCancelModifyCall(int phoneId, IQtiImsExtListener listener)
             throws QtiImsException {
-        obtainBinder();
-        checkPhoneId(phoneId);
-        checkFeatureStatus(phoneId);
+        validateInvariants(phoneId);
         try {
             mQtiImsExt.sendCancelModifyCall(phoneId, listener);
         } catch(RemoteException e) {
@@ -160,9 +170,7 @@ public class QtiImsExtManager {
     }
 
     public void queryVopsStatus(int phoneId, IQtiImsExtListener listener) throws QtiImsException {
-        obtainBinder();
-        checkPhoneId(phoneId);
-        checkFeatureStatus(phoneId);
+        validateInvariants(phoneId);
         try {
             mQtiImsExt.queryVopsStatus(phoneId, listener);
         } catch(RemoteException e) {
@@ -171,9 +179,7 @@ public class QtiImsExtManager {
     }
 
     public void querySsacStatus(int phoneId, IQtiImsExtListener listener) throws QtiImsException {
-        obtainBinder();
-        checkPhoneId(phoneId);
-        checkFeatureStatus(phoneId);
+        validateInvariants(phoneId);
         try {
             mQtiImsExt.querySsacStatus(phoneId, listener);
         } catch(RemoteException e) {
@@ -183,9 +189,7 @@ public class QtiImsExtManager {
 
     public void registerForParticipantStatusInfo(int phoneId, IQtiImsExtListener listener)
             throws QtiImsException {
-        obtainBinder();
-        checkPhoneId(phoneId);
-        checkFeatureStatus(phoneId);
+        validateInvariants(phoneId);
         try {
             mQtiImsExt.registerForParticipantStatusInfo(phoneId, listener);
         } catch(RemoteException e) {
@@ -195,9 +199,7 @@ public class QtiImsExtManager {
 
     public void updateVoltePreference(int phoneId, int preference,
             IQtiImsExtListener listener) throws QtiImsException {
-        obtainBinder();
-        checkPhoneId(phoneId);
-        checkFeatureStatus(phoneId);
+        validateInvariants(phoneId);
         try {
             mQtiImsExt.updateVoltePreference(phoneId, preference, listener);
         } catch(RemoteException e) {
@@ -207,9 +209,7 @@ public class QtiImsExtManager {
 
     public void queryVoltePreference(int phoneId,
             IQtiImsExtListener listener) throws QtiImsException {
-        obtainBinder();
-        checkPhoneId(phoneId);
-        checkFeatureStatus(phoneId);
+        validateInvariants(phoneId);
         try {
             mQtiImsExt.queryVoltePreference(phoneId, listener);
         } catch(RemoteException e) {
@@ -218,9 +218,7 @@ public class QtiImsExtManager {
     }
 
     public void getHandoverConfig(int phoneId, IQtiImsExtListener listener) throws QtiImsException {
-        obtainBinder();
-        checkPhoneId(phoneId);
-        checkFeatureStatus(phoneId);
+        validateInvariants(phoneId);
         try {
             mQtiImsExt.getHandoverConfig(phoneId, listener);
         } catch(RemoteException e) {
@@ -230,9 +228,7 @@ public class QtiImsExtManager {
 
     public void setHandoverConfig(int phoneId, int hoConfig, IQtiImsExtListener listener)
            throws QtiImsException {
-        obtainBinder();
-        checkPhoneId(phoneId);
-        checkFeatureStatus(phoneId);
+        validateInvariants(phoneId);
         try {
             mQtiImsExt.setHandoverConfig(phoneId, hoConfig, listener);
         } catch(RemoteException e) {
@@ -241,32 +237,13 @@ public class QtiImsExtManager {
     }
 
     /**
-     * Check if binder is available, else try to retrieve it from ServiceManager
+     * Check if binder is available,
      * if binder still doesn't exists throw {@link QtiImsException}
      */
-    private IQtiImsExt obtainBinder() throws QtiImsException {
+    private void checkBinder() throws QtiImsException {
         if (mQtiImsExt == null) {
-            IBinder b = ServiceManager.getService(SERVICE_ID);
-            mQtiImsExt = IQtiImsExt.Stub.asInterface(b);
-
-            if (mQtiImsExt == null) {
-                throw new QtiImsException("ImsService is not running");
-            }
-
-            try {
-                b.linkToDeath(()->this.handleQtiImsExtServiceDeath(), 0);
-            } catch (RemoteException e) {
-                Log.e(LOG_TAG, "Unable to listen for QtiImsExt service death");
-            }
-
-            return mQtiImsExt;
+            throw new QtiImsException("QtiImsExt Service is not running");
         }
-        return mQtiImsExt;
-    }
-
-    private void handleQtiImsExtServiceDeath() {
-        mQtiImsExt = null;
-        Log.i(LOG_TAG, "qtiImsExtDeathListener QtiImsExt binder died");
     }
 
     private void checkPhoneId(int phoneId) throws QtiImsException {
@@ -292,9 +269,7 @@ public class QtiImsExtManager {
     }
 
     public int setRcsAppConfig(int phoneId, int defaultSmsApp) throws QtiImsException {
-        obtainBinder();
-        checkPhoneId(phoneId);
-        checkFeatureStatus(phoneId);
+        validateInvariants(phoneId);
         int ret = ImsConfig.OperationStatusConstants.UNKNOWN;
         try {
             ret = mQtiImsExt.setRcsAppConfig(phoneId, defaultSmsApp);
@@ -305,9 +280,7 @@ public class QtiImsExtManager {
     }
 
     public int getRcsAppConfig(int phoneId) throws QtiImsException {
-        obtainBinder();
-        checkPhoneId(phoneId);
-        checkFeatureStatus(phoneId);
+        validateInvariants(phoneId);
         int ret = QtiImsExtUtils.QTI_IMS_SMS_APP_INVALID;
 
         try {
@@ -319,6 +292,7 @@ public class QtiImsExtManager {
         return ret;
     }
 
+    //TODO remove later. This is only for dependent modules compilation
     public boolean isImsRegistered(int phoneId) throws QtiImsException {
         final int[] subIds = SubscriptionManager.getSubId(phoneId);
         int subId = SubscriptionManager.INVALID_SUBSCRIPTION_ID;
@@ -331,9 +305,7 @@ public class QtiImsExtManager {
     }
 
     public int setVvmAppConfig(int phoneId, int defaultVvmApp) throws QtiImsException {
-        obtainBinder();
-        checkPhoneId(phoneId);
-        checkFeatureStatus(phoneId);
+        validateInvariants(phoneId);
         int ret = ImsConfig.OperationStatusConstants.UNKNOWN;
         try {
             ret = mQtiImsExt.setVvmAppConfig(phoneId, defaultVvmApp);
@@ -344,9 +316,7 @@ public class QtiImsExtManager {
     }
 
     public int getVvmAppConfig(int phoneId) throws QtiImsException {
-        obtainBinder();
-        checkPhoneId(phoneId);
-        checkFeatureStatus(phoneId);
+        validateInvariants(phoneId);
         int ret = QtiImsExtUtils.QTI_IMS_VVM_APP_INVALID;
 
         try {
@@ -358,18 +328,16 @@ public class QtiImsExtManager {
         return ret;
     }
 
-    public static ImsMultiIdentityManager createImsMultiIdentityManager(
-            int phoneId, Context context) {
-        QtiImsExtManager imsExtMgr = new QtiImsExtManager(context);
-        return new ImsMultiIdentityManager(phoneId, imsExtMgr);
+    public ImsMultiIdentityManager createImsMultiIdentityManager(int phoneId)
+            throws QtiImsException {
+        validateInvariants(phoneId);
+        return new ImsMultiIdentityManager(phoneId, this);
     }
 
     /*package private*/
     IImsMultiIdentityInterface getMultiIdentityInterface(int phoneId)
             throws QtiImsException {
-        obtainBinder();
-        checkPhoneId(phoneId);
-        checkFeatureStatus(phoneId);
+        validateInvariants(phoneId);
         try {
             return mQtiImsExt.getMultiIdentityInterface(phoneId);
         } catch(RemoteException e) {
@@ -379,6 +347,7 @@ public class QtiImsExtManager {
 
     /*package private*/
     void validateInvariants(int phoneId)  throws QtiImsException {
+        checkBinder();
         checkPhoneId(phoneId);
         checkFeatureStatus(phoneId);
     }

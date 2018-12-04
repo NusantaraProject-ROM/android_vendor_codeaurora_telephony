@@ -55,7 +55,7 @@ import org.codeaurora.ims.QtiImsExtManager;
  */
 public class QtiImsExtUtils {
 
-    private static String LOG_TAG = "QtiImsExtUtils";
+    private static final String LOG_TAG = "QtiImsExtUtils";
 
     public static final String QTI_IMS_CALL_DEFLECT_NUMBER =
             "ims_call_deflect_number";

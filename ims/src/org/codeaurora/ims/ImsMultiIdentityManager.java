@@ -37,7 +37,7 @@ import android.util.Log;
 import java.util.ArrayList;
 
 public class ImsMultiIdentityManager {
-    private static String LOG_TAG = "ImsMultiIdentityManager";
+    private static final String LOG_TAG = "ImsMultiIdentityManager";
 
     public final static int REGISTRATION_RESPONSE_FAILURE = 0;
     public final static int REGISTRATION_RESPONSE_SUCCESS = 1;
@@ -49,10 +49,7 @@ public class ImsMultiIdentityManager {
     ImsMultiIdentityManager(int phoneId, QtiImsExtManager imsExtMgr) {
         mPhoneId = phoneId;
         mQtiImsExtMgr = imsExtMgr;
-    }
-
-    private void onServiceDied(){
-        mInterface = null;
+        mQtiImsExtMgr.addCleanupListener(()->{mInterface = null;});
     }
 
     private IImsMultiIdentityInterface getMultiIdentityInterface() throws QtiImsException{
@@ -67,13 +64,6 @@ public class ImsMultiIdentityManager {
             throw new QtiImsException("Remote Interface is NULL");
         }
         mInterface = intf;
-        IBinder binder = intf.asBinder();
-        try {
-            binder.linkToDeath(()->this.onServiceDied(), 0);
-        } catch (RemoteException e) {
-            Log.e(LOG_TAG, "Unable to listen for Server Process death");
-            throw new QtiImsException("Remote linkToDeath Exception : " + e);
-        }
         return intf;
     }
 

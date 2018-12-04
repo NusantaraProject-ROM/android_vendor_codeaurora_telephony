@@ -48,7 +48,7 @@ import java.util.Map;
 
 public class QtiCarrierConfigHelper {
     static final String TAG  = QtiCarrierConfigHelper.class.getSimpleName();
-    private static int PHONE_COUNT = TelephonyManager.getDefault().getPhoneCount();
+    private static int PHONE_COUNT;
     private Context mContext;
     SubscriptionManager mSubscriptionManager;
     CarrierConfigManager mCarrierConfigManager;
@@ -118,6 +118,8 @@ public class QtiCarrierConfigHelper {
         mContext = context.getApplicationContext();
         if (mContext != null) {
             mInitialized.set(true);
+            PHONE_COUNT = ((TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE)).
+                getPhoneCount();
             mSubscriptionManager = (SubscriptionManager) mContext
                 .getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE);
             mCarrierConfigManager = (CarrierConfigManager) mContext.getSystemService(
