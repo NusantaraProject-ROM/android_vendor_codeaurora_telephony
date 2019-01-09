@@ -56,7 +56,7 @@ public class ServiceUtil {
             /* Service connection failed. Let the client connect to Stub service */
         }
 
-        return true;
+        return success;
     }
 
     static public boolean unbindService(ServiceConnection onnection) {

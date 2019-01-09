@@ -30,24 +30,55 @@
 
 package org.codeaurora.internal;
 
-import org.codeaurora.internal.SignalStrength;
-import org.codeaurora.internal.DcParam;
-import org.codeaurora.internal.Status;
-import org.codeaurora.internal.Token;
-import org.codeaurora.internal.BearerAllocationStatus;
-import org.codeaurora.internal.UpperLayerIndInfo;
-import org.codeaurora.internal.NrConfigType;
+import android.os.Parcel;
+import android.os.Parcelable;
 
+public class NrConfigType implements Parcelable{
+    private static final String TAG = "NrConfigType";
 
-interface INetworkCallback {
-    void on5gStatus(int slotId, in Token token, in Status status, boolean enableStatus);
-    void onNrDcParam(int slotId, in Token token, in Status status, in DcParam dcParam);
-    void onAnyNrBearerAllocation(int slotId, in Token token, in Status status,
-            in BearerAllocationStatus bearerStatus);
-    void onUpperLayerIndInfo(int slotId, in Token token, in Status status,
-            in UpperLayerIndInfo upperLayerInfo);
-    void onSignalStrength(int slotId, in Token token, in Status status,
-            in SignalStrength signalStrength);
-    void on5gConfigInfo(int slotId, in Token token, in Status status,
-            in NrConfigType nrConfigType);
+    public static final int INVALID = -1;
+    public static final int NSA_CONFIGURATION = 0;
+    public static final int SA_CONFIGURATION   =  1;
+
+    private int mValue;
+
+    public NrConfigType(int val) {
+        mValue = val;
+    }
+
+    public NrConfigType(Parcel in) {
+        mValue = in.readInt();
+    }
+
+    public int get() {
+        return mValue;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeInt(mValue);
+    }
+
+    public static final Parcelable.Creator<NrConfigType> CREATOR = new Parcelable.Creator() {
+        public NrConfigType createFromParcel(Parcel in) {
+            return new NrConfigType(in);
+        }
+
+        public NrConfigType[] newArray(int size) {
+            return new NrConfigType[size];
+        }
+    };
+
+    public void readFromParcel(Parcel in) {
+        mValue = in.readInt();
+    }
+
+    @Override
+    public String toString() {
+        return TAG + ": " + get();
+    }
 }

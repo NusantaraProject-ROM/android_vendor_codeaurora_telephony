@@ -30,24 +30,64 @@
 
 package org.codeaurora.internal;
 
-import org.codeaurora.internal.SignalStrength;
-import org.codeaurora.internal.DcParam;
-import org.codeaurora.internal.Status;
-import org.codeaurora.internal.Token;
-import org.codeaurora.internal.BearerAllocationStatus;
-import org.codeaurora.internal.UpperLayerIndInfo;
-import org.codeaurora.internal.NrConfigType;
+import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
 
-interface INetworkCallback {
-    void on5gStatus(int slotId, in Token token, in Status status, boolean enableStatus);
-    void onNrDcParam(int slotId, in Token token, in Status status, in DcParam dcParam);
-    void onAnyNrBearerAllocation(int slotId, in Token token, in Status status,
-            in BearerAllocationStatus bearerStatus);
-    void onUpperLayerIndInfo(int slotId, in Token token, in Status status,
-            in UpperLayerIndInfo upperLayerInfo);
-    void onSignalStrength(int slotId, in Token token, in Status status,
-            in SignalStrength signalStrength);
-    void on5gConfigInfo(int slotId, in Token token, in Status status,
-            in NrConfigType nrConfigType);
+public class BearerAllocationStatus implements Parcelable {
+
+    private static final String TAG = "BearerAllocationStatus";
+
+    public static final int INVALID = -1;
+    public static final int NOT_ALLOCATED = 0;
+    public static final int ALLOCATED   =  1;
+    public static final int MMW_ALLOCATED = 2;
+
+    private int mValue;
+
+    public BearerAllocationStatus(int val) {
+        mValue = val;
+    }
+
+    public BearerAllocationStatus(Parcel in) {
+        mValue = in.readInt();
+    }
+
+    public int get() {
+        return mValue;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeInt(mValue);
+    }
+
+    public static final Parcelable.Creator<BearerAllocationStatus> CREATOR = new Parcelable.Creator() {
+        public BearerAllocationStatus createFromParcel(Parcel in) {
+            return new BearerAllocationStatus(in);
+        }
+
+        public BearerAllocationStatus[] newArray(int size) {
+            return new BearerAllocationStatus[size];
+        }
+    };
+
+    public void readFromParcel(Parcel in) {
+        mValue = in.readInt();
+    }
+
+    @Override
+    public String toString() {
+        return TAG + ": " + get();
+    }
+
 }
