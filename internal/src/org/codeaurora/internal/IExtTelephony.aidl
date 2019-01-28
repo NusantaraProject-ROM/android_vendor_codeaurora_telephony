@@ -308,4 +308,28 @@ interface IExtTelephony {
     // Async api
     void unRegisterCallback(INetworkCallback callback);
 
+    /**
+    * Get value assigned to vendor property
+    * @param - property name
+    * @param - default value of property
+    * @return - integer value assigned
+    */
+    int getPropertyValueInt(String property, int def);
+
+    /**
+    * Get value assigned to vendor property
+    * @param - property name
+    * @param - default value of property
+    * @return - boolean value assigned
+    */
+    boolean getPropertyValueBool(String property, boolean def);
+
+    /**
+    * Get value assigned to vendor property
+    * @param - property name
+    * @param - default value of property
+    * @return - string value assigned
+    */
+    String getPropertyValueString(String property, String def);
+
 }

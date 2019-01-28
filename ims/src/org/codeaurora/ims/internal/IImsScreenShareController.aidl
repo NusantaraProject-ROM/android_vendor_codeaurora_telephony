@@ -1,4 +1,4 @@
-/* Copyright (c) 2016, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2019, The Linux Foundation. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -25,42 +25,30 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
  * IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.codeaurora.ims;
 
-import android.telephony.ims.ImsReasonInfo;
+package org.codeaurora.ims.internal;
+
+import org.codeaurora.ims.internal.IImsScreenShareListener;
 
 /**
- * This class is to handle custom exceptions for QtiImsExtManager
+ * Used by client application to communicate with vendor code
+ * {@hide}
  */
-public class QtiImsException extends Exception {
+oneway interface IImsScreenShareController {
+    /**
+     * Used by client to register call back listener with vendor for screen
+     * size and recording surface updates.
+     * @param listener call back listener
+     */
+    void setScreenShareListener(in IImsScreenShareListener listener);
 
     /**
-     * Refer to CODE_LOCAL_* in {@link ImsReasonInfo}
+     * Used by client for starting screen share
      */
-    private int mCode;
-    public QtiImsException() {
-        // Empty constructor
-    }
+    void startScreenShare(int width, int height);
 
-    public QtiImsException(String message) {
-        super(message);
-    }
-
-    public QtiImsException(String message, Throwable cause) {
-        this(message, cause, 0);
-    }
-
-    public QtiImsException(String message, Throwable cause, int code) {
-        super(message, cause);
-        mCode = code;
-    }
-
-    public QtiImsException(String message, int code) {
-        super(message + "(" + code + ")");
-        mCode = code;
-    }
-
-    public int getCode() {
-        return mCode;
-    }
+    /**
+     * Used by client for stopping screen share
+     */
+    void stopScreenShare();
 }

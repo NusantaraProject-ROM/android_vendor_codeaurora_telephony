@@ -33,6 +33,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
@@ -51,6 +52,7 @@ public class QtiImsExtConnector {
     private QtiImsExtManager mQtiImsExtManager;
     private IQtiImsExt mQtiImsExt;
     private boolean mBound = false;
+    private Handler mConnectionRetryHandler = null;
     private static final int QTI_IMS_RETRY_TIMEOUT_MS = 500;
     private static final int QTI_IMS_EXT_SERVICE_CONNECT = 1;
 
@@ -68,11 +70,17 @@ public class QtiImsExtConnector {
     }
 
     public QtiImsExtConnector(Context context, IListener listener) throws QtiImsException {
-        if (context == null || listener == null) {
-            throw new QtiImsException("context and listener should not be null ");
+        this(context, listener, Looper.myLooper());
+    }
+
+    public QtiImsExtConnector(Context context, IListener listener, Looper looper)
+            throws QtiImsException {
+        if (context == null || listener == null || looper == null) {
+            throw new QtiImsException("context, listener and looper should not be null ");
         }
         mContext = context;
         mListener = listener;
+        mConnectionRetryHandler = new ConnectionRetryHandler(looper);
     }
 
     /* Bind to QtiImsExtService */
@@ -124,7 +132,15 @@ public class QtiImsExtConnector {
     }
 
     // Handler used to retry conencting to QtiImsExtService
-    private final Handler mConnectionRetryHandler = new Handler() {
+    private class ConnectionRetryHandler extends Handler {
+        public ConnectionRetryHandler() {
+            super();
+        }
+
+        public ConnectionRetryHandler(Looper looper) {
+            super(looper);
+        }
+
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -134,7 +150,7 @@ public class QtiImsExtConnector {
                 default:
             }
         }
-    };
+    }
 
     /** Service connection */
     private ServiceConnection mQtiImsExtServiceConnection = new ServiceConnection() {

@@ -1,4 +1,4 @@
-/* Copyright (c) 2016,2017 The Linux Foundation. All rights reserved.
+/* Copyright (c) 2016, 2017, 2019 The Linux Foundation. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -30,6 +30,7 @@ package org.codeaurora.ims;
 import org.codeaurora.ims.internal.IQtiImsExt;
 import org.codeaurora.ims.internal.IQtiImsExtListener;
 import org.codeaurora.ims.internal.IImsMultiIdentityInterface;
+import org.codeaurora.ims.internal.IImsScreenShareController;
 import org.codeaurora.ims.QtiCallConstants;
 
 /**
@@ -144,6 +145,11 @@ public abstract class QtiImsExtBase {
         public IImsMultiIdentityInterface getMultiIdentityInterface(int phoneId) {
             return onGetMultiIdentityInterface(phoneId);
         }
+
+        @Override
+        public IImsScreenShareController getScreenShareController(int phoneId) {
+            return onGetScreenShareController(phoneId);
+        }
     };
 
     private QtiImsExtBinder mQtiImsExtBinder;
@@ -225,6 +231,10 @@ public abstract class QtiImsExtBase {
         return 0; //DUMMY VALUE
     }
     protected IImsMultiIdentityInterface onGetMultiIdentityInterface(int phoneId) {
+        // no-op
+        return null;
+    }
+    protected IImsScreenShareController onGetScreenShareController(int phoneId) {
         // no-op
         return null;
     }

@@ -1,4 +1,4 @@
-/* Copyright (c) 2016, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2019, The Linux Foundation. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -25,42 +25,26 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
  * IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.codeaurora.ims;
 
-import android.telephony.ims.ImsReasonInfo;
+package org.codeaurora.ims.internal;
+
+import android.view.Surface;
 
 /**
- * This class is to handle custom exceptions for QtiImsExtManager
+ * Used by client application to get the result from lower layer by
+ * communicating with vendor.
+ * {@hide}
  */
-public class QtiImsException extends Exception {
+oneway interface IImsScreenShareListener {
 
-    /**
-     * Refer to CODE_LOCAL_* in {@link ImsReasonInfo}
-     */
-    private int mCode;
-    public QtiImsException() {
-        // Empty constructor
-    }
-
-    public QtiImsException(String message) {
-        super(message);
-    }
-
-    public QtiImsException(String message, Throwable cause) {
-        this(message, cause, 0);
-    }
-
-    public QtiImsException(String message, Throwable cause, int code) {
-        super(message, cause);
-        mCode = code;
-    }
-
-    public QtiImsException(String message, int code) {
-        super(message + "(" + code + ")");
-        mCode = code;
-    }
-
-    public int getCode() {
-        return mCode;
-    }
+   /*
+    * Implemented by the ScreenShare Client. Used by vendor to propagate
+    * updated surface to the client
+    * @param phoneId - Denotes the phoneId
+    * @param surface - Updated recording surface from VTLib
+    * @param width - Updated width for creating virtual dispplay
+    * @param height - Updated height for creating virtual display
+    */
+    void onRecordingSurfaceChanged(int phoneId, in Surface surface,
+            int width, int height);
 }

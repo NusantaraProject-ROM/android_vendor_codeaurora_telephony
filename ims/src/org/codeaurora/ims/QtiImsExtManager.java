@@ -1,4 +1,4 @@
-/* Copyright (c) 2016-2018, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2016-2019, The Linux Foundation. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -43,6 +43,7 @@ import java.util.ArrayList;
 import org.codeaurora.ims.internal.IQtiImsExt;
 import org.codeaurora.ims.internal.IQtiImsExtListener;
 import org.codeaurora.ims.internal.IImsMultiIdentityInterface;
+import org.codeaurora.ims.internal.IImsScreenShareController;
 import org.codeaurora.ims.utils.QtiImsExtUtils;
 
 /**
@@ -342,6 +343,23 @@ public class QtiImsExtManager {
             return mQtiImsExt.getMultiIdentityInterface(phoneId);
         } catch(RemoteException e) {
             throw new QtiImsException("Failed to retrieve MultiIdentityInterface : " + e);
+        }
+    }
+
+    public ImsScreenShareManager createImsScreenShareManager(int phoneId)
+            throws QtiImsException {
+        validateInvariants(phoneId);
+        return new ImsScreenShareManager(phoneId, this);
+    }
+
+    /*package private*/
+    IImsScreenShareController getScreenShareController(int phoneId)
+            throws QtiImsException {
+        validateInvariants(phoneId);
+        try {
+            return mQtiImsExt.getScreenShareController(phoneId);
+        } catch(RemoteException e) {
+            throw new QtiImsException("Failed to retrieve ScreenShareInterface : " + e);
         }
     }
 

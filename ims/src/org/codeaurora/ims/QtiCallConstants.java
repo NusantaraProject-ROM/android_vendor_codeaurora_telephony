@@ -1,4 +1,4 @@
-/* Copyright (c) 2015, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2015, 2019 The Linux Foundation. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -292,5 +292,8 @@ public class QtiCallConstants {
     public static final int RTT_UPGRADE_REJECT = 3;
     // To request downgrade of RTT call to regular call
     public static final int RTT_DOWNGRADE_INITIATE = 4;
+
+    // Recorder Auto-Scaling Factor
+    public static final int RECORDER_SCALING_FACTOR = 8;
 }
 

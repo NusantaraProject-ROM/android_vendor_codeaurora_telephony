@@ -1,4 +1,4 @@
-/* Copyright (c) 2016, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2019 The Linux Foundation. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -25,42 +25,53 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
  * IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package org.codeaurora.ims;
 
-import android.telephony.ims.ImsReasonInfo;
+import android.content.Context;
+import android.os.RemoteException;
+import org.codeaurora.ims.internal.IImsScreenShareListener;
+import org.codeaurora.ims.internal.IImsScreenShareController;
 
-/**
- * This class is to handle custom exceptions for QtiImsExtManager
- */
-public class QtiImsException extends Exception {
+public abstract class ImsScreenShareControllerBase {
+    public final class ScreenShareBinder extends IImsScreenShareController.Stub {
 
-    /**
-     * Refer to CODE_LOCAL_* in {@link ImsReasonInfo}
-     */
-    private int mCode;
-    public QtiImsException() {
-        // Empty constructor
+        @Override
+        public void setScreenShareListener(
+                IImsScreenShareListener listener) throws RemoteException{
+            ImsScreenShareControllerBase.this.onSetScreenShareListener(listener);
+        }
+
+        @Override
+        public void startScreenShare(int width, int height) throws RemoteException{
+            ImsScreenShareControllerBase.this.onStartScreenShare(width, height);
+        }
+
+        @Override
+        public void stopScreenShare() throws RemoteException{
+           ImsScreenShareControllerBase.this.onStopScreenShare();
+        }
     }
 
-    public QtiImsException(String message) {
-        super(message);
+    private IImsScreenShareController mBinder;
+
+    public IImsScreenShareController getBinder() {
+        if (mBinder == null) {
+            mBinder = new ScreenShareBinder();
+        }
+        return mBinder;
     }
 
-    public QtiImsException(String message, Throwable cause) {
-        this(message, cause, 0);
+    protected void onSetScreenShareListener(
+            IImsScreenShareListener listener) throws RemoteException{
+        //no-op
     }
 
-    public QtiImsException(String message, Throwable cause, int code) {
-        super(message, cause);
-        mCode = code;
+    protected void onStartScreenShare(int width, int height) throws RemoteException{
+        //no-op
     }
 
-    public QtiImsException(String message, int code) {
-        super(message + "(" + code + ")");
-        mCode = code;
-    }
-
-    public int getCode() {
-        return mCode;
+    protected void onStopScreenShare() throws RemoteException{
+        //no-op
     }
 }
