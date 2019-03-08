@@ -74,6 +74,9 @@ public class QtiCallConstants {
     /* Call fail code extra key name */
     public static final String EXTRAS_KEY_CALL_FAIL_EXTRA_CODE  = "CallFailExtraCode";
 
+    /* Emergency service category extra key name */
+    public static final String EXTRAS_KEY_EMERGENCY_SERVICE_CATEGORY  = "EmergencyServiceCategory";
+
     /*Key to check whether user can mark a call unwanted*/
     public static final String CAN_MARK_UNWANTED_CALL = "CanMarkUnwantedCall";
 

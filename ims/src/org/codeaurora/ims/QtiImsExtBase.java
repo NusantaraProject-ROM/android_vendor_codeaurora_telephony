@@ -27,12 +27,13 @@
  */
 package org.codeaurora.ims;
 
+import android.telephony.ims.feature.ImsFeature;
+
 import org.codeaurora.ims.internal.IQtiImsExt;
 import org.codeaurora.ims.internal.IQtiImsExtListener;
 import org.codeaurora.ims.internal.IImsMultiIdentityInterface;
 import org.codeaurora.ims.internal.IImsScreenShareController;
 import org.codeaurora.ims.QtiCallConstants;
-
 /**
  * Base implementation for IQtiImsExt.
  */
@@ -150,6 +151,11 @@ public abstract class QtiImsExtBase {
         public IImsScreenShareController getScreenShareController(int phoneId) {
             return onGetScreenShareController(phoneId);
         }
+
+        @Override
+        public int getImsFeatureState(int phoneId) {
+            return onGetImsFeatureState(phoneId);
+        }
     };
 
     private QtiImsExtBinder mQtiImsExtBinder;
@@ -237,5 +243,9 @@ public abstract class QtiImsExtBase {
     protected IImsScreenShareController onGetScreenShareController(int phoneId) {
         // no-op
         return null;
+    }
+    protected int onGetImsFeatureState(int phoneId) {
+        // no-op
+        return ImsFeature.STATE_UNAVAILABLE; //DUMMY VALUE
     }
 }

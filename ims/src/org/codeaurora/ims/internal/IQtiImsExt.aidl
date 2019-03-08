@@ -274,4 +274,15 @@ interface IQtiImsExt {
     * Returns the IImsScreenShareInterface IBinder
     */
     IImsScreenShareController getScreenShareController(int phoneId);
+
+   /**
+     * getImsFeatureState
+     * Get current IMS feature state.
+     *
+     * @param phoneId indicates the phone instance which triggered the request
+     * @return int is one of the values of #ImsState defined in android.telephony.ims.feature.
+     *
+     * @throws RemoteException if calling the IMS service results in an error.
+     */
+    int getImsFeatureState(int phoneId);
 }

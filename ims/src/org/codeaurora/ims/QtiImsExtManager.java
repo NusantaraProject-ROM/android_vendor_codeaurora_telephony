@@ -35,8 +35,6 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import com.android.ims.ImsConfig;
-import com.android.ims.ImsException;
-import com.android.ims.ImsManager;
 
 import java.util.ArrayList;
 
@@ -248,24 +246,22 @@ public class QtiImsExtManager {
     }
 
     private void checkPhoneId(int phoneId) throws QtiImsException {
-        if (!SubscriptionManager.isValidPhoneId(phoneId)) {
+        TelephonyManager telephonyManager =
+                (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
+        if (phoneId < 0 || phoneId >= telephonyManager.getPhoneCount()) {
             Log.e(LOG_TAG, "phoneId " + phoneId + " is not valid");
             throw new QtiImsException("invalid phoneId");
         }
     }
 
     private void checkFeatureStatus(int phoneId) throws QtiImsException {
-        if (mContext == null) throw new QtiImsException("Context is null");
-
         try {
-            if (ImsManager.getInstance(mContext, phoneId).getImsServiceState() !=
-                    ImsFeature.STATE_READY) {
+            if (mQtiImsExt.getImsFeatureState(phoneId) != ImsFeature.STATE_READY) {
                 Log.e(LOG_TAG, "Feature status for phoneId " + phoneId + " is not ready");
                 throw new QtiImsException("Feature state is NOT_READY");
             }
-        } catch (ImsException e) {
-            Log.e(LOG_TAG, "Got ImsException for phoneId " + phoneId);
-            throw new QtiImsException("Feature state is NOT_READY");
+        } catch(RemoteException e) {
+            throw new QtiImsException("Failed to get ImsFeature state");
         }
     }
 
