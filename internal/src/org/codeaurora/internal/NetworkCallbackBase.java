@@ -40,6 +40,7 @@ import org.codeaurora.internal.Token;
 import org.codeaurora.internal.NrConfigType;
 import org.codeaurora.internal.BearerAllocationStatus;
 import org.codeaurora.internal.UpperLayerIndInfo;
+import org.codeaurora.internal.NrIconType;
 
 public class NetworkCallbackBase extends INetworkCallback.Stub {
     private static final String TAG = "NetworkCallbackBase";
@@ -72,7 +73,6 @@ public class NetworkCallbackBase extends INetworkCallback.Stub {
         Log.d(TAG,
                 "onSignalStrength: slotId = " + slotId + " token = " + token + " " + "status"
                         + status + " signalStrength = " + signalStrength);
-
     }
 
     @Override
@@ -90,4 +90,13 @@ public class NetworkCallbackBase extends INetworkCallback.Stub {
                 "on5gConfigInfo: slotId = " + slotId + " token = " + token + " " + "status"
                 + status + " NrConfigType = " + nrConfigType);
     }
+
+    @Override
+    public void onNrIconType(int slotId, Token token, Status status, NrIconType
+            nrIconType) throws RemoteException {
+        Log.d(TAG,
+                "onNrIconType: slotId = " + slotId + " token = " + token + " " + "status"
+                        + status + " NrIconType = " + nrIconType);
+    }
+
 }

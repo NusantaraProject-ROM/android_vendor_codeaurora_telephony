@@ -503,7 +503,11 @@ public class QtiImsExtUtils {
     // Returns true if global setting has stored value as true
     public static boolean isRttOn(Context context) {
         return (getRttMode(context) !=  QtiCallConstants.RTT_MODE_DISABLED);
+    }
 
+    // Returns true if global setting has stored value as true
+    public static boolean isRttVisibilityOn(Context context) {
+        return (getRttVisibility(context) !=  QtiCallConstants.RTT_VISIBILITY_DISABLED);
     }
 
     // Returns value of RTT mode
@@ -516,6 +520,20 @@ public class QtiImsExtUtils {
     public static void setRttMode(boolean value, Context context) {
        android.provider.Settings.Global.putInt(context.getContentResolver(),
                 QtiCallConstants.QTI_IMS_RTT_MODE, value ? 1 : 0);
+    }
+
+    // Returns value of RTT visibility
+    public static int getRttVisibility(Context context) {
+        return (android.provider.Settings.Global.getInt(context.getContentResolver(),
+                QtiCallConstants.QTI_IMS_RTT_VISIBILITY, 0));
+    }
+
+    // Sets RTT visibility to global settings
+    public static void setRttVisibility(boolean value, Context context) {
+       android.provider.Settings.Global.putInt(context.getContentResolver(),
+                QtiCallConstants.QTI_IMS_RTT_VISIBILITY, value ?
+                        QtiCallConstants.RTT_VISIBILITY_ENABLED :
+                        QtiCallConstants.RTT_VISIBILITY_DISABLED);
     }
 
     // Returns true if Carrier supports RTT
@@ -560,6 +578,13 @@ public class QtiImsExtUtils {
     public static boolean isRttDowngradeSupported(int phoneId, Context context) {
         return (isCarrierConfigEnabled(phoneId, context,
                 QtiCarrierConfigs.KEY_CARRIER_RTT_DOWNGRADE_SUPPORTED));
+    }
+
+    // Returns true if Carrier support RTT visibility setting
+    // False otherwise
+    public static boolean shallShowRttVisibilitySetting(int phoneId, Context context) {
+        return (isCarrierConfigEnabled(phoneId, context,
+                QtiCarrierConfigs.KEY_SHOW_RTT_VISIBILITY_SETTING));
     }
 
     // Returns true if Carrier supports Cancel Modify Call

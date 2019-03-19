@@ -9,4 +9,5 @@ android_app {
 
     certificate: "platform",
 
+    product_specific: true,
 }

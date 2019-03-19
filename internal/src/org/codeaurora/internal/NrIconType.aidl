@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018, The Linux Foundation. All rights reserved.
+ * Copyright (c) 2019, The Linux Foundation. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -30,27 +30,4 @@
 
 package org.codeaurora.internal;
 
-import org.codeaurora.internal.SignalStrength;
-import org.codeaurora.internal.DcParam;
-import org.codeaurora.internal.Status;
-import org.codeaurora.internal.Token;
-import org.codeaurora.internal.BearerAllocationStatus;
-import org.codeaurora.internal.UpperLayerIndInfo;
-import org.codeaurora.internal.NrConfigType;
-import org.codeaurora.internal.NrIconType;
-
-
-interface INetworkCallback {
-    void on5gStatus(int slotId, in Token token, in Status status, boolean enableStatus);
-    void onNrDcParam(int slotId, in Token token, in Status status, in DcParam dcParam);
-    void onAnyNrBearerAllocation(int slotId, in Token token, in Status status,
-            in BearerAllocationStatus bearerStatus);
-    void onUpperLayerIndInfo(int slotId, in Token token, in Status status,
-            in UpperLayerIndInfo upperLayerInfo);
-    void onSignalStrength(int slotId, in Token token, in Status status,
-            in SignalStrength signalStrength);
-    void on5gConfigInfo(int slotId, in Token token, in Status status,
-            in NrConfigType nrConfigType);
-    void onNrIconType(int slotId, in Token token, in Status status,
-            in NrIconType nrIconType);
-}
+parcelable NrIconType;

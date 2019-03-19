@@ -97,6 +97,8 @@ public class QtiCallConstants {
     public static final int CALL_FAIL_EXTRA_CODE_LOCAL_LOW_BATTERY =
             ImsReasonInfo.CODE_LOCAL_LOW_BATTERY;
 
+    /* call fail error code to retry ims call without rtt */
+    public static final int CODE_RETRY_ON_IMS_WITHOUT_RTT = 3001;
     /* Unknown disconnect cause */
     public static final int DISCONNECT_CAUSE_UNSPECIFIED = -1;
 
@@ -248,6 +250,13 @@ public class QtiCallConstants {
     public static final String QTI_IMS_RTT_MODE = "rtt_mode";
 
    /**
+     * Whether RTT visibility is on or off
+     * The value 1 - enable, 0 - disable
+     * This is set through ImsSettings UI
+     */
+    public static final String QTI_IMS_RTT_VISIBILITY = "rtt_mode_visibility";
+
+   /**
      * Property for RTT Operating mode
      * For TMO - 0 : Upon Request Mode (Disabled)
      *           1 : Automatic Mode (Full)
@@ -261,6 +270,12 @@ public class QtiCallConstants {
 
     // RTT On
     public static final int RTT_MODE_FULL = 1;
+
+   // RTT Visibility Off
+    public static final int RTT_VISIBILITY_DISABLED = 0;
+
+    // RTT Visibility On
+    public static final int RTT_VISIBILITY_ENABLED = 1;
 
    /**
      * Broadcast Action: Send RTT Text Message

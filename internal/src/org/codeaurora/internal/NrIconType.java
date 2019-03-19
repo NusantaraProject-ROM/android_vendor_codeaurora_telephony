@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018, The Linux Foundation. All rights reserved.
+ * Copyright (c) 2019, The Linux Foundation. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -30,27 +30,56 @@
 
 package org.codeaurora.internal;
 
-import org.codeaurora.internal.SignalStrength;
-import org.codeaurora.internal.DcParam;
-import org.codeaurora.internal.Status;
-import org.codeaurora.internal.Token;
-import org.codeaurora.internal.BearerAllocationStatus;
-import org.codeaurora.internal.UpperLayerIndInfo;
-import org.codeaurora.internal.NrConfigType;
-import org.codeaurora.internal.NrIconType;
+import android.os.Parcel;
+import android.os.Parcelable;
 
+public class NrIconType implements Parcelable{
+    private static final String TAG = "NrIconType";
 
-interface INetworkCallback {
-    void on5gStatus(int slotId, in Token token, in Status status, boolean enableStatus);
-    void onNrDcParam(int slotId, in Token token, in Status status, in DcParam dcParam);
-    void onAnyNrBearerAllocation(int slotId, in Token token, in Status status,
-            in BearerAllocationStatus bearerStatus);
-    void onUpperLayerIndInfo(int slotId, in Token token, in Status status,
-            in UpperLayerIndInfo upperLayerInfo);
-    void onSignalStrength(int slotId, in Token token, in Status status,
-            in SignalStrength signalStrength);
-    void on5gConfigInfo(int slotId, in Token token, in Status status,
-            in NrConfigType nrConfigType);
-    void onNrIconType(int slotId, in Token token, in Status status,
-            in NrIconType nrIconType);
+    public static final int INVALID = -1;
+    public static final int TYPE_NONE = 0;
+    public static final int TYPE_5G_BASIC = 1;
+    public static final int TYPE_5G_UWB = 2;
+
+    private int mValue;
+
+    public NrIconType(int val) {
+        mValue = val;
+    }
+
+    public NrIconType(Parcel in) {
+        mValue = in.readInt();
+    }
+
+    public int get() {
+        return mValue;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeInt(mValue);
+    }
+
+    public static final Parcelable.Creator<NrIconType> CREATOR = new Parcelable.Creator() {
+        public NrIconType createFromParcel(Parcel in) {
+            return new NrIconType(in);
+        }
+
+        public NrIconType[] newArray(int size) {
+            return new NrIconType[size];
+        }
+    };
+
+    public void readFromParcel(Parcel in) {
+        mValue = in.readInt();
+    }
+
+    @Override
+    public String toString() {
+        return TAG + ": " + get();
+    }
 }

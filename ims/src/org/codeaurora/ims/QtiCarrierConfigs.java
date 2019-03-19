@@ -112,6 +112,12 @@ public class QtiCarrierConfigs {
     public static final String KEY_CARRIER_RTT_DOWNGRADE_SUPPORTED =
             "carrier_rtt_downgrade_supported";
 
+    /* Config to determine if Carrier supports RTT Visibility Setting
+     * true - if supported else false
+     */
+    public static final String KEY_SHOW_RTT_VISIBILITY_SETTING =
+            "show_rtt_visibility_setting_bool";
+
     /* Config to determine if carrier supports holding a video call
      * true - if carrier supports holding a video call else false
      */
