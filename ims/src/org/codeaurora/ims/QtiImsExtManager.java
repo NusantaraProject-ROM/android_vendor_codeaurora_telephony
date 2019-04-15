@@ -28,6 +28,7 @@
 package org.codeaurora.ims;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.os.RemoteException;
 import android.telephony.ims.feature.ImsFeature;
 import android.telephony.SubscriptionManager;
@@ -323,6 +324,16 @@ public class QtiImsExtManager {
         }
 
         return ret;
+    }
+
+    public void setAnswerExtras(int phoneId, Bundle extras) throws QtiImsException {
+        validateInvariants(phoneId);
+
+        try {
+            mQtiImsExt.setAnswerExtras(phoneId, extras);
+        } catch(RemoteException e) {
+            throw new QtiImsException("Remote ImsService setAnswerExtras : " + e);
+        }
     }
 
     public ImsMultiIdentityManager createImsMultiIdentityManager(int phoneId)

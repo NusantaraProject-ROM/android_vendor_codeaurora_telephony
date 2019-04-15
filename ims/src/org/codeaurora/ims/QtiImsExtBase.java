@@ -27,6 +27,7 @@
  */
 package org.codeaurora.ims;
 
+import android.os.Bundle;
 import android.telephony.ims.feature.ImsFeature;
 
 import org.codeaurora.ims.internal.IQtiImsExt;
@@ -156,6 +157,11 @@ public abstract class QtiImsExtBase {
         public int getImsFeatureState(int phoneId) {
             return onGetImsFeatureState(phoneId);
         }
+
+        @Override
+        public void setAnswerExtras(int phoneId, Bundle extras) {
+            onSetAnswerExtras(phoneId, extras);
+        }
     };
 
     private QtiImsExtBinder mQtiImsExtBinder;
@@ -247,5 +253,8 @@ public abstract class QtiImsExtBase {
     protected int onGetImsFeatureState(int phoneId) {
         // no-op
         return ImsFeature.STATE_UNAVAILABLE; //DUMMY VALUE
+    }
+    protected void onSetAnswerExtras(int phoneId, Bundle extras) {
+        // no-op
     }
 }

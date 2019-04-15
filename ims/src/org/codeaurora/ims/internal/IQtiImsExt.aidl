@@ -28,6 +28,7 @@
 
 package org.codeaurora.ims.internal;
 
+import android.os.Bundle;
 import org.codeaurora.ims.internal.IQtiImsExtListener;
 import org.codeaurora.ims.internal.IImsMultiIdentityInterface;
 import org.codeaurora.ims.internal.IImsScreenShareController;
@@ -285,4 +286,15 @@ interface IQtiImsExt {
      * @throws RemoteException if calling the IMS service results in an error.
      */
     int getImsFeatureState(int phoneId);
+
+   /**
+    * setAnswerExtras
+    *
+    *
+    * @param phoneId indicates the phone instance which triggered the request
+    * @param extras Bundle containing additional information for answer request
+    *
+    * @throws RemoteException if calling the IMS service results in an error.
+    */
+    oneway void setAnswerExtras(int phoneId, in Bundle extras);
 }

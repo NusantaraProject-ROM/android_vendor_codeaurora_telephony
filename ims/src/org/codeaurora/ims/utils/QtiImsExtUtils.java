@@ -37,6 +37,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.os.PersistableBundle;
 import android.os.SystemProperties;
+import android.provider.Settings;
 import android.telephony.CarrierConfigManager;
 import android.telephony.SubscriptionInfo;
 import android.telephony.SubscriptionManager;
@@ -109,6 +110,8 @@ public class QtiImsExtUtils {
      */
     public static final String EXTRA_SSAC = "Ssac";
 
+    public static final String SUBSCRIPTION_ID = "subId";
+
     /**
      * Definitions for the volte preference values.
      */
@@ -140,6 +143,16 @@ public class QtiImsExtUtils {
     public static final int QTI_IMS_VVM_APP_INVALID = -1;
     public static final int QTI_IMS_VVM_APP_NOT_RCS = 0;
     public static final int QTI_IMS_VVM_APP_RCS = 1;
+
+    /*TIR mode extra key */
+    public static final String EXTRA_TIR_OVERWRITE_ALLOWED = "incomingTir";
+    /*TIR presentation params */
+    /*TIR presentation extra key */
+    public static final String EXTRA_ANSWER_OPTION_TIR_CONFIG = "tirConfig";
+    public static final int QTI_IMS_TIR_PRESENTATION_UNRESTRICTED = 0;
+    public static final int QTI_IMS_TIR_PRESENTATION_RESTRICTED = 1;
+    public static final int QTI_IMS_TIR_PRESENTATION_DEFAULT = 2;
+
 
     /**
      * Private constructor for QtiImsExtUtils as we don't want to instantiate this class
@@ -486,7 +499,7 @@ public class QtiImsExtUtils {
     /**
      * Returns subscription id for given phone id.
      */
-    private static int getSubscriptionIdFromPhoneId(Context context, int phoneId) {
+    public static int getSubscriptionIdFromPhoneId(Context context, int phoneId) {
         SubscriptionManager subscriptionManager = SubscriptionManager.from(context);
         if (subscriptionManager == null) {
             return subscriptionManager.INVALID_SUBSCRIPTION_ID;
@@ -512,14 +525,14 @@ public class QtiImsExtUtils {
 
     // Returns value of RTT mode
     public static int getRttMode(Context context) {
-        return (android.provider.Settings.Global.getInt(context.getContentResolver(),
-                QtiCallConstants.QTI_IMS_RTT_MODE, 0));
+        return android.provider.Settings.Secure.getInt(context.getContentResolver(),
+                Settings.Secure.RTT_CALLING_MODE, 0);
     }
 
     // Sets RTT mode to global settings
     public static void setRttMode(boolean value, Context context) {
-       android.provider.Settings.Global.putInt(context.getContentResolver(),
-                QtiCallConstants.QTI_IMS_RTT_MODE, value ? 1 : 0);
+       android.provider.Settings.Secure.putInt(context.getContentResolver(),
+                Settings.Secure.RTT_CALLING_MODE, value ? 1 : 0);
     }
 
     // Returns value of RTT visibility
