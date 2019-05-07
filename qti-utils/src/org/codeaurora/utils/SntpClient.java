@@ -26,6 +26,8 @@ import android.net.Network;
 import android.net.TrafficStats;
 import android.util.Log;
 
+import com.android.internal.util.TrafficStatsConstants;
+
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -104,7 +106,8 @@ public class SntpClient {
 
     public boolean requestTime(InetAddress address, int port, int timeout, Network network) {
         DatagramSocket socket = null;
-        final int oldTag = TrafficStats.getAndSetThreadStatsTag(TrafficStats.TAG_SYSTEM_NTP);
+        final int oldTag =
+                TrafficStats.getAndSetThreadStatsTag(TrafficStatsConstants.TAG_SYSTEM_NTP);
         try {
             socket = new DatagramSocket();
             network.bindSocket(socket);

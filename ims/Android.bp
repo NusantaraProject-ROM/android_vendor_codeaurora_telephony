@@ -14,8 +14,7 @@ java_library {
         "src/org/**/I*.aidl",
         "src/org/**/*.logtags",
     ],
-
-    libs: ["ims-common"],
+    product_specific: true,
 
 }
 

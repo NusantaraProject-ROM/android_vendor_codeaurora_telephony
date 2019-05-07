@@ -29,5 +29,5 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 <permissions>
  <library name="ims-ext-common"
-         file="/system/framework/ims-ext-common.jar"/>
+         file="/product/framework/ims-ext-common.jar"/>
 </permissions>

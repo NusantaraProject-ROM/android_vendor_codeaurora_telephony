@@ -29,5 +29,5 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 <permissions>
  <library name="qti-telephony-utils"
-         file="/system/framework/qti-telephony-utils.jar"/>
+         file="/product/framework/qti-telephony-utils.jar"/>
 </permissions>
