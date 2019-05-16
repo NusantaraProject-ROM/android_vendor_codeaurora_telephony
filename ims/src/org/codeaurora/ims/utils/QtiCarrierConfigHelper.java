@@ -70,7 +70,7 @@ public class QtiCarrierConfigHelper {
                 if (mSubscriptionManager != null) {
                     SubscriptionInfo subInfo = mSubscriptionManager
                             .getActiveSubscriptionInfoForSimSlotIndex(phoneId);
-                    if (subInfo != null && mSubscriptionManager.isActiveSubId(
+                    if (subInfo != null && mSubscriptionManager.isActiveSubscriptionId(
                             subInfo.getSubscriptionId())) {
                         Log.d(TAG, "Reload carrier configs on phone Id: " + phoneId
                                 + " sub Id: " + subInfo.getSubscriptionId());

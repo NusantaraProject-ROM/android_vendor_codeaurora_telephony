@@ -19,8 +19,6 @@
 
 package org.codeaurora.telephony.utils;
 
-import android.telephony.Rlog;
-
 /**
  * {@hide}
  */
@@ -316,7 +314,7 @@ public class CommandException extends RuntimeException {
                 return new CommandException(Error.OEM_ERROR_25);
 
             default:
-                Rlog.e("GSM", "Unrecognized RIL errno " + ril_errno);
+                Log.e("CommandException", "Unrecognized RIL errno " + ril_errno);
                 return new CommandException(Error.INVALID_RESPONSE);
         }
     }

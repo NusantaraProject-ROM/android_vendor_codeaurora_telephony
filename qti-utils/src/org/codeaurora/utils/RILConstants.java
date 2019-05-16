@@ -19,8 +19,6 @@
 
 package org.codeaurora.telephony.utils;
 
-import android.telephony.TelephonyManager;
-
 /**
  * {@hide}
  */
@@ -159,11 +157,6 @@ public interface RILConstants {
     int NETWORK_MODE_TDSCDMA_CDMA_EVDO_GSM_WCDMA  = 21; /*TD-SCDMA,EvDo,CDMA,GSM/WCDMA*/
     int NETWORK_MODE_LTE_TDSCDMA_CDMA_EVDO_GSM_WCDMA = 22; // TD-SCDMA/LTE/GSM/WCDMA, CDMA,
                                                            // and EvDo */
-
-    int PREFERRED_NETWORK_MODE = Integer.parseInt(TelephonyManager.getTelephonyProperty(
-                0/* return first slot n/w mode when used PREFERRED_NETWORK_MODE */,
-                "ro.telephony.default_network",
-                Integer.toString(NETWORK_MODE_WCDMA_PREF)));
 
     int BAND_MODE_UNSPECIFIED = 0;      //"unspecified" (selected by baseband automatically)
     int BAND_MODE_EURO = 1;             //"EURO band" (GSM-900 / DCS-1800 / WCDMA-IMT-2000)
