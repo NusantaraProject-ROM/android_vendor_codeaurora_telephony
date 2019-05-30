@@ -357,6 +357,20 @@ public class QtiImsExtManager {
         }
     }
 
+    /**
+     * Used by client to register call back listener with vendor for
+     * UNSOL indication when USSD put on IMS pipe at network fails.
+     */
+    public void setUssdInfoListener(int phoneId, IQtiImsExtListener listener)
+            throws QtiImsException {
+        validateInvariants(phoneId);
+        try {
+            mQtiImsExt.setUssdInfoListener(phoneId, listener);
+        } catch(RemoteException e) {
+            throw new QtiImsException("Remote ImsService setUssdInfoListener : " + e);
+        }
+    }
+
     /*package private*/
     void validateInvariants(int phoneId)  throws QtiImsException {
         checkBinder();

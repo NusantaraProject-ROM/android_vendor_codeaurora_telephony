@@ -92,5 +92,18 @@ public class QtiImsExtListenerBaseImpl extends IQtiImsExtListener.Stub {
     @Override
     public void onGetHandoverConfig(int phoneId, int result, int hoConfig) {
     }
+
+    /**
+     * This API is invoked when USSD put on IMS pipe at network fails
+     * and is a temporary solution to notify clients about failures as
+     * current vendor implementation doesn't support USSD over IMS
+     * request from client.
+     * @param type - should be used to map USSD UNSOL on CS pipe with
+     *        USSD put on IMS pipe at network failure.
+     */
+    @Override
+    public void onUssdFailed(int phoneId, int type, int errorCode,
+            String errorMessage) {
+    }
 }
 

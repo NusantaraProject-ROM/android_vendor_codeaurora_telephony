@@ -297,4 +297,14 @@ interface IQtiImsExt {
     * @throws RemoteException if calling the IMS service results in an error.
     */
     oneway void setAnswerExtras(int phoneId, in Bundle extras);
+
+   /**
+     * setUssdInfoListener
+     * Set USSD info listener.
+     *
+     * @param phoneId indicates the phone instance which triggered the request
+     * @param listener an IQtiImsExtListener instance to indicate the response
+     * @return void
+     */
+    oneway void setUssdInfoListener(int phoneId, IQtiImsExtListener listener);
 }

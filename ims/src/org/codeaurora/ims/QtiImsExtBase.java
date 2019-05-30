@@ -123,6 +123,11 @@ public abstract class QtiImsExtBase {
         }
 
         @Override
+        public void setUssdInfoListener(int phoneId, IQtiImsExtListener listener) {
+            onSetUssdInfoListener(phoneId, listener);
+        }
+
+        @Override
         public int setRcsAppConfig(int phoneId, int defaultSmsApp) {
             return onSetRcsAppConfig(phoneId, defaultSmsApp);
         }
@@ -197,6 +202,10 @@ public abstract class QtiImsExtBase {
     }
 
     protected void onSendCancelModifyCall(int phoneId, IQtiImsExtListener listener) {
+        // no-op
+    }
+
+    protected void onSetUssdInfoListener(int phoneId, IQtiImsExtListener listener) {
         // no-op
     }
 

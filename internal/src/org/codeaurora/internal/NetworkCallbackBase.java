@@ -99,4 +99,20 @@ public class NetworkCallbackBase extends INetworkCallback.Stub {
                         + status + " NrIconType = " + nrIconType);
     }
 
+    @Override
+    public void onEnableEndc(int slotId, Token token, Status status) throws
+            RemoteException {
+        Log.d(TAG,
+                "onEnableEndc: slotId = " + slotId + " token = " + token + " " + "status" +
+                        status);
+    }
+
+    @Override
+    public void onEndcStatus(int slotId, Token token, Status status, boolean enableStatus) throws
+            RemoteException {
+        Log.d(TAG,
+                "onEndcStatus: slotId = " + slotId + " token = " + token + " " + "status" +
+                        status + " enableStatus = " + enableStatus);
+    }
+
 }

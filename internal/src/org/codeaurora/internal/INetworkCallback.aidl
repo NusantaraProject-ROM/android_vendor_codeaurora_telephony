@@ -53,4 +53,21 @@ interface INetworkCallback {
             in NrConfigType nrConfigType);
     void onNrIconType(int slotId, in Token token, in Status status,
             in NrIconType nrIconType);
+
+    /**
+    * Response to enableEndc
+    * @param - slotId
+    * @param - token is the same token which is recived in enableEndc
+    * @param - status SUCCESS/FAILURE based on the modem Result code
+    */
+    void onEnableEndc(int slotId, in Token token, in Status status);
+
+    /**
+    * Response to queryEndcStatus
+    * @param - slotId
+    * @param - token is the same token which is recived in queryEndcStatus
+    * @param - status SUCCESS/FAILURE based on the modem Result code
+    * @param - enableStatus true if endce is enabled otherwise false
+    */
+    void onEndcStatus(int slotId, in Token token, in Status status, boolean enableStatus);
 }

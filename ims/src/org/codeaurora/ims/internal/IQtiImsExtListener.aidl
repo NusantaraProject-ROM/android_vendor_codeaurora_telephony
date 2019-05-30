@@ -198,4 +198,15 @@ oneway interface IQtiImsExtListener {
      * @return void
      */
    void onGetHandoverConfig(int phoneId, int status, int hoConfig);
+
+   /**
+     * Notifies client about the USSD info for IMS.
+     *
+     * @param phoneId indicates the phone instance which triggered the request
+     * @param type - notify, request or error
+     * @param errorCode - sip error code
+     * @param errorMessage - error description
+     *
+     */
+   void onUssdFailed(int phoneId, int type, int errorCode, String errorMessage);
 }
