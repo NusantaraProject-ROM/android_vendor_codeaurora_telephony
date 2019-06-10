@@ -148,6 +148,10 @@ public class QtiCarrierConfigHelper {
     }
 
     public void teardown() {
+        if (!mInitialized.get()) {
+            Log.i(TAG, "WARNING, Don't set up yet or already tear down.");
+            return;
+        }
         mConfigsMap.clear();
         mInitialized.set(false);
         if (mContext != null) {
