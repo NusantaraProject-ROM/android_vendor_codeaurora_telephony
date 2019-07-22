@@ -76,6 +76,9 @@ public class QtiImsExtUtils {
     public static final String QTI_IMS_STATIC_IMAGE_SETTING =
             "ims_vt_call_static_image";
 
+    /* name for call transfer setting */
+    private static final String IMS_CALL_TRANSFER_SETTING = "ims_call_transfer";
+
     /**
      * Definitions for the call transfer type. For easier implementation,
      * the transfer type is defined as a bit mask value.
@@ -387,7 +390,8 @@ public class QtiImsExtUtils {
      * Returns true if enabled, or false otherwise.
      */
     public static boolean isCallTransferEnabled(Context context) {
-        return SystemProperties.getBoolean("persist.vendor.radio.ims_call_transfer", false);
+        return Settings.Global.getInt(context.getContentResolver(), IMS_CALL_TRANSFER_SETTING, 0)
+                == 1;
     }
 
    /**

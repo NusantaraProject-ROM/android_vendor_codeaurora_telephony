@@ -29,6 +29,7 @@
 
 package com.qti.confuridialer;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
@@ -36,6 +37,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
@@ -83,8 +85,6 @@ public class ConfURIDialer extends Activity {
     private String mEditNumber;
     private static final int ACTIVITY_REQUEST_CONTACT_PICK = 100;
     private static final String INTENT_PICK_ACTION = "android.intent.action.PICK";
-    public static final String INTENT_ACTION_DISMISS_CONF_URI_DIALER =
-            "org.codeaurora.confuridialer.ACTION_DISMISS_CONF_URI_DIALER";
     private static final String TAG = "ConfURIDialer";
     public static final String EXTRA_DIAL_CONFERENCE_URI =
             "org.codeaurora.extra.DIAL_CONFERENCE_URI";
@@ -97,16 +97,17 @@ public class ConfURIDialer extends Activity {
     private Context mContext;
     private AlertDialog mAlertDialog = null;
 
-    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent != null &&
-                    intent.getAction().equals(INTENT_ACTION_DISMISS_CONF_URI_DIALER)) {
-                finishActivity(ACTIVITY_REQUEST_CONTACT_PICK);
-                finish();
-            }
-        }
+    // List of permissions that need to be mapped to corresponding request code
+    private static String[] permissionsList = new String[] {
+        Manifest.permission.READ_PHONE_STATE,
+        Manifest.permission.READ_CALL_LOG,
+        Manifest.permission.READ_CONTACTS
     };
+
+    // Request codes for required permission(s)
+    public static final int REQUEST_READ_PHONE_STATE = 0;
+    public static final int REQUEST_READ_CALL_LOG = 1;
+    public static final int REQUEST_READ_CONTACTS = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,23 +124,11 @@ public class ConfURIDialer extends Activity {
 
         mPhoneStateListener = new ConfURIDialerPhoneStateListener(this);
         registerCallStateListener();
-        mIsInCall = isInCall(mContext);
-        if (mIsAddParticipants && mIsInCall) {
-            mStartCallButton.setText(R.string.button_add_participant);
-            mEditText.setHint(R.string.add_recipient_to_add_participant);
-            setTitle(R.string.applicationLabel_add_participant);
-            mStartCallButton.setEnabled(false);
-            mStartCallButton.setBackgroundColor(Color.parseColor("#C1C1C1"));
-            mStartCallButton.setVisibility(View.VISIBLE);
-        } else {
-            mStartCallButton.setEnabled(true);
-            mStartCallButton.setVisibility(View.VISIBLE);
+        if (checkPermissions(REQUEST_READ_PHONE_STATE)) {
+            mIsInCall = isInCall(mContext);
+            displayStartCall();
+            displayVideoConf();
         }
-
-        // register for broadcast
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(INTENT_ACTION_DISMISS_CONF_URI_DIALER);
-        this.registerReceiver(mReceiver, filter);
 
         // Allow the title to be set to a custom String using an extra on the intent
         String title = getIntent().getStringExtra("Title");
@@ -147,18 +136,12 @@ public class ConfURIDialer extends Activity {
             setTitle(title);
         }
 
-        final boolean isVideoConfUriDialEnabled = this.getResources().getBoolean(
-                R.bool.video_conference_uri_call_enabled);
-        // Show video call buttton if video calling is enabled and not in add participant mode.
-        if (isVideoConfUriDialEnabled && isVideoTelephonyAvailable() &&
-                !(mIsAddParticipants && mIsInCall)) {
-            mVideoCallButton.setEnabled(true);
-            mVideoCallButton.setVisibility(View.VISIBLE);
-        }
         if (savedInstanceState != null) {
             mEditText.setText(savedInstanceState.getString(KEY_EXISTING_EDIT_TEXT));
             if (savedInstanceState.getBoolean(KEY_IS_CALL_LOG_PICKER_SHOWN)) {
-                getCallLog();
+                if (checkPermissions(REQUEST_READ_CALL_LOG)) {
+                    getCallLog();
+                }
             }
         }
 
@@ -191,15 +174,19 @@ public class ConfURIDialer extends Activity {
             @Override
             public void onClick(View arg0) {
                 hideInputMethod(getCurrentFocus());
-                getCallLog();
+                if (checkPermissions(REQUEST_READ_CALL_LOG)) {
+                    getCallLog();
+                }
             }
         });
 
         mContactButton.setOnClickListener(new ImageButton.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                Intent intent = new Intent(INTENT_PICK_ACTION, Contacts.CONTENT_URI);
-                startActivityForResult(intent,ACTIVITY_REQUEST_CONTACT_PICK);
+                if (checkPermissions(REQUEST_READ_CONTACTS)) {
+                    Intent intent = new Intent(INTENT_PICK_ACTION, Contacts.CONTENT_URI);
+                    startActivityForResult(intent,ACTIVITY_REQUEST_CONTACT_PICK);
+                }
             }
         });
 
@@ -239,7 +226,9 @@ public class ConfURIDialer extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        mIsInCall = isInCall(mContext);
+        if (checkPermissions(REQUEST_READ_PHONE_STATE)) {
+            mIsInCall = isInCall(mContext);
+        }
     }
 
     @Override
@@ -458,11 +447,6 @@ public class ConfURIDialer extends Activity {
 
     @Override
     public void onDestroy() {
-        if (mReceiver != null) {
-            unregisterReceiver(mReceiver);
-            mReceiver = null;
-        }
-        Log.v(TAG, "onDestroy(): Receiver = " + mReceiver);
         hideInputMethod(getCurrentFocus());
         unRegisterCallStateListener();
         super.onDestroy();
@@ -498,6 +482,73 @@ public class ConfURIDialer extends Activity {
                     finish();
                 }
             }
+        }
+    }
+
+    private boolean checkPermissions(int permission) {
+        if (permission < 0 && permission >= permissionsList.length) {
+            Log.e(TAG, "Invalid permission request");
+            return false;
+        }
+        if (checkSelfPermission(permissionsList[permission]) !=
+                PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(
+                    new String[] { permissionsList[permission] }, permission);
+            return false;
+        }
+        return true;
+    }
+
+    private void displayStartCall() {
+        if (mIsAddParticipants && mIsInCall) {
+            mStartCallButton.setText(R.string.button_add_participant);
+            mEditText.setHint(R.string.add_recipient_to_add_participant);
+            setTitle(R.string.applicationLabel_add_participant);
+            mStartCallButton.setEnabled(false);
+            mStartCallButton.setBackgroundColor(Color.parseColor("#C1C1C1"));
+        } else {
+            mStartCallButton.setEnabled(true);
+        }
+        mStartCallButton.setVisibility(View.VISIBLE);
+    }
+
+    private void displayVideoConf() {
+        final boolean isVideoConfUriDialEnabled = this.getResources().getBoolean(
+                R.bool.video_conference_uri_call_enabled);
+        // Show video call buttton if video calling is enabled and not in add participant mode.
+        if (isVideoConfUriDialEnabled && isVideoTelephonyAvailable() &&
+                !(mIsAddParticipants && mIsInCall)) {
+            mVideoCallButton.setEnabled(true);
+            mVideoCallButton.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int reqCode, String permissions[], int[] grantResults) {
+        Log.d(TAG, "onRequestPermissionsResult: " + reqCode);
+        if (grantResults.length <= 0) {
+            Log.e(TAG, "onRequestPermissionsResult: incorrect grantResults length");
+            return;
+        }
+        if (reqCode == REQUEST_READ_PHONE_STATE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                mIsInCall = isInCall(this);
+                displayStartCall();
+                displayVideoConf();
+            } else {
+                Log.d(TAG, "User denied the permissions request. Closing activity");
+                Toast.makeText(
+                        this, "The feature is disabled as required permission(s) not granted",
+                        Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        } else if (reqCode == REQUEST_READ_CALL_LOG
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            getCallLog();
+        } else if (reqCode == REQUEST_READ_CONTACTS
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            Intent intent = new Intent(INTENT_PICK_ACTION, Contacts.CONTENT_URI);
+            startActivityForResult(intent,ACTIVITY_REQUEST_CONTACT_PICK);
         }
     }
 }

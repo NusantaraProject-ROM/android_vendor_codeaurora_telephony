@@ -33,8 +33,7 @@
 -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.qti.confuridialer"
-    android:sharedUserId="android.uid.phone">
+    package="com.qti.confuridialer">
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.CALL_PRIVILEGED" />
@@ -55,7 +54,6 @@
             android:exported="true"
             android:excludeFromRecents="true">
             <intent-filter>
-                <action android:name="org.codeaurora.confuridialer.ACTION_DISMISS_CONF_URI_DIALER" />
                 <action android:name="org.codeaurora.confuridialer.ACTION_LAUNCH_CONF_URI_DIALER" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
