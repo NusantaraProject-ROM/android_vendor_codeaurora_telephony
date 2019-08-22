@@ -306,5 +306,17 @@ public class QtiCallConstants {
 
     // Recorder Auto-Scaling Factor
     public static final int RECORDER_SCALING_FACTOR = 8;
+
+    /**
+     * Whether auto reject is enabled for IMS calls on a sub when high priority data
+     * is on the other sub
+     * Type: int (0 for disabled, 1 for enabled)
+     */
+    public static final String IMS_AUTO_REJECT = "qti.settings.auto_reject";
+    // Auto reject call modes
+    public static final int AUTO_REJECT_CALL_DISABLED = 0;
+    public static final int AUTO_REJECT_CALL_ENABLED = 1;
+    // Auto reject call UI item, avoid conflicting values from ImsCallUtils.ConfigItem
+    public static final int AUTO_REJECT_CALL_MODE = 1000;
 }
 

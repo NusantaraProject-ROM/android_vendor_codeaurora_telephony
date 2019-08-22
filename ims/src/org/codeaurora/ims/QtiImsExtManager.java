@@ -120,25 +120,6 @@ public class QtiImsExtManager {
         }
     }
 
-    public void getPacketCount(int phoneId, IQtiImsExtListener listener) throws QtiImsException {
-        validateInvariants(phoneId);
-        try {
-            mQtiImsExt.getPacketCount(phoneId, listener);
-        } catch(RemoteException e) {
-            throw new QtiImsException("Remote ImsService getPacketCount : " + e);
-        }
-    }
-
-    public void getPacketErrorCount(int phoneId, IQtiImsExtListener listener)
-            throws QtiImsException {
-        validateInvariants(phoneId);
-        try {
-            mQtiImsExt.getPacketErrorCount(phoneId, listener);
-        } catch(RemoteException e) {
-            throw new QtiImsException("Remote ImsService getPacketErrorCount : " + e);
-        }
-    }
-
     public void resumePendingCall(int phoneId, int videoState) throws QtiImsException {
         validateInvariants(phoneId);
         try {

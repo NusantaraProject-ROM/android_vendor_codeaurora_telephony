@@ -49,14 +49,6 @@ public class QtiImsExtListenerBaseImpl extends IQtiImsExtListener.Stub {
     }
 
     @Override
-    public void onGetPacketCount(int phoneId, int status, long packetCount) {
-    }
-
-    @Override
-    public void onGetPacketErrorCount(int phoneId, int status, long packetErrorCount) {
-    }
-
-    @Override
     public void receiveCallTransferResponse(int phoneId, int result) {
     }
 

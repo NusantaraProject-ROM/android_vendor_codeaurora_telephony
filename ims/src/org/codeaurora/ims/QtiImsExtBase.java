@@ -60,16 +60,6 @@ public abstract class QtiImsExtBase {
         }
 
         @Override
-        public void getPacketCount(int phoneId, IQtiImsExtListener listener) {
-            onGetPacketCount(phoneId, listener);
-        }
-
-        @Override
-        public void getPacketErrorCount(int phoneId, IQtiImsExtListener listener) {
-            onGetPacketErrorCount(phoneId, listener);
-        }
-
-        @Override
         public void resumePendingCall(int phoneId, int videoState) {
             onResumePendingCall(phoneId, videoState);
         }
@@ -185,12 +175,6 @@ public abstract class QtiImsExtBase {
     }
     protected void onGetCallForwardUncondTimer(int phoneId, int reason, int serviceClass,
             IQtiImsExtListener listener) {
-        // no-op
-    }
-    protected void onGetPacketCount(int phoneId, IQtiImsExtListener listener) {
-        // no-op
-    }
-    protected void onGetPacketErrorCount(int phoneId, IQtiImsExtListener listener) {
         // no-op
     }
     protected void onResumePendingCall(int phoneId, int videoState) {

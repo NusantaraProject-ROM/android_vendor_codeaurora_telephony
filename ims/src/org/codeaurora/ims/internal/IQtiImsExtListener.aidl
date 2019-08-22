@@ -72,26 +72,6 @@ oneway interface IQtiImsExtListener {
      */
     void onUTReqFailed(int phoneId, int errCode, String errString);
 
-   /**
-     * Notifies client the value of the get operation result on get packet count item.
-     *
-     * @param phoneId indicates the phone instance which triggered the request
-     * @param status. as defined in com.android.ims.ImsConfig#OperationStatusConstants.
-     * @param packetCount. total number of packets sent or received
-     * @return void
-     */
-    void onGetPacketCount(int phoneId, int status, long packetCount);
-
-   /**
-     * Notifies client the value of the get operation result on get packet error count item.
-     *
-     * @param phoneId indicates the phone instance which triggered the request
-     * @param status. as defined in com.android.ims.ImsConfig#OperationStatusConstants.
-     * @param packetErrorCount. total number of packet errors encountered
-     * @return void
-     */
-   void onGetPacketErrorCount(int phoneId, int status, long packetErrorCount);
-
     /**
      * Notifies client the result of call transfer request
      *

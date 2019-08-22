@@ -81,28 +81,6 @@ interface IQtiImsExt {
     oneway void getCallForwardUncondTimer(int phoneId, int reason, int serviceClass,
             IQtiImsExtListener listener);
 
-    /**
-      * Total number of packets sent or received
-      *
-      * @param phoneId indicates the phone instance which triggered the request
-      * @param listener, provided if caller needs to be notified for get result.
-      * @return void
-      *
-      * @throws RemoteException if calling the IMS service results in an error.
-      */
-    oneway void getPacketCount(int phoneId, IQtiImsExtListener listener);
-
-   /**
-     * Total number of packet errors encountered
-     *
-     * @param phoneId indicates the phone instance which triggered the request
-     * @param listener, provided if caller needs to be notified for get result.
-     * @return void
-     *
-     * @throws RemoteException if calling the IMS service results in an error.
-     */
-    oneway void getPacketErrorCount(int phoneId, IQtiImsExtListener listener);
-
    /**
      * sendCallTransferRequest
      * Transfer an established call to given number or call id
