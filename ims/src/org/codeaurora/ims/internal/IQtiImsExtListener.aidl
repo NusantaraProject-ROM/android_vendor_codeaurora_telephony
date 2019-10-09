@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2016, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2015-2016, 2019 The Linux Foundation. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -189,4 +189,12 @@ oneway interface IQtiImsExtListener {
      *
      */
    void onUssdFailed(int phoneId, int type, int errorCode, String errorMessage);
+
+   /**
+     * Notifies client that setCallBarring operation is success.
+     *
+     * onUTReqFailed API will be invoked in case of any failure in setCallBarring with password.
+     * @return void
+     */
+   void onSetCallBarring();
 }

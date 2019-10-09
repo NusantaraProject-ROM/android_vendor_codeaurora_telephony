@@ -285,4 +285,22 @@ interface IQtiImsExt {
      * @return void
      */
     oneway void setUssdInfoListener(int phoneId, IQtiImsExtListener listener);
+
+   /**
+     * setCallBarring
+     * Set call barring operation with password support
+     *
+     * @param phoneId indicates the phone instance which triggered the request
+     * @param operationType is false (CommandsInterface.CF_ACTION_ENABLE) or
+                               true (CommandsInterface.CF_ACTION_DISABLE)
+     * @param facilityType type of operation same as @link ImsUtInterface.CB_*
+     * @param cbNumListInfo ICB number list
+     * @param password Password to activate/deactivate the call barring.
+     * @param serviceClass service class for call barring @link CommandsInterface.SERVICE_CLASS*
+     * @param listener an IQtiImsExtListener instance to indicate the response
+     * @return void
+     */
+    oneway void setCallBarring(int phoneId, boolean operationType, String facilityType,
+            in String[] cbNumListInfo, String password, int serviceClass,
+            IQtiImsExtListener listener);
 }
