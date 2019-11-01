@@ -113,6 +113,10 @@ public class QtiImsExtUtils {
      */
     public static final String EXTRA_SSAC = "Ssac";
 
+    /* @Deprecated
+     * Use SubscriptionManager.EXTRA_SUBSCRIPTION_INDEX
+     * as key to carry sub id value instead
+     */
     public static final String SUBSCRIPTION_ID = "subId";
 
     /**
