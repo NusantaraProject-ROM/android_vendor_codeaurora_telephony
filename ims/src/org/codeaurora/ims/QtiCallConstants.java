@@ -244,6 +244,12 @@ public class QtiCallConstants {
 
     public static final String EXTRA_PHONE_ID = "phoneId";
 
+    //holds the call fail cause because of which redial is attempted
+    public static final String EXTRA_RETRY_CALL_FAIL_REASON = "RetryCallFailReason";
+    //holds the radiotech on which lower layers may try attempting redial
+    public static final String EXTRA_RETRY_CALL_FAIL_RADIOTECH = "RetryCallFailRadioTech";
+
+
    /**
      * Whether RTT visibility is on or off
      * The value 1 - enable, 0 - disable
