@@ -113,6 +113,10 @@ public class QtiImsExtUtils {
      */
     public static final String EXTRA_SSAC = "Ssac";
 
+    /* @Deprecated
+     * Use SubscriptionManager.EXTRA_SUBSCRIPTION_INDEX
+     * as key to carry sub id value instead
+     */
     public static final String SUBSCRIPTION_ID = "subId";
 
     /**
@@ -523,37 +527,71 @@ public class QtiImsExtUtils {
     }
 
     // Returns true if global setting has stored value as true
+    // if phone id is not provided, uses default value of 0
     public static boolean isRttOn(Context context) {
-        return (getRttMode(context) !=  QtiCallConstants.RTT_MODE_DISABLED);
+        return isRttOn(context, QtiCallConstants.RTT_DEFAULT_PHONE_ID);
     }
 
     // Returns true if global setting has stored value as true
+    public static boolean isRttOn(Context context, int phoneId) {
+        return getRttMode(context, phoneId) !=  QtiCallConstants.RTT_MODE_DISABLED;
+    }
+
+    // Returns true if global setting has stored value as true
+    // if phone id is not provided, uses default value of 0
     public static boolean isRttVisibilityOn(Context context) {
-        return (getRttVisibility(context) !=  QtiCallConstants.RTT_VISIBILITY_DISABLED);
+        return isRttVisibilityOn(context, QtiCallConstants.RTT_DEFAULT_PHONE_ID);
+    }
+
+    // Returns true if global setting has stored value as true
+    public static boolean isRttVisibilityOn(Context context, int phoneId) {
+        return (getRttVisibility(context, phoneId) !=  QtiCallConstants.RTT_VISIBILITY_DISABLED);
+    }
+
+    // To maintain backwards compatibility
+    // if phone id is equal to 0 return an empty string
+    private static String convertRttPhoneId(int phoneId) {
+        return (phoneId != QtiCallConstants.RTT_DEFAULT_PHONE_ID) ? Integer.toString(phoneId) : "";
     }
 
     // Returns value of RTT mode
     public static int getRttMode(Context context) {
+        return getRttMode(context, QtiCallConstants.RTT_DEFAULT_PHONE_ID);
+    }
+
+    public static int getRttMode(Context context, int phoneId) {
         return android.provider.Settings.Secure.getInt(context.getContentResolver(),
-                Settings.Secure.RTT_CALLING_MODE, 0);
+            Settings.Secure.RTT_CALLING_MODE + convertRttPhoneId(phoneId), 0);
     }
 
     // Sets RTT mode to global settings
     public static void setRttMode(boolean value, Context context) {
-       android.provider.Settings.Secure.putInt(context.getContentResolver(),
-                Settings.Secure.RTT_CALLING_MODE, value ? 1 : 0);
+        setRttMode(value, context, QtiCallConstants.RTT_DEFAULT_PHONE_ID);
+    }
+
+    public static void setRttMode(boolean value, Context context, int phoneId) {
+        android.provider.Settings.Secure.putInt(context.getContentResolver(),
+                    Settings.Secure.RTT_CALLING_MODE + convertRttPhoneId(phoneId), value ? 1 : 0);
     }
 
     // Returns value of RTT visibility
     public static int getRttVisibility(Context context) {
+        return getRttVisibility(context, QtiCallConstants.RTT_DEFAULT_PHONE_ID);
+    }
+
+    public static int getRttVisibility(Context context, int phoneId) {
         return (android.provider.Settings.Global.getInt(context.getContentResolver(),
-                QtiCallConstants.QTI_IMS_RTT_VISIBILITY, 0));
+            QtiCallConstants.QTI_IMS_RTT_VISIBILITY + convertRttPhoneId(phoneId), 0));
     }
 
     // Sets RTT visibility to global settings
     public static void setRttVisibility(boolean value, Context context) {
+       setRttVisibility(value, context, QtiCallConstants.RTT_DEFAULT_PHONE_ID);
+    }
+
+    public static void setRttVisibility(boolean value, Context context, int phoneId) {
        android.provider.Settings.Global.putInt(context.getContentResolver(),
-                QtiCallConstants.QTI_IMS_RTT_VISIBILITY, value ?
+                QtiCallConstants.QTI_IMS_RTT_VISIBILITY + convertRttPhoneId(phoneId), value ?
                         QtiCallConstants.RTT_VISIBILITY_ENABLED :
                         QtiCallConstants.RTT_VISIBILITY_DISABLED);
     }
@@ -571,8 +609,8 @@ public class QtiImsExtUtils {
 
     // Returns true if Carrier supports RTT auto upgrade
     public static boolean isRttAutoUpgradeSupported(int phoneId, Context context) {
-        return (isCarrierConfigEnabled(phoneId, context
-                , QtiCarrierConfigs.KEY_CARRIER_RTT_AUTO_UPGRADE));
+        return (isCarrierConfigEnabled(phoneId, context,
+            QtiCarrierConfigs.KEY_CARRIER_RTT_AUTO_UPGRADE));
     }
 
     // Returns true if Carrier supports RTT for Video Calls
@@ -591,7 +629,12 @@ public class QtiImsExtUtils {
     // Utility to get the RTT Mode that is set through adb property
     // Mode can be either RTT_MODE_DISABLED or RTT_MODE_FULL
     public static int getRttOperatingMode(Context context) {
-        int mode = SystemProperties.getInt(QtiCallConstants.PROPERTY_RTT_OPERATING_MODE, 0);
+        return getRttOperatingMode(context, QtiCallConstants.RTT_DEFAULT_PHONE_ID);
+    }
+
+    public static int getRttOperatingMode(Context context, int phoneId) {
+        int mode = SystemProperties.getInt(QtiCallConstants.PROPERTY_RTT_OPERATING_MODE +
+                convertRttPhoneId(phoneId), 0);
         return mode;
     }
 
@@ -629,5 +672,10 @@ public class QtiImsExtUtils {
         return android.provider.Settings.Global.getInt(contentResolver,
                 QtiCallConstants.IMS_AUTO_REJECT + phoneId,
                 QtiCallConstants.AUTO_REJECT_CALL_DISABLED);
+    }
+
+    public static boolean canAcceptAsOneWayVideo(int phoneId, Context context) {
+        return (isCarrierConfigEnabled(phoneId, context,
+                QtiCarrierConfigs.ALLOW_ONE_WAY_ACCEPT_FOR_VIDEO_CALL));
     }
 }

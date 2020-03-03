@@ -244,6 +244,12 @@ public class QtiCallConstants {
 
     public static final String EXTRA_PHONE_ID = "phoneId";
 
+    //holds the call fail cause because of which redial is attempted
+    public static final String EXTRA_RETRY_CALL_FAIL_REASON = "RetryCallFailReason";
+    //holds the radiotech on which lower layers may try attempting redial
+    public static final String EXTRA_RETRY_CALL_FAIL_RADIOTECH = "RetryCallFailRadioTech";
+
+
    /**
      * Whether RTT visibility is on or off
      * The value 1 - enable, 0 - disable
@@ -255,10 +261,13 @@ public class QtiCallConstants {
      * Property for RTT Operating mode
      * For TMO - 0 : Upon Request Mode (Disabled)
      *           1 : Automatic Mode (Full)
-     * For Vzw - 0 : Full Mode (Full)
+     * For Vzw - 1 : Automatic Mode (Full)
      *
      */
     public static final String PROPERTY_RTT_OPERATING_MODE = "persist.vendor.radio.rtt.operval";
+
+    // RTT default phone id
+    public static final int RTT_DEFAULT_PHONE_ID = 0;
 
     // RTT Off
     public static final int RTT_MODE_DISABLED = 0;

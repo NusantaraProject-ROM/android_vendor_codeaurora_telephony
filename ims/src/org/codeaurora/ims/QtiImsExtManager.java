@@ -352,6 +352,31 @@ public class QtiImsExtManager {
         }
     }
 
+    /**
+     * Used by clients to activate/deactivate call barring with password over IMS pipe.
+     *
+     * @param phoneId indicates the phone instance which triggered the request
+     * @param operationType is false (CommandsInterface.CF_ACTION_ENABLE) or
+                               true (CommandsInterface.CF_ACTION_DISABLE)
+     * @param facilityType type of operation same as @link ImsUtInterface.CB_*
+     * @param cbNumListInfo ICB number list
+     * @param password Password to activate/deactivate the call barring.
+     * @param serviceClass service class for call barring @link CommandsInterface.SERVICE_CLASS*
+     * @param listener an IQtiImsExtListener instance to indicate the response
+     * @return void
+     */
+    public void setCallBarring(int phoneId, boolean operationType, String facilityType,
+            String[] cbNumListInfo, String password, int serviceClass, IQtiImsExtListener listener)
+            throws QtiImsException {
+        validateInvariants(phoneId);
+        try {
+            mQtiImsExt.setCallBarring(phoneId, operationType, facilityType, cbNumListInfo, password,
+                    serviceClass, listener);
+        } catch(RemoteException e) {
+            throw new QtiImsException("Remote ImsService setCallBarring: " + e);
+        }
+    }
+
     /*package private*/
     void validateInvariants(int phoneId)  throws QtiImsException {
         checkBinder();

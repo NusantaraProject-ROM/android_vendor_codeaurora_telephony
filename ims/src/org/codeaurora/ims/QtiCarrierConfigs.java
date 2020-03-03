@@ -128,4 +128,10 @@ public class QtiCarrierConfigs {
      */
     public static final String KEY_CARRIER_CANCEL_MODIFY_CALL_SUPPORTED =
             "support_cancel_modify_call";
+
+    /* Config to determine if carrier supports accepting MT video call as one way
+     * true if user can accept MT video call as one way else false
+     */
+    public static final String ALLOW_ONE_WAY_ACCEPT_FOR_VIDEO_CALL =
+            "allow_one_way_accept_video_call";
 }
