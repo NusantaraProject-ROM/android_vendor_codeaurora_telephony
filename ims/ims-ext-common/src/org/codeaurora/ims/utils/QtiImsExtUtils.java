@@ -35,6 +35,8 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.net.Uri;
+import android.os.ParcelFileDescriptor;
 import android.os.PersistableBundle;
 import android.os.SystemProperties;
 import android.provider.Settings;
@@ -45,6 +47,11 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import java.io.File;
+import java.io.FileDescriptor;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.lang.IllegalArgumentException;
+import java.lang.SecurityException;
 
 import org.codeaurora.ims.QtiCallConstants;
 import org.codeaurora.ims.QtiCarrierConfigs;
@@ -197,13 +204,12 @@ public class QtiImsExtUtils {
                                      QTI_IMS_STATIC_IMAGE_SETTING);
     }
 
-    private static boolean isValidUriStr(String uri) {
+    private static boolean isValidUriStr(String uriStr) {
         /* uri is not valid if
-         * 1. uri is null
-         * 2. uri is empty
-         * 3. uri doesn't exist in UE
+         * 1. uriStr is null
+         * 2. uriStr is empty
          */
-        return uri != null && !uri.isEmpty() && (new File(uri)).exists();
+        return uriStr != null && !uriStr.isEmpty();
     }
 
     /**
@@ -248,28 +254,54 @@ public class QtiImsExtUtils {
      * Decodes an image pointed to by uri as per requested Width and requested Height
      * and returns a bitmap
      */
-    public static Bitmap decodeImage(String uri, int reqWidth, int reqHeight) {
-        if (uri == null) {
+    public static Bitmap decodeImage(String uriStr, Context context, int reqWidth, int reqHeight) {
+        if (uriStr == null) {
             return null;
         }
+        ParcelFileDescriptor parcelFileDescriptor = null;
 
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        // Each pixel is stored on 4 bytes
-        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-        /* If set to true, the decoder will return null (no bitmap),
-           but the out... fields (i.e. outWidth, outHeight and outMimeType)
-           will still be set, allowing the caller to query the bitmap
-           without having to allocate the memory for its pixels */
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(uri, options);
+        Uri uri = Uri.parse(uriStr);
 
-        // Calculate inSampleSize
-        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+        try {
+            parcelFileDescriptor = context.getContentResolver().openFileDescriptor(uri, "r");
+            FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
 
-        // Decode bitmap with inSampleSize set
-        options.inJustDecodeBounds = false;
-        Bitmap bitmap = BitmapFactory.decodeFile(uri, options);
-        return scaleImage(bitmap, reqWidth, reqHeight);
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            // Each pixel is stored on 4 bytes
+            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+            /* If set to true, the decoder will return null (no bitmap),
+               but the out... fields (i.e. outWidth, outHeight and outMimeType)
+               will still be set, allowing the caller to query the bitmap
+               without having to allocate the memory for its pixels */
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeFileDescriptor(fileDescriptor, null, options);
+
+            // Calculate inSampleSize
+            options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+
+            // Decode bitmap with inSampleSize set
+            options.inJustDecodeBounds = false;
+            Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor, null, options);
+
+            return scaleImage(image, reqWidth, reqHeight);
+        } catch (FileNotFoundException e) {
+            Log.e(LOG_TAG, "File not found for uri: " + uri + " exception : " + e);
+        } catch (IllegalArgumentException e) {
+            Log.e(LOG_TAG, "Check arguments passed to decodeFileDescriptor, exception : " + e);
+        } catch (SecurityException e) {
+            //If the selected static image file located under file path "/sdcard/" is deleted,
+            //SecurityException is thrown by ContentResolver#openFileDescriptor.
+            Log.e(LOG_TAG, "SecurityException, exception : " + e);
+        } finally {
+            try {
+                if (parcelFileDescriptor != null) {
+                    parcelFileDescriptor.close();
+                }
+            } catch (IOException e) {
+                Log.e(LOG_TAG, "Closing parcelFileDescriptor " + " exception : " + e);
+            }
+        }
+        return null;
     }
 
     // scales the image using reqWidth/reqHeight and returns a scaled bitmap
@@ -341,7 +373,7 @@ public class QtiImsExtUtils {
             throw new QtiImsException("invalid file path");
         }
 
-        Bitmap imageBitmap = decodeImage(uriStr, reqWidth, reqHeight);
+        Bitmap imageBitmap = decodeImage(uriStr, context, reqWidth, reqHeight);
         if (imageBitmap == null) {
             throw new QtiImsException("image decoding error");
         }
