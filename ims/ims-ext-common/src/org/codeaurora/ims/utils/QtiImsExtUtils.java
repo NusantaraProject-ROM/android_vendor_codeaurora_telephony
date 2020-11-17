@@ -579,20 +579,20 @@ public class QtiImsExtUtils {
     // Returns true if Carrier supports RTT auto upgrade
     public static boolean isRttAutoUpgradeSupported(int phoneId, Context context) {
         return isCarrierConfigEnabled(phoneId, context,
-            "rtt_auto_upgrade_bool");
+            CarrierConfigManager.KEY_RTT_AUTO_UPGRADE_BOOL);
     }
 
     // Returns true if Carrier supports RTT for Video Calls
     public static boolean isRttSupportedOnVtCalls(int phoneId, Context context) {
         return isCarrierConfigEnabled(phoneId, context,
-            "rtt_supported_for_vt_bool");
+            CarrierConfigManager.KEY_RTT_SUPPORTED_FOR_VT_BOOL);
     }
 
     // Returns true if Carrier supports RTT upgrade
     // False otherwise
     public static boolean isRttUpgradeSupported(int phoneId, Context context) {
         return isCarrierConfigEnabled(phoneId, context,
-            "rtt_upgrade_supported_bool");
+            CarrierConfigManager.KEY_RTT_UPGRADE_SUPPORTED_BOOL);
     }
 
     // Utility to get the RTT Mode that is set through adb property
@@ -611,7 +611,7 @@ public class QtiImsExtUtils {
     // False otherwise
     public static boolean isRttDowngradeSupported(int phoneId, Context context) {
         return isCarrierConfigEnabled(phoneId, context,
-            "rtt_downgrade_supported_bool");
+            CarrierConfigManager.KEY_RTT_DOWNGRADE_SUPPORTED_BOOL);
     }
 
     // Returns true if Carrier support RTT visibility setting
