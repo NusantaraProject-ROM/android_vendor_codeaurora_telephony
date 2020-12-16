@@ -636,4 +636,16 @@ public class QtiImsExtUtils {
                 QtiCallConstants.IMS_CALL_COMPOSER + phoneId,
                 QtiCallConstants.CALL_COMPOSER_DISABLED);
     }
+
+    // Returns true if Carrier supports video CRS
+    public static boolean isVideoCrsSupported(int phoneId, Context context) {
+        return isCarrierConfigEnabled(phoneId, context,
+                QtiCarrierConfigs.KEY_CARRIER_VIDEO_CRS_SUPPORTED);
+    }
+
+    // Returns true if Carrier supports video CRBT
+    public static boolean isVideoCrbtSupported(int phoneId, Context context) {
+        return isCarrierConfigEnabled(phoneId, context,
+                QtiCarrierConfigs.KEY_CARRIER_VIDEO_CRBT_SUPPORTED);
+    }
 }
