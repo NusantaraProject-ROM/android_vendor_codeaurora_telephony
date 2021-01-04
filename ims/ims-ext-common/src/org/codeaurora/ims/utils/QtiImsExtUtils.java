@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2015-2017, 2020 The Linux Foundation. All rights reserved.
+ * Copyright (c) 2015-2017, 2020-2021 The Linux Foundation. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -647,5 +647,11 @@ public class QtiImsExtUtils {
     public static boolean isVideoCrbtSupported(int phoneId, Context context) {
         return isCarrierConfigEnabled(phoneId, context,
                 QtiCarrierConfigs.KEY_CARRIER_VIDEO_CRBT_SUPPORTED);
+    }
+
+    // Returns true if carrier supports call progress notification.
+    public static boolean isCallProgressNotificationSupported(int phoneId, Context context) {
+        return isCarrierConfigEnabled(phoneId, context,
+                QtiCarrierConfigs.KEY_CARRIER_CALL_PROGRESS_NOTIFICATION_SUPPORTED);
     }
 }

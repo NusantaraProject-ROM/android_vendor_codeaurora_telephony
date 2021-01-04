@@ -415,5 +415,17 @@ public class QtiCallConstants {
     public static final int CRS_TYPE_AUDIO = 1 << 0;
     //VIDEO if only video will be played.
     public static final int CRS_TYPE_VIDEO = 1 << 1;
-}
 
+    //Call progress info constants.
+    public static final int CALL_PROGRESS_INFO_TYPE_INVALID = -1;
+    public static final int CALL_PROGRESS_INFO_TYPE_CALL_REJ_Q850 = 0;
+    public static final int CALL_PROGRESS_INFO_TYPE_CALL_WAITING = 1;
+    public static final int CALL_PROGRESS_INFO_TYPE_CALL_FORWARDING = 2;
+    public static final int CALL_PROGRESS_INFO_TYPE_REMOTE_AVAILABLE = 3;
+    //Call progress info call rejection code
+    public static final int CALL_REJECTION_CODE_INVALID = -1;
+    //Call progress info extras
+    public static final String EXTRAS_CALL_PROGRESS_INFO_TYPE = "CallProgInfoType";
+    public static final String EXTRAS_CALL_PROGRESS_REASON_CODE = "CallProgReasonCode";
+    public static final String EXTRAS_CALL_PROGRESS_REASON_TEXT = "CallProgReasonText";
+}
