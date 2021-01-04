@@ -1,4 +1,5 @@
-/* Copyright (c) 2016, The Linux Foundation. All rights reserved.
+/*
+ * Copyright (c) 2020, The Linux Foundation. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -24,23 +25,61 @@
  * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
  * IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
  */
-package org.codeaurora.ims;
 
-/**
- * This class is to handle custom unsupported image format exception
- */
-public class QtiImsUnsupportedImageFormatException extends QtiImsException {
+package org.codeaurora.internal;
 
-    public QtiImsUnsupportedImageFormatException() {
-        // Empty constructor
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class NrConfig implements Parcelable{
+    private static final String TAG = "NrConfig";
+
+    public static final int NR_CONFIG_INVALID = -1;
+    public static final int NR_CONFIG_COMBINED_SA_NSA = 0;
+    public static final int NR_CONFIG_NSA =  1;
+    public static final int NR_CONFIG_SA =  2;
+
+    private int mValue;
+
+    public NrConfig(int val) {
+        mValue = val;
     }
 
-    public QtiImsUnsupportedImageFormatException(String message) {
-        super(message);
+    public NrConfig(Parcel in) {
+        mValue = in.readInt();
     }
 
-    public QtiImsUnsupportedImageFormatException(String message, Throwable cause) {
-        super(message, cause);
+    public int get() {
+        return mValue;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeInt(mValue);
+    }
+
+    public static final Parcelable.Creator<NrConfig> CREATOR = new Parcelable.Creator() {
+        public NrConfig createFromParcel(Parcel in) {
+            return new NrConfig(in);
+        }
+
+        public NrConfig[] newArray(int size) {
+            return new NrConfig[size];
+        }
+    };
+
+    public void readFromParcel(Parcel in) {
+        mValue = in.readInt();
+    }
+
+    @Override
+    public String toString() {
+        return TAG + ": " + get();
     }
 }

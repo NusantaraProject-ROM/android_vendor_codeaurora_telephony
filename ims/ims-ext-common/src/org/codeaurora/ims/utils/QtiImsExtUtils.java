@@ -35,6 +35,8 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.net.Uri;
+import android.os.ParcelFileDescriptor;
 import android.os.PersistableBundle;
 import android.os.SystemProperties;
 import android.provider.Settings;
@@ -45,6 +47,11 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import java.io.File;
+import java.io.FileDescriptor;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.lang.IllegalArgumentException;
+import java.lang.SecurityException;
 
 import org.codeaurora.ims.QtiCallConstants;
 import org.codeaurora.ims.QtiCarrierConfigs;
@@ -197,13 +204,12 @@ public class QtiImsExtUtils {
                                      QTI_IMS_STATIC_IMAGE_SETTING);
     }
 
-    private static boolean isValidUriStr(String uri) {
+    private static boolean isValidUriStr(String uriStr) {
         /* uri is not valid if
-         * 1. uri is null
-         * 2. uri is empty
-         * 3. uri doesn't exist in UE
+         * 1. uriStr is null
+         * 2. uriStr is empty
          */
-        return uri != null && !uri.isEmpty() && (new File(uri)).exists();
+        return uriStr != null && !uriStr.isEmpty();
     }
 
     /**
@@ -248,28 +254,54 @@ public class QtiImsExtUtils {
      * Decodes an image pointed to by uri as per requested Width and requested Height
      * and returns a bitmap
      */
-    public static Bitmap decodeImage(String uri, int reqWidth, int reqHeight) {
-        if (uri == null) {
+    public static Bitmap decodeImage(String uriStr, Context context, int reqWidth, int reqHeight) {
+        if (uriStr == null) {
             return null;
         }
+        ParcelFileDescriptor parcelFileDescriptor = null;
 
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        // Each pixel is stored on 4 bytes
-        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-        /* If set to true, the decoder will return null (no bitmap),
-           but the out... fields (i.e. outWidth, outHeight and outMimeType)
-           will still be set, allowing the caller to query the bitmap
-           without having to allocate the memory for its pixels */
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(uri, options);
+        Uri uri = Uri.parse(uriStr);
 
-        // Calculate inSampleSize
-        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+        try {
+            parcelFileDescriptor = context.getContentResolver().openFileDescriptor(uri, "r");
+            FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
 
-        // Decode bitmap with inSampleSize set
-        options.inJustDecodeBounds = false;
-        Bitmap bitmap = BitmapFactory.decodeFile(uri, options);
-        return scaleImage(bitmap, reqWidth, reqHeight);
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            // Each pixel is stored on 4 bytes
+            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+            /* If set to true, the decoder will return null (no bitmap),
+               but the out... fields (i.e. outWidth, outHeight and outMimeType)
+               will still be set, allowing the caller to query the bitmap
+               without having to allocate the memory for its pixels */
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeFileDescriptor(fileDescriptor, null, options);
+
+            // Calculate inSampleSize
+            options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+
+            // Decode bitmap with inSampleSize set
+            options.inJustDecodeBounds = false;
+            Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor, null, options);
+
+            return scaleImage(image, reqWidth, reqHeight);
+        } catch (FileNotFoundException e) {
+            Log.e(LOG_TAG, "File not found for uri: " + uri + " exception : " + e);
+        } catch (IllegalArgumentException e) {
+            Log.e(LOG_TAG, "Check arguments passed to decodeFileDescriptor, exception : " + e);
+        } catch (SecurityException e) {
+            //If the selected static image file located under file path "/sdcard/" is deleted,
+            //SecurityException is thrown by ContentResolver#openFileDescriptor.
+            Log.e(LOG_TAG, "SecurityException, exception : " + e);
+        } finally {
+            try {
+                if (parcelFileDescriptor != null) {
+                    parcelFileDescriptor.close();
+                }
+            } catch (IOException e) {
+                Log.e(LOG_TAG, "Closing parcelFileDescriptor " + " exception : " + e);
+            }
+        }
+        return null;
     }
 
     // scales the image using reqWidth/reqHeight and returns a scaled bitmap
@@ -341,7 +373,7 @@ public class QtiImsExtUtils {
             throw new QtiImsException("invalid file path");
         }
 
-        Bitmap imageBitmap = decodeImage(uriStr, reqWidth, reqHeight);
+        Bitmap imageBitmap = decodeImage(uriStr, context, reqWidth, reqHeight);
         if (imageBitmap == null) {
             throw new QtiImsException("image decoding error");
         }
@@ -547,20 +579,20 @@ public class QtiImsExtUtils {
     // Returns true if Carrier supports RTT auto upgrade
     public static boolean isRttAutoUpgradeSupported(int phoneId, Context context) {
         return isCarrierConfigEnabled(phoneId, context,
-            "rtt_auto_upgrade_bool");
+            CarrierConfigManager.KEY_RTT_AUTO_UPGRADE_BOOL);
     }
 
     // Returns true if Carrier supports RTT for Video Calls
     public static boolean isRttSupportedOnVtCalls(int phoneId, Context context) {
         return isCarrierConfigEnabled(phoneId, context,
-            "rtt_supported_for_vt_bool");
+            CarrierConfigManager.KEY_RTT_SUPPORTED_FOR_VT_BOOL);
     }
 
     // Returns true if Carrier supports RTT upgrade
     // False otherwise
     public static boolean isRttUpgradeSupported(int phoneId, Context context) {
         return isCarrierConfigEnabled(phoneId, context,
-            "rtt_upgrade_supported_bool");
+            CarrierConfigManager.KEY_RTT_UPGRADE_SUPPORTED_BOOL);
     }
 
     // Utility to get the RTT Mode that is set through adb property
@@ -579,7 +611,7 @@ public class QtiImsExtUtils {
     // False otherwise
     public static boolean isRttDowngradeSupported(int phoneId, Context context) {
         return isCarrierConfigEnabled(phoneId, context,
-            "rtt_downgrade_supported_bool");
+            CarrierConfigManager.KEY_RTT_DOWNGRADE_SUPPORTED_BOOL);
     }
 
     // Returns true if Carrier support RTT visibility setting
@@ -595,20 +627,19 @@ public class QtiImsExtUtils {
                 QtiCarrierConfigs.KEY_CARRIER_CANCEL_MODIFY_CALL_SUPPORTED));
     }
 
-    // Supported for multi sim only. Allows user to enable or disable auto rejecting IMS MT calls
+    // Supported for multi sim only. Allows user to set auto reject call mode for IMS MT calls
     // when high priority data is on the other sub
-    public static void setAutoReject(ContentResolver contentResolver, int phoneId, boolean turnOn) {
-        final int value = turnOn ? QtiCallConstants.AUTO_REJECT_CALL_ENABLED :
-                QtiCallConstants.AUTO_REJECT_CALL_DISABLED;
+    public static void setAutoRejectMode(ContentResolver contentResolver, int phoneId,
+            int arMode) {
         android.provider.Settings.Global.putInt(contentResolver,
-                QtiCallConstants.IMS_AUTO_REJECT + phoneId, value);
+                QtiCallConstants.IMS_AUTO_REJECT_MODE + phoneId, arMode);
     }
 
-    // Supported for multi sim only. Default value is disabled
-    public static int getAutoReject(ContentResolver contentResolver, int phoneId) {
+    // Supported for multi sim only.
+    public static int getAutoRejectMode(ContentResolver contentResolver, int phoneId) {
         return android.provider.Settings.Global.getInt(contentResolver,
-                QtiCallConstants.IMS_AUTO_REJECT + phoneId,
-                QtiCallConstants.AUTO_REJECT_CALL_DISABLED);
+                QtiCallConstants.IMS_AUTO_REJECT_MODE + phoneId,
+                QtiCallConstants.AR_MODE_ALLOW_INCOMING);
     }
 
     public static boolean canAcceptAsOneWayVideo(int phoneId, Context context) {
@@ -635,6 +666,6 @@ public class QtiImsExtUtils {
     public static int getCallComposerMode(ContentResolver contentResolver, int phoneId) {
         return android.provider.Settings.Global.getInt(contentResolver,
                 QtiCallConstants.IMS_CALL_COMPOSER + phoneId,
-                QtiCallConstants.AUTO_REJECT_CALL_DISABLED);
+                QtiCallConstants.CALL_COMPOSER_DISABLED);
     }
 }
