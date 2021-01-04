@@ -719,4 +719,10 @@ public class QtiImsExtUtils {
         return isCarrierConfigEnabled(phoneId, context,
                 QtiCarrierConfigs.KEY_CARRIER_VIDEO_CRBT_SUPPORTED);
     }
+
+    // Returns true if carrier supports call progress notification.
+    public static boolean isCallProgressNotificationSupported(int phoneId, Context context) {
+        return isCarrierConfigEnabled(phoneId, context,
+                QtiCarrierConfigs.KEY_CARRIER_CALL_PROGRESS_NOTIFICATION_SUPPORTED);
+    }
 }

@@ -127,4 +127,10 @@ public class QtiCarrierConfigs {
      */
     public static final String KEY_CARRIER_VIDEO_CRBT_SUPPORTED =
             "config_enable_video_crbt";
+
+    /* Config to determine if Carrier supports showing call progress notiication during alerting.
+     * true - if call progress notification is supported else false
+     */
+    public static final String KEY_CARRIER_CALL_PROGRESS_NOTIFICATION_SUPPORTED =
+            "carrier_call_progress_notification";
 }
