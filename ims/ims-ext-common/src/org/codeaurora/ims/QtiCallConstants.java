@@ -1,4 +1,4 @@
-/* Copyright (c) 2015, 2019-2020 The Linux Foundation. All rights reserved.
+/* Copyright (c) 2015, 2019-2021 The Linux Foundation. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -255,9 +255,16 @@ public class QtiCallConstants {
      * For TMO - 0 : Upon Request Mode (Disabled)
      *           1 : Automatic Mode (Full)
      * For Vzw - 1 : Automatic Mode (Full)
-     *
      */
-    public static final String PROPERTY_RTT_OPERATING_MODE = "persist.vendor.radio.rtt.operval";
+    public static final String QTI_IMS_RTT_OPERATING_MODE = "qti.settings.rtt_operation";
+
+    /**
+     * Whether dialing normal call is ON or OFF
+     * The value 1 - enable (Voice call), 0 - disable (RTT call)
+     * This is set through ImsSettings UI
+     */
+    public static final String QTI_IMS_CAN_START_RTT_CALL =
+            "qti.settings.can_start_rtt_call";
 
     // RTT default phone id
     public static final int RTT_DEFAULT_PHONE_ID = 0;
@@ -274,39 +281,18 @@ public class QtiCallConstants {
     // RTT Visibility On
     public static final int RTT_VISIBILITY_ENABLED = 1;
 
-   /**
-     * Broadcast Action: Send RTT Text Message
-     */
-    public static final String ACTION_SEND_RTT_TEXT =
-            "org.codeaurora.intent.action.send.rtt.text";
+    // RTT Call Type Off
+    public static final int RTT_CALL_TYPE_RTT = 0;
 
-   /**
-     * RTT Text Value
-     */
-    public static final String RTT_TEXT_VALUE =
-            "org.codeaurora.intent.action.rtt.textvalue";
+    // RTT Call Type On
+    public static final int RTT_CALL_TYPE_VOICE = 1;
 
-   /**
-     * Broadcast Action: RTT Operation
-     */
-    public static final String ACTION_RTT_OPERATION =
-            "org.codeaurora.intent.action.send.rtt.operation";
-
-   /**
-     * RTT Operation Type
-     */
-    public static final String RTT_OPERATION_TYPE =
-            "org.codeaurora.intent.action.rtt.operation.type";
-
-    // RTT Operation Type can be one of the following
-    // To request upgrade of regular call to RTT call
-    public static final int RTT_UPGRADE_INITIATE = 1;
-    // To accept incoming RTT upgrade request
-    public static final int RTT_UPGRADE_CONFIRM = 2;
-    // To reject incoming RTT upgrade request
-    public static final int RTT_UPGRADE_REJECT = 3;
-    // To request downgrade of RTT call to regular call
-    public static final int RTT_DOWNGRADE_INITIATE = 4;
+    // RTT Operating mode
+    // Dials normal voice call by default and provides an option
+    // to upgrade call to RTT in InCallUi.
+    public static final int RTT_UPON_REQUEST_MODE = 0;
+    // All the calls dialed are RTT calls by default.
+    public static final int RTT_AUTOMATIC_MODE = 1;
 
     // Recorder Auto-Scaling Factor
     public static final int RECORDER_SCALING_FACTOR = 8;
