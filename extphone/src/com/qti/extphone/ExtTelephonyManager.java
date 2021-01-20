@@ -412,6 +412,110 @@ public class ExtTelephonyManager {
         }
     }
 
+    public Token enableEndc(int slot, boolean enable, Client client) {
+        Token token = null;
+        if(!mServiceConnected){
+            Log.e(LOG_TAG, "service not connected!");
+            return token;
+        }
+        try {
+            token = mExtTelephonyService.enableEndc(slot, enable, client);
+        } catch(RemoteException e){
+            Log.e(LOG_TAG, "enableEndc, remote exception");
+            e.printStackTrace();
+        }
+        return token;
+    }
+
+    public Token queryNrIconType(int slot, Client client) {
+        Token token = null;
+        if(!mServiceConnected){
+            Log.e(LOG_TAG, "service not connected!");
+            return token;
+        }
+        try {
+            token = mExtTelephonyService.queryNrIconType(slot, client);
+        } catch(RemoteException e){
+            Log.e(LOG_TAG, "queryNrIconType, remote exception");
+            e.printStackTrace();
+        }
+        return token;
+    }
+
+    public Token queryEndcStatus(int slot, Client client) {
+        Token token = null;
+        if(!mServiceConnected){
+            Log.e(LOG_TAG, "service not connected!");
+            return token;
+        }
+        try {
+            token = mExtTelephonyService.queryEndcStatus(slot, client);
+        } catch(RemoteException e){
+            Log.e(LOG_TAG, "queryEndcStatus, remote exception");
+            e.printStackTrace();
+        }
+        return token;
+    }
+
+    public Token setNrConfig(int slot, NrConfig config, Client client) {
+        Token token = null;
+        if(!mServiceConnected){
+            Log.e(LOG_TAG, "service not connected!");
+            return token;
+        }
+        try {
+            token = mExtTelephonyService.setNrConfig(slot, config, client);
+        } catch(RemoteException e){
+            Log.e(LOG_TAG, "setNrConfig, remote exception");
+            e.printStackTrace();
+        }
+        return token;
+    }
+
+    public Token queryNrConfig(int slot, Client client) {
+        Token token = null;
+        if(!mServiceConnected){
+            Log.e(LOG_TAG, "service not connected!");
+            return token;
+        }
+        try {
+            token = mExtTelephonyService.queryNrConfig(slot, client);
+        } catch(RemoteException e){
+            Log.e(LOG_TAG, "queryNrConfig, remote exception");
+            e.printStackTrace();
+        }
+        return token;
+    }
+
+    public Client registerCallback(String packageName, IExtPhoneCallback callback) {
+        Client client = null;
+        if(!mServiceConnected){
+            Log.e(LOG_TAG, "service not connected!");
+            return client;
+        }
+        try {
+            client = mExtTelephonyService.registerCallback(packageName,
+                    callback);
+        } catch(RemoteException e){
+            Log.e(LOG_TAG, "registerCallback, remote exception");
+            e.printStackTrace();
+        }
+        return client;
+    }
+
+    public void unRegisterCallback(IExtPhoneCallback callback) {
+        if(!mServiceConnected){
+            Log.e(LOG_TAG, "service not connected!");
+            return;
+        }
+        try {
+            mExtTelephonyService.unRegisterCallback(callback);
+        } catch(RemoteException e){
+            Log.e(LOG_TAG, "unRegisterCallback, remote exception");
+            e.printStackTrace();
+        }
+    }
+
     private void log(String str) {
         if (DBG) {
             Log.d(LOG_TAG, str);

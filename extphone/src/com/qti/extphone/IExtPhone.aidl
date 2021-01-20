@@ -29,7 +29,11 @@
 
 package com.qti.extphone;
 
+import com.qti.extphone.Token;
+import com.qti.extphone.Client;
 import com.qti.extphone.IDepersoResCallback;
+import com.qti.extphone.IExtPhoneCallback;
+import com.qti.extphone.NrConfig;
 
 interface IExtPhone {
 
@@ -131,5 +135,64 @@ interface IExtPhone {
     */
     void supplyIccDepersonalization(String netpin, String type, in IDepersoResCallback callback,
             int phoneId);
+
+    /**
+    * Async api
+    */
+    Token queryNrIconType(int slotId, in Client client);
+
+    /**
+    * Enable/disable endc on a given slotId.
+    * @param - slotId
+    * @param - enabled
+    *        true - to enable endc
+    *        false - to disable endc
+    *  @param - client registered with packagename to receive
+    *         callbacks.
+    * @return Integer Token to be used to compare with the response.
+    */
+    Token enableEndc(int slotId, boolean enable, in Client client);
+
+    /**
+    * To query endc status on a given slotId.
+    * @param - slotId
+    * @param - client registered with packagename to receive
+    *         callbacks.
+    * @return Integer Token to be used to compare with the response.
+    */
+    Token queryEndcStatus(int slotId, in Client client);
+
+    /**
+    * Async api
+    */
+    Client registerCallback(String packageName, IExtPhoneCallback callback);
+
+    /**
+    * Async api
+    */
+    void unRegisterCallback(IExtPhoneCallback callback);
+
+    /**
+    * Set nr config to NSA/SA/NSA+SA on a given slotId.
+    * @param - slotId
+    * @param - def
+    *        NR_CONFIG_INVALID  - invalid config
+    *        NR_CONFIG_COMBINED_SA_NSA - set to NSA+SA
+    *        NR_CONFIG_NSA - set to NSA
+    *        NR_CONFIG_SA - set to SA
+    *  @param - client registered with packagename to receive
+    *         callbacks.
+    * @return Integer Token to be used to compare with the response.
+    */
+    Token setNrConfig(int slotId, in NrConfig def, in Client client);
+
+    /**
+    * Query current nr config on a given slotId.
+    * @param - slotId
+    *  @param - client registered with packagename to receive
+    *         callbacks.
+    * @return Integer Token to be used to compare with the response.
+    */
+    Token queryNrConfig(int slotId, in Client client);
 
 }
