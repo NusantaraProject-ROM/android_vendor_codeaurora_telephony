@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2015-2017, 2020 The Linux Foundation. All rights reserved.
+ * Copyright (c) 2015-2017, 2020-2021 The Linux Foundation. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -118,7 +118,6 @@ public class QtiImsExtUtils {
     public static final int QTI_IMS_VOLTE_PREF_ON = 1;
     //Value representing volte preference is NOT known
     public static final int QTI_IMS_VOLTE_PREF_UNKNOWN = 2;
-
 
     /* Incoming conference call extra key */
     public static final String QTI_IMS_INCOMING_CONF_EXTRA_KEY = "incomingConference";
@@ -548,6 +547,24 @@ public class QtiImsExtUtils {
                     Settings.Secure.RTT_CALLING_MODE + convertRttPhoneId(phoneId), value ? 1 : 0);
     }
 
+    // Sets global settings with call type preference
+    public static void setCanStartRttCall(boolean value, Context context, int phoneId) {
+        android.provider.Settings.Global.putInt(context.getContentResolver(),
+                    QtiCallConstants.QTI_IMS_CAN_START_RTT_CALL + convertRttPhoneId(phoneId),
+                    value ? QtiCallConstants.RTT_CALL_TYPE_VOICE
+                          : QtiCallConstants.RTT_CALL_TYPE_RTT);
+    }
+
+    // Returns true if can start RTT call
+    public static boolean canStartRttCall(Context context, int phoneId) {
+        if (!shallShowRttVisibilitySetting(phoneId, context)) {
+            return true;
+        }
+        return android.provider.Settings.Global.getInt(context.getContentResolver(),
+                QtiCallConstants.QTI_IMS_CAN_START_RTT_CALL + convertRttPhoneId(phoneId),
+                QtiCallConstants.RTT_CALL_TYPE_RTT) == QtiCallConstants.RTT_CALL_TYPE_RTT;
+    }
+
     // Returns value of RTT visibility
     public static int getRttVisibility(Context context) {
         return getRttVisibility(context, QtiCallConstants.RTT_DEFAULT_PHONE_ID);
@@ -595,16 +612,22 @@ public class QtiImsExtUtils {
             CarrierConfigManager.KEY_RTT_UPGRADE_SUPPORTED_BOOL);
     }
 
-    // Utility to get the RTT Mode that is set through adb property
-    // Mode can be either RTT_MODE_DISABLED or RTT_MODE_FULL
+    // Utility to get the RTT Mode that is set through ImsSettings
+    // Mode can be either RTT_UPON_REQUEST_MODE or RTT_AUTOMATIC_MODE
     public static int getRttOperatingMode(Context context) {
         return getRttOperatingMode(context, QtiCallConstants.RTT_DEFAULT_PHONE_ID);
     }
 
+    // Utility to get the RTT Operation Mode that is set through ImsSettings
+    // Mode can be either RTT_UPON_REQUEST_MODE or RTT_AUTOMATIC_MODE
+    // Takes a phoneId to support DSDS configuration.
     public static int getRttOperatingMode(Context context, int phoneId) {
-        int mode = SystemProperties.getInt(QtiCallConstants.PROPERTY_RTT_OPERATING_MODE +
-                convertRttPhoneId(phoneId), 0);
-        return mode;
+        if (shallShowRttVisibilitySetting(phoneId, context)) {
+            return QtiCallConstants.RTT_AUTOMATIC_MODE;
+        }
+        return android.provider.Settings.Global.getInt(context.getContentResolver(),
+                QtiCallConstants.QTI_IMS_RTT_OPERATING_MODE + convertRttPhoneId(phoneId),
+                QtiCallConstants.RTT_UPON_REQUEST_MODE);
     }
 
     // Returns true if Carrier supports RTT downgrade
@@ -619,6 +642,13 @@ public class QtiImsExtUtils {
     public static boolean shallShowRttVisibilitySetting(int phoneId, Context context) {
         return (isCarrierConfigEnabled(phoneId, context,
                 QtiCarrierConfigs.KEY_SHOW_RTT_VISIBILITY_SETTING));
+    }
+
+    // Returns true if Carrier supports merging RTT calls
+    // False otherwise
+    public static boolean isRttMergeSupported(int phoneId, Context context) {
+        return isCarrierConfigEnabled(phoneId, context,
+            CarrierConfigManager.KEY_ALLOW_MERGING_RTT_CALLS_BOOL);
     }
 
     // Returns true if Carrier supports Cancel Modify Call
@@ -667,5 +697,14 @@ public class QtiImsExtUtils {
         return android.provider.Settings.Global.getInt(contentResolver,
                 QtiCallConstants.IMS_CALL_COMPOSER + phoneId,
                 QtiCallConstants.CALL_COMPOSER_DISABLED);
+    }
+
+    // Sets RTT Operation Mode to global settings
+    // Takes a phoneId to support DSDS configuration.
+    public static void setRttOperatingMode(ContentResolver contentResolver, int phoneId,
+            int rttOpMode) {
+        android.provider.Settings.Global.putInt(contentResolver,
+                QtiCallConstants.QTI_IMS_RTT_OPERATING_MODE + convertRttPhoneId(phoneId),
+                rttOpMode);
     }
 }
