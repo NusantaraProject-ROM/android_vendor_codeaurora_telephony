@@ -648,7 +648,7 @@ public class QtiImsExtUtils {
     // False otherwise
     public static boolean isRttMergeSupported(int phoneId, Context context) {
         return isCarrierConfigEnabled(phoneId, context,
-            CarrierConfigManager.KEY_ALLOW_MERGING_RTT_CALLS_BOOL);
+            "allow_merging_rtt_calls_bool");
     }
 
     // Returns true if Carrier supports Cancel Modify Call
