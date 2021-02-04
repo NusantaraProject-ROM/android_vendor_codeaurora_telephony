@@ -1,4 +1,4 @@
-/* Copyright (c) 2015, 2019-2020 The Linux Foundation. All rights reserved.
+/* Copyright (c) 2015, 2019-2021 The Linux Foundation. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -402,5 +402,30 @@ public class QtiCallConstants {
     public static final int REG_ERROR_GEO_LOCATION_STATUS_ENGINE_LOCK = 2002;
     // This is success case, received when all the GPS errors are resolved.
     public static final int REG_ERROR_GEO_LOCATION_STATUS_RESOLVED = 2003;
-}
 
+    /* CRS type extra key */
+    public static final String EXTRA_CRS_TYPE = "crsType";
+    /* Original call type extra key */
+    public static final String EXTRA_ORIGINAL_CALL_TYPE = "originalCallType";
+    /* Slience UI before CRS RTP come extra key */
+    public static final String EXTRA_IS_PREPARATORY = "isPreparatory";
+    //INVALID if CrsData is invalid, play local ring.
+    public static final int CRS_TYPE_INVALID = 0;
+    //AUDIO if only audio will be played.
+    public static final int CRS_TYPE_AUDIO = 1 << 0;
+    //VIDEO if only video will be played.
+    public static final int CRS_TYPE_VIDEO = 1 << 1;
+
+    //Call progress info constants.
+    public static final int CALL_PROGRESS_INFO_TYPE_INVALID = -1;
+    public static final int CALL_PROGRESS_INFO_TYPE_CALL_REJ_Q850 = 0;
+    public static final int CALL_PROGRESS_INFO_TYPE_CALL_WAITING = 1;
+    public static final int CALL_PROGRESS_INFO_TYPE_CALL_FORWARDING = 2;
+    public static final int CALL_PROGRESS_INFO_TYPE_REMOTE_AVAILABLE = 3;
+    //Call progress info call rejection code
+    public static final int CALL_REJECTION_CODE_INVALID = -1;
+    //Call progress info extras
+    public static final String EXTRAS_CALL_PROGRESS_INFO_TYPE = "CallProgInfoType";
+    public static final String EXTRAS_CALL_PROGRESS_REASON_CODE = "CallProgReasonCode";
+    public static final String EXTRAS_CALL_PROGRESS_REASON_TEXT = "CallProgReasonText";
+}
