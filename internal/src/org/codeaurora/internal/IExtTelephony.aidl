@@ -30,9 +30,6 @@
 
 package org.codeaurora.internal;
 
-import org.codeaurora.internal.IDepersoResCallback;
-import org.codeaurora.internal.IDsda;
-
 import org.codeaurora.internal.SignalStrength;
 import org.codeaurora.internal.Status;
 import org.codeaurora.internal.Token;
@@ -61,20 +58,6 @@ interface IExtTelephony {
      * Requires Permission: android.Manifest.permission.READ_PHONE_STATE
      */
     int getCurrentUiccCardProvisioningStatus(int slotId);
-
-    /**
-     * Returns the user preferred Uicc card provision status.
-     * @param slotId user preferred slotId.
-     * @return User preference value as integer, below are
-     * possible return values.
-     *   '0' - returned if Uicc Card is not provisioned.
-     *   '1' - returned if Uicc Card provisioned.
-     *  '-1'-  returned if there is an error @ below layers OR
-     *         if framework does not received info from Modem yet.
-     *  '-2'  returned when SIM card is not present in slot.
-     * Requires Permission: android.Manifest.permission.READ_PHONE_STATE
-     */
-    int getUiccCardProvisioningUserPreference(int slotId);
 
     /**
      * Activates the Uicc card.
@@ -135,13 +118,6 @@ interface IExtTelephony {
     void setPrimaryCardOnSlot(int slotId);
 
     /**
-    * Check is FDN is enabled or not.
-    * @param - void
-    * @return true or false
-    */
-    boolean isFdnEnabled();
-
-    /**
     * Check if get the icc file handler from specific application family sucessfully
     * @param slotId user preferred slotId.
     * @param family UICC application family.
@@ -170,89 +146,11 @@ interface IExtTelephony {
     boolean writeEfToIcc(int slotId, int family, int efId, in byte[] efData);
 
     /**
-    * Get primary stack phone id.
-    * @param - void
-    * @return phone id
-    */
-    int getPrimaryStackPhoneId();
-
-    /* Send local call hold request to RIL.
-    * @param subId, send request on this subscription
-    * @param enable
-    *        true - to enable local call hold
-    *        false - to disable local call hold
-    * @return true or false
-    */
-    boolean setLocalCallHold(int subId, boolean enable);
-
-    /**
-    * Send switch to other subscription.
-    * @param subId, send request on this subscription
-    * @return void
-    */
-    void switchToActiveSub(int subId);
-
-    /**
-    * set adapter, so that IExtTelephony would have interface to send requests to service/telecom
-    * @param dsdaAdapter, this adapter used by IExtTelephony as interface for requests in IDsda.
-    * @return void
-    */
-    void setDsdaAdapter(in IDsda dsdaAdapter);
-
-    /**
-    * get active subscription.
-    * @param void
-    * @return subId of active subscription.
-    */
-    int getActiveSubscription();
-
-    /**
-    * returns device is in DSDA configuration or not.
-    * @param void
-    * @return true or false
-    */
-    boolean isDsdaEnabled();
-
-    /**
-    * supply pin to unlock sim locked on network.
-    * @param - netpin - network pin to unlock the sim.
-    * @param - type - PersoSubState for which the sim is locked onto.
-    * @param - callback - callback to notify UI, whether the request was success or failure.
-    * @param - phoneId - slot id on which the pin request is sent.
-    * @return void
-    */
-    void supplyIccDepersonalization(String netpin, String type, in IDepersoResCallback callback,
-            int phoneId);
-
-    /**
-    * Returns ID of the slot in which PrimaryCarrier SIM card is present.
-    * If none of the slots contains PrimaryCarrier SIM, this would return '-1'
-    * Supported values: 0, 1, -1
-    */
-    int getPrimaryCarrierSlotId();
-
-    /**
     * Check if slotId has PrimaryCarrier SIM card present or not.
     * @param - slotId
     * @return true or false
     */
     boolean isPrimaryCarrierSlotId(int slotId);
-
-    /**
-    * Change SMSC address based on slotId.
-    * @param - slotId
-    * @param - SMSC address
-    * @return true or false
-    */
-    boolean setSmscAddress(int slotId, String smsc);
-
-    /**
-    * Get SMSC address based on slotId.
-    * @param - slotId
-    * @param - SMSC address
-    * @return SMSC address or null
-    */
-    String getSmscAddress(int slotId);
 
     /**
     * Perform incremental scan using QCRIL hooks.
@@ -278,13 +176,6 @@ interface IExtTelephony {
     * @return true or false
     */
     boolean isVendorApkAvailable(String packageName);
-
-    /**
-    * Get current primary card slot Id.
-    * @param - void
-    * @return slot index
-    */
-    int getCurrentPrimaryCardSlotId();
 
     /**
     * Async api
