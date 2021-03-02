@@ -29,11 +29,11 @@
 
 package com.qti.extphone;
 
+import com.qti.extphone.SmsResult;
 import com.qti.extphone.Status;
 import com.qti.extphone.Token;
 import com.qti.extphone.NrConfig;
 import com.qti.extphone.NrIconType;
-
 
 interface IExtPhoneCallback {
 
@@ -73,4 +73,14 @@ interface IExtPhoneCallback {
     * @param - nrConfig: NSA + SA/NSA/SA
     */
     void onNrConfigStatus(int slotId, in Token token, in Status status, in NrConfig nrConfig);
+
+    /**
+    * Response to sendCdmaSms
+    * @param - slotId
+    * @param - token is the same token which is recived in sendCdmaSms
+    * @param - status SUCCESS/FAILURE based on the modem Result code
+    * @param sms Sms result struct as defined by SmsResult
+    *
+    */
+    void sendCdmaSmsResponse(int slotId, in Token token, in Status status, in SmsResult sms);
 }
