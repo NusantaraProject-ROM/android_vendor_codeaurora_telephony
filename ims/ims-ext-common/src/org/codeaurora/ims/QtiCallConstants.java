@@ -411,4 +411,19 @@ public class QtiCallConstants {
     public static final String EXTRAS_CALL_PROGRESS_INFO_TYPE = "CallProgInfoType";
     public static final String EXTRAS_CALL_PROGRESS_REASON_CODE = "CallProgReasonCode";
     public static final String EXTRAS_CALL_PROGRESS_REASON_TEXT = "CallProgReasonText";
+
+    /*Sms call back constants*/
+    public static final int SCBM_STATUS_EXIT = 0;
+    public static final int SCBM_STATUS_ENTER = 1;
+
+    /**
+     * Intent action broadcasted when Sms Callback Mode is changed
+     */
+    public static final String ACTION_SMS_CALLBACK_MODE =
+            "org.codeaurora.intent.action.SMS_CALLBACK_MODE";
+    /**
+     * Extra key for when modem enters/exits sms callback mode.
+     * Type: boolean
+     */
+    public static String EXTRA_SMS_CALLBACK_MODE = "sms_callback_mode";
 }
