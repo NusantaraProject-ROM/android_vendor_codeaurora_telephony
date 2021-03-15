@@ -176,41 +176,6 @@ interface IExtTelephony {
     */
     int getPrimaryStackPhoneId();
 
-    /**
-    * Check if number is emergency number or not.
-    * @param - number
-    * @return true or false
-    */
-    boolean isEmergencyNumber(String number);
-
-    /**
-    * Check if number is local emergency number or not.
-    * @param - number
-    * @return true or false
-    */
-    boolean isLocalEmergencyNumber(String number);
-
-    /**
-    * Check if number is potential emergency number or not.
-    * @param - number
-    * @return true or false
-    */
-    boolean isPotentialEmergencyNumber(String number);
-
-    /**
-    * Check if number is potential Local emergency number or not.
-    * @param - number
-    * @return true or false
-    */
-    boolean isPotentialLocalEmergencyNumber(String number);
-
-    /**
-    * Check if device in single stanby.
-    * @param - void
-    * @return true or false
-    */
-    boolean isDeviceInSingleStandby();
-
     /* Send local call hold request to RIL.
     * @param subId, send request on this subscription
     * @param enable
