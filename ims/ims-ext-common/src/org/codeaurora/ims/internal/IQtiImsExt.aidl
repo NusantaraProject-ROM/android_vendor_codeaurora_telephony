@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2017, 2019-2020 The Linux Foundation. All rights reserved.
+/* Copyright (c) 2015-2017, 2019-2021 The Linux Foundation. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -29,6 +29,7 @@
 package org.codeaurora.ims.internal;
 
 import android.os.Bundle;
+import org.codeaurora.ims.internal.ICrsCrbtController;
 import org.codeaurora.ims.internal.IQtiImsExtListener;
 import org.codeaurora.ims.internal.IImsMultiIdentityInterface;
 import org.codeaurora.ims.internal.IImsScreenShareController;
@@ -282,4 +283,9 @@ interface IQtiImsExt {
      *@throws RemoteException if calling the IMS service results in an error.
      */
     boolean isCallComposerEnabled(int phoneId);
+
+   /**
+    * Returns the ICrsCrbtnterface IBinder
+    */
+    ICrsCrbtController getCrsCrbtController(int phoneId);
 }
