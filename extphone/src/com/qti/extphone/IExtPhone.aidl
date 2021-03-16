@@ -29,6 +29,8 @@
 
 package com.qti.extphone;
 
+import android.telephony.ImsiEncryptionInfo;
+
 import com.qti.extphone.Token;
 import com.qti.extphone.Client;
 import com.qti.extphone.IDepersoResCallback;
@@ -229,4 +231,70 @@ interface IExtPhone {
     * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     Token getQtiRadioCapability(int slotId, in Client client);
+
+    /**
+    * Async api
+    * @deprecated
+    */
+    Token enable5g(int slotId, in Client client);
+
+    /**
+    * Async api
+    * @deprecated
+    */
+    Token disable5g(int slotId, in Client client);
+
+    /**
+    * Async api
+    * @deprecated
+    */
+    Token queryNrBearerAllocation(int slotId, in Client client);
+
+    /**
+    * Async api
+    * @deprecated
+    */
+    Token enable5gOnly(int slotId, in Client client);
+
+    /**
+    * Async api
+    * @deprecated
+    */
+    Token query5gStatus(int slotId, in Client client);
+
+    /**
+    * Async api
+    * a.k.a NR EN-DC and restrict-DCNR.
+    * @deprecated
+    */
+    Token queryNrDcParam(int slotId, in Client client);
+
+    /**
+    * Async api
+    * @deprecated
+    */
+    Token queryNrSignalStrength(int slotId, in Client client);
+
+    /**
+    * Async api
+    * @deprecated
+    */
+    Token queryUpperLayerIndInfo(int slotId, in Client client);
+
+    /**
+    * Async api
+    * @deprecated
+    */
+    Token query5gConfigInfo(int slotId, in Client client);
+
+    /**
+    * Send a CarrierInfoForImsiEncryption request.
+    * @param - slotId
+    * @param - pdu contains the message to be sent
+    *         callbacks.
+    * @param expectMore more messages are expected to be sent or not
+    * @return Integer Token to be used to compare with the response.
+    */
+    Token setCarrierInfoForImsiEncryption(int slotId,
+            in ImsiEncryptionInfo info, in Client client);
 }

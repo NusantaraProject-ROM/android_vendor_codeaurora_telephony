@@ -39,6 +39,8 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.ComponentName;
 
+import android.telephony.ImsiEncryptionInfo;
+
 /**
 * ExtTelephonyManager class provides ExtTelephonyService interface to
 * the clients. Clients needs to instantiate this class to use APIs from
@@ -511,6 +513,158 @@ public class ExtTelephonyManager {
         token = mExtTelephonyService.getQtiRadioCapability(slotId, client);
         return token;
     }
+
+    public Token enable5g(int slot, Client client) {
+        Token token = null;
+        if(!mServiceConnected){
+            Log.e(LOG_TAG, "service not connected!");
+            return token;
+        }
+        try {
+            token = mExtTelephonyService.enable5g(slot, client);
+        } catch(RemoteException e){
+            Log.e(LOG_TAG, "enable5g, remote exception");
+            e.printStackTrace();
+        }
+        return token;
+    }
+
+    public Token disable5g(int slot, Client client) {
+        Token token = null;
+        if(!mServiceConnected){
+            Log.e(LOG_TAG, "service not connected!");
+            return token;
+        }
+        try {
+            token = mExtTelephonyService.disable5g(slot, client);
+        } catch(RemoteException e){
+            Log.e(LOG_TAG, "disable5g, remote exception");
+            e.printStackTrace();
+        }
+        return token;
+    }
+
+    public Token queryNrBearerAllocation(int slot, Client client) {
+        Token token = null;
+        if(!mServiceConnected){
+            Log.e(LOG_TAG, "service not connected!");
+            return token;
+        }
+        try {
+            token = mExtTelephonyService.queryNrBearerAllocation(slot, client);
+        } catch(RemoteException e){
+            Log.e(LOG_TAG, "queryNrBearerAllocation, remote exception");
+            e.printStackTrace();
+        }
+        return token;
+    }
+
+    public Token setCarrierInfoForImsiEncryption(int slot, ImsiEncryptionInfo info,
+            Client client) {
+        Token token = null;
+        if(!mServiceConnected){
+            Log.e(LOG_TAG, "service not connected!");
+            return token;
+        }
+        try {
+            token = mExtTelephonyService.setCarrierInfoForImsiEncryption(slot, info, client);
+        } catch(RemoteException e){
+            Log.e(LOG_TAG, "setCarrierInfoForImsiEncryption, remote exception");
+            e.printStackTrace();
+        }
+        return token;
+    }
+
+    public Token enable5gOnly(int slot, Client client) {
+        Token token = null;
+        if(!mServiceConnected){
+            Log.e(LOG_TAG, "service not connected!");
+            return token;
+        }
+        try {
+            token = mExtTelephonyService.enable5gOnly(slot, client);
+        } catch(RemoteException e){
+            Log.e(LOG_TAG, "enable5gOnly, remote exception");
+            e.printStackTrace();
+        }
+        return token;
+    }
+
+    public Token query5gStatus(int slot, Client client) {
+        Token token = null;
+        if(!mServiceConnected){
+            Log.e(LOG_TAG, "service not connected!");
+            return token;
+        }
+        try {
+            token = mExtTelephonyService.query5gStatus(slot, client);
+        } catch(RemoteException e){
+            Log.e(LOG_TAG, "query5gStatus, remote exception");
+            e.printStackTrace();
+        }
+        return token;
+    }
+
+    public Token queryNrDcParam(int slot, Client client) {
+        Token token = null;
+        if(!mServiceConnected){
+            Log.e(LOG_TAG, "service not connected!");
+            return token;
+        }
+        try {
+            token = mExtTelephonyService.queryNrDcParam(slot, client);
+        } catch(RemoteException e){
+            Log.e(LOG_TAG, "queryNrDcParam, remote exception");
+            e.printStackTrace();
+        }
+        return token;
+    }
+
+    public Token queryNrSignalStrength(int slot, Client client) {
+        Token token = null;
+        if(!mServiceConnected){
+            Log.e(LOG_TAG, "service not connected!");
+            return token;
+        }
+        try {
+            token = mExtTelephonyService.queryNrSignalStrength(slot, client);
+        } catch(RemoteException e){
+            Log.e(LOG_TAG, "queryNrSignalStrength, remote exception");
+            e.printStackTrace();
+        }
+        return token;
+    }
+
+    public Token queryUpperLayerIndInfo(int slot, Client client) {
+        Token token = null;
+        if(!mServiceConnected){
+            Log.e(LOG_TAG, "service not connected!");
+            return token;
+        }
+        try {
+            token = mExtTelephonyService.queryUpperLayerIndInfo(slot, client);
+        } catch(RemoteException e){
+            Log.e(LOG_TAG, "queryUpperLayerIndInfo, remote exception");
+            e.printStackTrace();
+        }
+        return token;
+    }
+
+    public Token query5gConfigInfo(int slot, Client client) {
+        Token token = null;
+        if(!mServiceConnected){
+            Log.e(LOG_TAG, "service not connected!");
+            return token;
+        }
+        try {
+            token = mExtTelephonyService.query5gConfigInfo(slot, client);
+        } catch(RemoteException e){
+            Log.e(LOG_TAG, "query5gConfigInfo, remote exception");
+            e.printStackTrace();
+        }
+        return token;
+    }
+
 
     public Client registerCallback(String packageName, IExtPhoneCallback callback) {
         Client client = null;

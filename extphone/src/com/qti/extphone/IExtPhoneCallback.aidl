@@ -29,11 +29,17 @@
 
 package com.qti.extphone;
 
+import com.qti.extphone.BearerAllocationStatus;
+import com.qti.extphone.DcParam;
+import com.qti.extphone.NrConfig;
+import com.qti.extphone.NrConfigType;
+import com.qti.extphone.NrIconType;
+import com.qti.extphone.QRadioResponseInfo;
+import com.qti.extphone.SignalStrength;
 import com.qti.extphone.SmsResult;
 import com.qti.extphone.Status;
 import com.qti.extphone.Token;
-import com.qti.extphone.NrConfig;
-import com.qti.extphone.NrIconType;
+import com.qti.extphone.UpperLayerIndInfo;
 
 interface IExtPhoneCallback {
 
@@ -93,4 +99,48 @@ interface IExtPhoneCallback {
     *          vendor.qti.hardware.radio.qtiradio.V2_6.RadioAccessFamily
     */
     void getQtiRadioCapabilityResponse(int slotId, in Token token, in Status status, int raf);
+
+    /**
+    * @deprecated
+    */
+    void on5gStatus(int slotId, in Token token, in Status status, boolean enableStatus);
+
+    /**
+    * @deprecated
+    */
+    void onAnyNrBearerAllocation(int slotId, in Token token, in Status status,
+            in BearerAllocationStatus bearerStatus);
+
+    /**
+    *@deprecated
+    */
+    void onNrDcParam(int slotId, in Token token, in Status status, in DcParam dcParam);
+
+    /**
+    * @deprecated
+    */
+    void onUpperLayerIndInfo(int slotId, in Token token, in Status status,
+            in UpperLayerIndInfo upperLayerInfo);
+
+    /**
+    * @deprecated
+    * use onNrConfigStatus instead to get current nr config.
+    */
+    void on5gConfigInfo(int slotId, in Token token, in Status status,
+            in NrConfigType nrConfigType);
+
+    /**
+    * @deprecated
+    */
+    void onSignalStrength(int slotId, in Token token, in Status status,
+            in SignalStrength signalStrength);
+
+    /**
+    * Response to setCarrierInfoForImsiEncryptionResponse
+    * @param - slotId
+    * @param - token is the same token which is recived in enableEndc
+    * @param - info QtiRadioResponseInfo
+    */
+    void setCarrierInfoForImsiEncryptionResponse(int slotId, in Token token,
+            in QRadioResponseInfo info);
 }
