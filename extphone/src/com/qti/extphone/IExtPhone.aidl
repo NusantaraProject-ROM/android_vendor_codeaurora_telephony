@@ -204,4 +204,12 @@ interface IExtPhone {
     * @return Integer Token to be used to compare with the response.
     */
     Token sendCdmaSms(int slotId, in byte[] pdu, boolean expectMore, in Client client);
+
+    /**
+    * Get phone radio capability.
+    * @param - slotId
+    * @param - client registered with packagename to receive callbacks.
+    * @return Integer Token to be used to compare with the response.
+    */
+    Token getQtiRadioCapability(int slotId, in Client client);
 }

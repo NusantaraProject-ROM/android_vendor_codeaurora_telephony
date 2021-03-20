@@ -83,4 +83,14 @@ interface IExtPhoneCallback {
     *
     */
     void sendCdmaSmsResponse(int slotId, in Token token, in Status status, in SmsResult sms);
+
+    /**
+    * Response to getQtiRadioCapability
+    * @param - slotId
+    * @param - token is the same token which is recived in getQtiRadioCapability
+    * @param - status SUCCESS/FAILURE based on the modem Result code
+    * @param - raf Radio Access Family 32-bit bitmap of
+    *          vendor.qti.hardware.radio.qtiradio.V2_6.RadioAccessFamily
+    */
+    void getQtiRadioCapabilityResponse(int slotId, in Token token, in Status status, int raf);
 }
