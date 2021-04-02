@@ -2,6 +2,7 @@
 java_library {
 
     name: "qti-telephony-hidl-wrapper",
+    provides_uses_lib: "qti-telephony-hidl-wrapper",
     installable: true,
     system_ext_specific: true,
     sdk_version: "system_current",
@@ -16,6 +17,7 @@ java_library {
 java_library {
 
     name: "qti-telephony-hidl-wrapper-prd",
+    provides_uses_lib: "qti-telephony-hidl-wrapper-prd",
     installable: true,
     product_specific: true,
     sdk_version: "system_current",
