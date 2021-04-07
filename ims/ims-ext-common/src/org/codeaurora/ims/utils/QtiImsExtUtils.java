@@ -725,4 +725,13 @@ public class QtiImsExtUtils {
         return isCarrierConfigEnabled(phoneId, context,
                 QtiCarrierConfigs.KEY_CARRIER_CALL_PROGRESS_NOTIFICATION_SUPPORTED);
     }
+
+    /**
+     * Retrieves the customer service numbers stored for specific operator
+     * Returns stored numbers, or null otherwise.
+     */
+    public static String[] getCustomerServiceNumbers(int phoneId, Context context) {
+        return QtiCarrierConfigHelper.getInstance().getStringArray(context, phoneId,
+                QtiCarrierConfigs.KEY_CARRIER_VIDEO_CUSTOMER_SERVICE_NUMBERS);
+    }
 }

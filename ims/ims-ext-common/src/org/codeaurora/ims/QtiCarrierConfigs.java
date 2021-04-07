@@ -133,4 +133,15 @@ public class QtiCarrierConfigs {
      */
     public static final String KEY_CARRIER_CALL_PROGRESS_NOTIFICATION_SUPPORTED =
             "carrier_call_progress_notification";
+
+    /* List of numbers that should be treated as customer service numbers.
+     * Number list are whitelisted in carrier config file, more numbers could
+     * be added, below is format.
+     * <string-array name="carrier_support_video_service_numbers" num="2">
+     *     <item value="0532100860086"/>
+     *     <item value="0201008616"/>
+     * </string-array>
+     */
+    public static final String KEY_CARRIER_VIDEO_CUSTOMER_SERVICE_NUMBERS =
+        "carrier_support_video_service_numbers";
 }
