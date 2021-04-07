@@ -78,4 +78,10 @@ public class ExtPhoneCallbackBase extends IExtPhoneCallback.Stub {
                 status + " NrConfig = " + nrConfig);
     }
 
+    @Override
+    public void sendCdmaSmsResponse(int slotId, Token token, Status status, SmsResult sms) throws
+            RemoteException {
+        Log.d(TAG, "sendCdmaSmsResponse: slotId = " + slotId + " token = " + token + " status" +
+                status + " SmsResult = " + sms);
+    }
 }

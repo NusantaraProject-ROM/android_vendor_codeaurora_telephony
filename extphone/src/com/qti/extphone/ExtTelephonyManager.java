@@ -487,6 +487,21 @@ public class ExtTelephonyManager {
         return token;
     }
 
+    public Token sendCdmaSms(int slot, byte[] pdu, boolean expectMore, Client client) {
+        Token token = null;
+        if(!mServiceConnected){
+            Log.e(LOG_TAG, "service not connected!");
+            return token;
+        }
+        try {
+            token = mExtTelephonyService.sendCdmaSms(slot, pdu, expectMore, client);
+        } catch(RemoteException e){
+            Log.e(LOG_TAG, "sendCdmaSms, remote exception");
+            e.printStackTrace();
+        }
+        return token;
+    }
+
     public Client registerCallback(String packageName, IExtPhoneCallback callback) {
         Client client = null;
         if(!mServiceConnected){
