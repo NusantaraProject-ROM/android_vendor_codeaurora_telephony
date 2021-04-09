@@ -65,7 +65,7 @@ public class ExtTelephonyManager {
     * @param context context in which the bindService will be
     *                initiated.
     */
-    public ExtTelephonyManager(Context context){
+    public ExtTelephonyManager(Context context) {
         this.mContext = context;
         mServiceConnected = false;
         log("ExtTelephonyManager() ...");
@@ -103,7 +103,7 @@ public class ExtTelephonyManager {
     *                 connection. The client needs to use handler
     *                 to listen to the Result.
     */
-    public boolean connectService(ServiceCallback cb){
+    public boolean connectService(ServiceCallback cb) {
         mServiceCb = cb;
         mClientCount += 1;
         log("Creating ExtTelephonyService. If not started yet, start ...");
@@ -414,13 +414,13 @@ public class ExtTelephonyManager {
 
     public Token enableEndc(int slot, boolean enable, Client client) {
         Token token = null;
-        if(!mServiceConnected){
+        if (!mServiceConnected) {
             Log.e(LOG_TAG, "service not connected!");
             return token;
         }
         try {
             token = mExtTelephonyService.enableEndc(slot, enable, client);
-        } catch(RemoteException e){
+        } catch(RemoteException e) {
             Log.e(LOG_TAG, "enableEndc, remote exception");
             e.printStackTrace();
         }
@@ -429,13 +429,13 @@ public class ExtTelephonyManager {
 
     public Token queryNrIconType(int slot, Client client) {
         Token token = null;
-        if(!mServiceConnected){
+        if (!mServiceConnected) {
             Log.e(LOG_TAG, "service not connected!");
             return token;
         }
         try {
             token = mExtTelephonyService.queryNrIconType(slot, client);
-        } catch(RemoteException e){
+        } catch(RemoteException e) {
             Log.e(LOG_TAG, "queryNrIconType, remote exception");
             e.printStackTrace();
         }
@@ -444,13 +444,13 @@ public class ExtTelephonyManager {
 
     public Token queryEndcStatus(int slot, Client client) {
         Token token = null;
-        if(!mServiceConnected){
+        if (!mServiceConnected) {
             Log.e(LOG_TAG, "service not connected!");
             return token;
         }
         try {
             token = mExtTelephonyService.queryEndcStatus(slot, client);
-        } catch(RemoteException e){
+        } catch(RemoteException e) {
             Log.e(LOG_TAG, "queryEndcStatus, remote exception");
             e.printStackTrace();
         }
@@ -459,13 +459,13 @@ public class ExtTelephonyManager {
 
     public Token setNrConfig(int slot, NrConfig config, Client client) {
         Token token = null;
-        if(!mServiceConnected){
+        if (!mServiceConnected) {
             Log.e(LOG_TAG, "service not connected!");
             return token;
         }
         try {
             token = mExtTelephonyService.setNrConfig(slot, config, client);
-        } catch(RemoteException e){
+        } catch(RemoteException e) {
             Log.e(LOG_TAG, "setNrConfig, remote exception");
             e.printStackTrace();
         }
@@ -474,13 +474,13 @@ public class ExtTelephonyManager {
 
     public Token queryNrConfig(int slot, Client client) {
         Token token = null;
-        if(!mServiceConnected){
+        if (!mServiceConnected) {
             Log.e(LOG_TAG, "service not connected!");
             return token;
         }
         try {
             token = mExtTelephonyService.queryNrConfig(slot, client);
-        } catch(RemoteException e){
+        } catch(RemoteException e) {
             Log.e(LOG_TAG, "queryNrConfig, remote exception");
             e.printStackTrace();
         }
@@ -489,29 +489,38 @@ public class ExtTelephonyManager {
 
     public Token sendCdmaSms(int slot, byte[] pdu, boolean expectMore, Client client) {
         Token token = null;
-        if(!mServiceConnected){
+        if (!mServiceConnected) {
             Log.e(LOG_TAG, "service not connected!");
             return token;
         }
         try {
             token = mExtTelephonyService.sendCdmaSms(slot, pdu, expectMore, client);
-        } catch(RemoteException e){
+        } catch(RemoteException e) {
             Log.e(LOG_TAG, "sendCdmaSms, remote exception");
             e.printStackTrace();
         }
         return token;
     }
 
+    public Token getQtiRadioCapability(int slotId, Client client) throws RemoteException {
+        Token token = null;
+        if (!mServiceConnected) {
+            Log.e(LOG_TAG, "service not connected!");
+            return token;
+        }
+        token = mExtTelephonyService.getQtiRadioCapability(slotId, client);
+        return token;
+    }
+
     public Client registerCallback(String packageName, IExtPhoneCallback callback) {
         Client client = null;
-        if(!mServiceConnected){
+        if (!mServiceConnected) {
             Log.e(LOG_TAG, "service not connected!");
             return client;
         }
         try {
-            client = mExtTelephonyService.registerCallback(packageName,
-                    callback);
-        } catch(RemoteException e){
+            client = mExtTelephonyService.registerCallback(packageName, callback);
+        } catch(RemoteException e) {
             Log.e(LOG_TAG, "registerCallback, remote exception");
             e.printStackTrace();
         }
@@ -519,13 +528,13 @@ public class ExtTelephonyManager {
     }
 
     public void unRegisterCallback(IExtPhoneCallback callback) {
-        if(!mServiceConnected){
+        if (!mServiceConnected) {
             Log.e(LOG_TAG, "service not connected!");
             return;
         }
         try {
             mExtTelephonyService.unRegisterCallback(callback);
-        } catch(RemoteException e){
+        } catch(RemoteException e) {
             Log.e(LOG_TAG, "unRegisterCallback, remote exception");
             e.printStackTrace();
         }
