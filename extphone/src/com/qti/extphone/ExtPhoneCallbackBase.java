@@ -84,4 +84,11 @@ public class ExtPhoneCallbackBase extends IExtPhoneCallback.Stub {
         Log.d(TAG, "sendCdmaSmsResponse: slotId = " + slotId + " token = " + token + " status" +
                 status + " SmsResult = " + sms);
     }
+
+    @Override
+    public void getQtiRadioCapabilityResponse(int slotId, Token token, Status status, int raf)
+            throws RemoteException {
+        Log.d(TAG, "getQtiRadioCapabilityResponse: slotId = " + slotId + " token = " + token +
+                " status" + status + " raf = " + raf);
+    }
 }
