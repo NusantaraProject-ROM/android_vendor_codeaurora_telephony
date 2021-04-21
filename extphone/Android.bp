@@ -1,6 +1,7 @@
 
 java_library {
     name: "extphonelib",
+    provides_uses_lib: "com.qti.extphone.extphonelib",
     installable: true,
     sdk_version: "system_current",
 
@@ -14,6 +15,7 @@ java_library {
 
 java_library {
     name: "extphonelib-product",
+    provides_uses_lib: "com.qti.extphone.extphonelib-product",
     installable: true,
     sdk_version: "system_current",
 
@@ -30,7 +32,6 @@ java_library {
 prebuilt_etc {
 
     name: "extphonelib.xml",
-
     // This will install the file in /system_ext/etc/permissions
 
     src: "extphonelib.xml",
