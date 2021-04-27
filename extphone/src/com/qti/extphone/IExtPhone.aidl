@@ -42,6 +42,7 @@ interface IExtPhone {
     * @param - property name
     * @param - default value of property
     * @return - integer value assigned
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     int getPropertyValueInt(String property, int def);
 
@@ -50,6 +51,7 @@ interface IExtPhone {
     * @param - property name
     * @param - default value of property
     * @return - boolean value assigned
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     boolean getPropertyValueBool(String property, boolean def);
 
@@ -58,6 +60,7 @@ interface IExtPhone {
     * @param - property name
     * @param - default value of property
     * @return - string value assigned
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     String getPropertyValueString(String property, String def);
 
@@ -65,6 +68,7 @@ interface IExtPhone {
     * Get current primary card slot Id.
     * @param - void
     * @return slot index
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     int getCurrentPrimaryCardSlotId();
 
@@ -72,6 +76,7 @@ interface IExtPhone {
     * Returns ID of the slot in which PrimaryCarrier SIM card is present.
     * If none of the slots contains PrimaryCarrier SIM, this would return '-1'
     * Supported values: 0, 1, -1
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     int getPrimaryCarrierSlotId();
 
@@ -79,6 +84,7 @@ interface IExtPhone {
     * Check if slotId has PrimaryCarrier SIM card present or not.
     * @param - slotId
     * @return true or false
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     boolean isPrimaryCarrierSlotId(int slotId);
 
@@ -86,6 +92,7 @@ interface IExtPhone {
     * Set Primary card on given slot.
     * @param - slotId to be set as Primary Card.
     * @return void
+    * Requires permission: android.Manifest.permission.MODIFY_PHONE_STATE
     */
     void setPrimaryCardOnSlot(int slotId);
 
@@ -112,7 +119,7 @@ interface IExtPhone {
     * @return
     *        true - Sms Prompt is Enabled
     *        false - Sms prompt is Disabled
-    * Requires Permission: android.Manifest.permission.READ_PHONE_STATE
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     boolean isSMSPromptEnabled();
 
@@ -132,12 +139,14 @@ interface IExtPhone {
     * @param - callback - callback to notify UI, whether the request was success or failure.
     * @param - phoneId - slot id on which the pin request is sent.
     * @return void
+    * Requires permission: android.Manifest.permission.MODIFY_PHONE_STATE
     */
     void supplyIccDepersonalization(String netpin, String type, in IDepersoResCallback callback,
             int phoneId);
 
     /**
     * Async api
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     Token queryNrIconType(int slotId, in Client client);
 
@@ -150,6 +159,7 @@ interface IExtPhone {
     *  @param - client registered with packagename to receive
     *         callbacks.
     * @return Integer Token to be used to compare with the response.
+    * Requires permission: android.Manifest.permission.MODIFY_PHONE_STATE
     */
     Token enableEndc(int slotId, boolean enable, in Client client);
 
@@ -159,16 +169,19 @@ interface IExtPhone {
     * @param - client registered with packagename to receive
     *         callbacks.
     * @return Integer Token to be used to compare with the response.
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     Token queryEndcStatus(int slotId, in Client client);
 
     /**
     * Async api
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     Client registerCallback(String packageName, IExtPhoneCallback callback);
 
     /**
     * Async api
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     void unRegisterCallback(IExtPhoneCallback callback);
 
@@ -183,6 +196,7 @@ interface IExtPhone {
     *  @param - client registered with packagename to receive
     *         callbacks.
     * @return Integer Token to be used to compare with the response.
+    * Requires permission: android.Manifest.permission.MODIFY_PHONE_STATE
     */
     Token setNrConfig(int slotId, in NrConfig def, in Client client);
 
@@ -192,6 +206,7 @@ interface IExtPhone {
     *  @param - client registered with packagename to receive
     *         callbacks.
     * @return Integer Token to be used to compare with the response.
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     Token queryNrConfig(int slotId, in Client client);
 
@@ -202,6 +217,7 @@ interface IExtPhone {
     *         callbacks.
     * @param expectMore more messages are expected to be sent or not
     * @return Integer Token to be used to compare with the response.
+    * Requires permission: android.Manifest.permission.MODIFY_PHONE_STATE
     */
     Token sendCdmaSms(int slotId, in byte[] pdu, boolean expectMore, in Client client);
 
@@ -210,6 +226,7 @@ interface IExtPhone {
     * @param - slotId
     * @param - client registered with packagename to receive callbacks.
     * @return Integer Token to be used to compare with the response.
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     Token getQtiRadioCapability(int slotId, in Client client);
 }
