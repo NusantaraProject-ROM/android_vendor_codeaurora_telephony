@@ -107,7 +107,7 @@ interface IExtTelephony {
     * @return
     *        true - Sms Prompt is Enabled
     *        false - Sms prompt is Disabled
-    * Requires Permission: android.Manifest.permission.READ_PHONE_STATE
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     boolean isSMSPromptEnabled();
 
@@ -124,6 +124,7 @@ interface IExtTelephony {
     * Get logical phone id for Emergency call.
     * @param - void
     * @return phone id
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     int getPhoneIdForECall();
 
@@ -131,6 +132,7 @@ interface IExtTelephony {
     * Set Primary card on given slot.
     * @param - slotId to be set as Primary Card.
     * @return void
+    * Requires permission: android.Manifest.permission.MODIFY_PHONE_STATE
     */
     void setPrimaryCardOnSlot(int slotId);
 
@@ -138,6 +140,7 @@ interface IExtTelephony {
     * Check is FDN is enabled or not.
     * @param - void
     * @return true or false
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     boolean isFdnEnabled();
 
@@ -146,6 +149,7 @@ interface IExtTelephony {
     * @param slotId user preferred slotId.
     * @param family UICC application family.
     * @return true or false
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     boolean hasGetIccFileHandler(int slotId, int family);
 
@@ -155,6 +159,7 @@ interface IExtTelephony {
     * @param family UICC application family.
     * @param efId the file ID in the SIM card.
     * @return true or false
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     boolean readEfFromIcc(int slotId, int family, int efId);
 
@@ -166,6 +171,7 @@ interface IExtTelephony {
     * @param efdata updated data to the EF.
     * @return true - send the request to load transparent files sucessfully
     *         false - failed to get the icc file handler
+    * Requires permission: android.Manifest.permission.MODIFY_PHONE_STATE
     */
     boolean writeEfToIcc(int slotId, int family, int efId, in byte[] efData);
 
@@ -173,6 +179,7 @@ interface IExtTelephony {
     * Get primary stack phone id.
     * @param - void
     * @return phone id
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     int getPrimaryStackPhoneId();
 
@@ -180,6 +187,7 @@ interface IExtTelephony {
     * Check if number is emergency number or not.
     * @param - number
     * @return true or false
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     boolean isEmergencyNumber(String number);
 
@@ -187,6 +195,7 @@ interface IExtTelephony {
     * Check if number is local emergency number or not.
     * @param - number
     * @return true or false
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     boolean isLocalEmergencyNumber(String number);
 
@@ -194,6 +203,7 @@ interface IExtTelephony {
     * Check if number is potential emergency number or not.
     * @param - number
     * @return true or false
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     boolean isPotentialEmergencyNumber(String number);
 
@@ -201,6 +211,7 @@ interface IExtTelephony {
     * Check if number is potential Local emergency number or not.
     * @param - number
     * @return true or false
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     boolean isPotentialLocalEmergencyNumber(String number);
 
@@ -208,6 +219,7 @@ interface IExtTelephony {
     * Check if device in single stanby.
     * @param - void
     * @return true or false
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     boolean isDeviceInSingleStandby();
 
@@ -217,6 +229,7 @@ interface IExtTelephony {
     *        true - to enable local call hold
     *        false - to disable local call hold
     * @return true or false
+    * Requires permission: android.Manifest.permission.MODIFY_PHONE_STATE
     */
     boolean setLocalCallHold(int subId, boolean enable);
 
@@ -224,6 +237,7 @@ interface IExtTelephony {
     * Send switch to other subscription.
     * @param subId, send request on this subscription
     * @return void
+    * Requires permission: android.Manifest.permission.MODIFY_PHONE_STATE
     */
     void switchToActiveSub(int subId);
 
@@ -231,6 +245,7 @@ interface IExtTelephony {
     * set adapter, so that IExtTelephony would have interface to send requests to service/telecom
     * @param dsdaAdapter, this adapter used by IExtTelephony as interface for requests in IDsda.
     * @return void
+    * Requires permission: android.Manifest.permission.MODIFY_PHONE_STATE
     */
     void setDsdaAdapter(in IDsda dsdaAdapter);
 
@@ -238,6 +253,7 @@ interface IExtTelephony {
     * get active subscription.
     * @param void
     * @return subId of active subscription.
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     int getActiveSubscription();
 
@@ -245,6 +261,7 @@ interface IExtTelephony {
     * returns device is in DSDA configuration or not.
     * @param void
     * @return true or false
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     boolean isDsdaEnabled();
 
@@ -255,6 +272,7 @@ interface IExtTelephony {
     * @param - callback - callback to notify UI, whether the request was success or failure.
     * @param - phoneId - slot id on which the pin request is sent.
     * @return void
+    * Requires permission: android.Manifest.permission.MODIFY_PHONE_STATE
     */
     void supplyIccDepersonalization(String netpin, String type, in IDepersoResCallback callback,
             int phoneId);
@@ -263,6 +281,7 @@ interface IExtTelephony {
     * Returns ID of the slot in which PrimaryCarrier SIM card is present.
     * If none of the slots contains PrimaryCarrier SIM, this would return '-1'
     * Supported values: 0, 1, -1
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     int getPrimaryCarrierSlotId();
 
@@ -270,6 +289,7 @@ interface IExtTelephony {
     * Check if slotId has PrimaryCarrier SIM card present or not.
     * @param - slotId
     * @return true or false
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     boolean isPrimaryCarrierSlotId(int slotId);
 
@@ -278,6 +298,7 @@ interface IExtTelephony {
     * @param - slotId
     * @param - SMSC address
     * @return true or false
+    * Requires permission: android.Manifest.permission.MODIFY_PHONE_STATE
     */
     boolean setSmscAddress(int slotId, String smsc);
 
@@ -286,6 +307,7 @@ interface IExtTelephony {
     * @param - slotId
     * @param - SMSC address
     * @return SMSC address or null
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     String getSmscAddress(int slotId);
 
@@ -311,6 +333,7 @@ interface IExtTelephony {
     * Check if target available with given packageName.
     * @param packageName
     * @return true or false
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     boolean isVendorApkAvailable(String packageName);
 
@@ -318,30 +341,35 @@ interface IExtTelephony {
     * Get current primary card slot Id.
     * @param - void
     * @return slot index
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     int getCurrentPrimaryCardSlotId();
 
     /**
     * Async api
     * @deprecated
+    * Requires permission: android.Manifest.permission.MODIFY_PHONE_STATE
     */
     Token enable5g(int slotId, in Client client);
 
     /**
     * Async api
     * @deprecated
+    * Requires permission: android.Manifest.permission.MODIFY_PHONE_STATE
     */
     Token disable5g(int slotId, in Client client);
 
     /**
     * Async api
     * @deprecated
+    * Requires permission: android.Manifest.permission.MODIFY_PHONE_STATE
     */
     Token enable5gOnly(int slotId, in Client client);
 
     /**
     * Async api
     * @deprecated
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     Token query5gStatus(int slotId, in Client client);
 
@@ -349,35 +377,41 @@ interface IExtTelephony {
     * Async api
     * a.k.a NR EN-DC and restrict-DCNR.
     * @deprecated
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     Token queryNrDcParam(int slotId, in Client client);
 
     /**
     * Async api
     * @deprecated
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     Token queryNrBearerAllocation(int slotId, in Client client);
 
     /**
     * Async api
     * @deprecated
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     Token queryNrSignalStrength(int slotId, in Client client);
 
     /**
     * Async api
     * @deprecated
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     Token queryUpperLayerIndInfo(int slotId, in Client client);
 
     /**
     * Async api
     * @deprecated
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     Token query5gConfigInfo(int slotId, in Client client);
 
     /**
     * Async api
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     Token queryNrIconType(int slotId, in Client client);
 
@@ -390,6 +424,7 @@ interface IExtTelephony {
     *  @param - client registered with packagename to receive
     *         callbacks.
     * @return Integer Token to be used to compare with the response.
+    * Requires permission: android.Manifest.permission.MODIFY_PHONE_STATE
     */
     Token enableEndc(int slotId, boolean enable, in Client client);
 
@@ -399,16 +434,19 @@ interface IExtTelephony {
     * @param - client registered with packagename to receive
     *         callbacks.
     * @return Integer Token to be used to compare with the response.
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     Token queryEndcStatus(int slotId, in Client client);
 
     /**
     * Async api
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     Client registerCallback(String packageName, INetworkCallback callback);
 
     /**
     * Async api
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     void unRegisterCallback(INetworkCallback callback);
 
@@ -417,6 +455,7 @@ interface IExtTelephony {
     * @param - property name
     * @param - default value of property
     * @return - integer value assigned
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     int getPropertyValueInt(String property, int def);
 
@@ -425,6 +464,7 @@ interface IExtTelephony {
     * @param - property name
     * @param - default value of property
     * @return - boolean value assigned
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     boolean getPropertyValueBool(String property, boolean def);
 
@@ -433,6 +473,7 @@ interface IExtTelephony {
     * @param - property name
     * @param - default value of property
     * @return - string value assigned
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     String getPropertyValueString(String property, String def);
 
@@ -447,6 +488,7 @@ interface IExtTelephony {
     *  @param - client registered with packagename to receive
     *         callbacks.
     * @return Integer Token to be used to compare with the response.
+    * Requires permission: android.Manifest.permission.MODIFY_PHONE_STATE
     */
     Token setNrConfig(int slotId, in NrConfig def, in Client client);
 
@@ -456,6 +498,7 @@ interface IExtTelephony {
     *  @param - client registered with packagename to receive
     *         callbacks.
     * @return Integer Token to be used to compare with the response.
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     Token queryNrConfig(int slotId, in Client client);
 
