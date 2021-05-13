@@ -144,4 +144,11 @@ public class QtiCarrierConfigs {
      */
     public static final String KEY_CARRIER_VIDEO_CUSTOMER_SERVICE_NUMBERS =
         "carrier_support_video_service_numbers";
+
+    /* Config to determine if Carrier supports set media config (screen size and max avc and
+     * hevc resolution) to modem.
+     * true - if set media config is supported else false.
+     */
+    public static final String KEY_CARRIER_SEND_MEDIA_CONFIG_SUPPORTED =
+        "carrier_support_send_media_configs_to_radio_layer_bool";
 }
