@@ -31,11 +31,17 @@ package com.qti.extphone;
 
 import android.os.RemoteException;
 import android.util.Log;
+import com.qti.extphone.BearerAllocationStatus;
+import com.qti.extphone.DcParam;
 import com.qti.extphone.IExtPhoneCallback;
+import com.qti.extphone.NrConfig;
+import com.qti.extphone.NrConfigType;
+import com.qti.extphone.NrIconType;
+import com.qti.extphone.QRadioResponseInfo;
+import com.qti.extphone.SignalStrength;
 import com.qti.extphone.Status;
 import com.qti.extphone.Token;
-import com.qti.extphone.NrConfig;
-import com.qti.extphone.NrIconType;
+import com.qti.extphone.UpperLayerIndInfo;
 
 public class ExtPhoneCallbackBase extends IExtPhoneCallback.Stub {
     private static final String TAG = "ExtPhoneCallbackBase";
@@ -43,52 +49,100 @@ public class ExtPhoneCallbackBase extends IExtPhoneCallback.Stub {
     @Override
     public void onNrIconType(int slotId, Token token, Status status, NrIconType
             nrIconType) throws RemoteException {
-        Log.d(TAG,
-                "onNrIconType: slotId = " + slotId + " token = " + token + " " + "status"
-                        + status + " NrIconType = " + nrIconType);
+        Log.d(TAG, "UNIMPLEMENTED: onNrIconType: slotId = " + slotId + " token = " + token +
+                " status = " + status + " NrIconType = " + nrIconType);
     }
 
     @Override
     public void onEnableEndc(int slotId, Token token, Status status) throws
             RemoteException {
-        Log.d(TAG,
-                "onEnableEndc: slotId = " + slotId + " token = " + token + " " + "status" +
-                        status);
+        Log.d(TAG, "UNIMPLEMENTED: onEnableEndc: slotId = " + slotId + " token = " + token +
+                " status = " + status);
     }
 
     @Override
     public void onEndcStatus(int slotId, Token token, Status status, boolean enableStatus) throws
             RemoteException {
-        Log.d(TAG,
-                "onEndcStatus: slotId = " + slotId + " token = " + token + " " + "status" +
-                        status + " enableStatus = " + enableStatus);
+        Log.d(TAG, "UNIMPLEMENTED: onEndcStatus: slotId = " + slotId + " token = " + token +
+                " status = " + status + " enableStatus = " + enableStatus);
     }
 
     @Override
     public void onSetNrConfig(int slotId, Token token, Status status) throws
             RemoteException {
-        Log.d(TAG, "onSetNrConfig: slotId = " + slotId + " token = " + token + " status" +
-                status);
+        Log.d(TAG, "UNIMPLEMENTED: onSetNrConfig: slotId = " + slotId + " token = " + token +
+                " status = " +status);
     }
 
     @Override
     public void onNrConfigStatus(int slotId, Token token, Status status, NrConfig nrConfig) throws
             RemoteException {
-        Log.d(TAG, "onNrConfigStatus: slotId = " + slotId + " token = " + token + " status" +
-                status + " NrConfig = " + nrConfig);
+        Log.d(TAG, "UNIMPLEMENTED: onNrConfigStatus: slotId = " + slotId + " token = " + token +
+                " status = " + status + " NrConfig = " + nrConfig);
     }
 
     @Override
     public void sendCdmaSmsResponse(int slotId, Token token, Status status, SmsResult sms) throws
             RemoteException {
-        Log.d(TAG, "sendCdmaSmsResponse: slotId = " + slotId + " token = " + token + " status" +
-                status + " SmsResult = " + sms);
+        Log.d(TAG, "UNIMPLEMENTED: sendCdmaSmsResponse: slotId = " + slotId +
+                " token = " + token + " status = " + status + " SmsResult = " + sms);
+    }
+
+    @Override
+    public void on5gStatus(int slotId, Token token, Status status, boolean enableStatus) throws
+            RemoteException {
+        Log.d(TAG, "UNIMPLEMENTED: on5gStatus: slotId = " + slotId + " token = " + token +
+                " status" + status + " enableStatus = " + enableStatus);
+    }
+
+    @Override
+    public void onAnyNrBearerAllocation(int slotId, Token token, Status status,
+                                        BearerAllocationStatus bearerStatus) throws
+            RemoteException {
+        Log.d(TAG, "UNIMPLEMENTED: onNrBearerAllocationChange: slotId = " + slotId +
+                " token = " + token + " status = " + status + " bearerStatus = " + bearerStatus);
     }
 
     @Override
     public void getQtiRadioCapabilityResponse(int slotId, Token token, Status status, int raf)
             throws RemoteException {
-        Log.d(TAG, "getQtiRadioCapabilityResponse: slotId = " + slotId + " token = " + token +
-                " status" + status + " raf = " + raf);
+        Log.d(TAG, "UNIMPLEMENTED: getQtiRadioCapabilityResponse: slotId = " + slotId +
+                " token = " + token + " status" + status + " raf = " + raf);
+    }
+
+    public void onNrDcParam(int slotId, Token token, Status status, DcParam dcParam) throws
+            RemoteException {
+        Log.d(TAG, "UNIMPLEMENTED: onNrDcParam: slotId = " + slotId +
+                " token = " + token + " status" + status + " dcParam = " + dcParam);
+    }
+
+    @Override
+    public void onUpperLayerIndInfo(int slotId, Token token, Status status,
+            UpperLayerIndInfo uilInfo) throws RemoteException {
+        Log.d(TAG, "UNIMPLEMENTED: onUpperLayerIndInfo: slotId = " + slotId +
+                " token = " + token + " " + "status" + status +
+                " UpperLayerIndInfo = " + uilInfo);
+    }
+
+    @Override
+    public void on5gConfigInfo(int slotId, Token token, Status status, NrConfigType
+            nrConfigType) throws RemoteException {
+        Log.d(TAG, "UNIMPLEMENTED: on5gConfigInfo: slotId = " + slotId + " token = " +
+                token + " " + "status" + status + " NrConfigType = " + nrConfigType);
+    }
+
+    @Override
+    public void onSignalStrength(int slotId, Token token, Status status, SignalStrength
+            signalStrength) throws RemoteException {
+        Log.d(TAG, "UNIMPLEMENTED: onSignalStrength: slotId = " + slotId +
+                " token = " + token + " " + "status" + status +
+                " signalStrength = " + signalStrength);
+    }
+
+    @Override
+    public void setCarrierInfoForImsiEncryptionResponse(int slotId, Token token,
+            QRadioResponseInfo info) throws RemoteException {
+        Log.d(TAG, "UNIMPLEMENTED: setCarrierInfoForImsiEncryptionResponse: slotId = " + slotId +
+                " token = " + token + " info = " + info);
     }
 }

@@ -1,6 +1,7 @@
 
 java_library {
     name: "qti-telephony-utils",
+    provides_uses_lib: "qti-telephony-utils",
     installable: true,
     sdk_version: "system_current",
 
@@ -14,6 +15,7 @@ java_library {
 
 java_library {
     name: "qti-telephony-utils-prd",
+    provides_uses_lib: "qti-telephony-utils-prd",
     installable: true,
     sdk_version: "system_current",
 
