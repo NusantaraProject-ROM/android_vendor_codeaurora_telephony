@@ -34,6 +34,7 @@ import com.qti.extphone.DcParam;
 import com.qti.extphone.NrConfig;
 import com.qti.extphone.NrConfigType;
 import com.qti.extphone.NrIconType;
+import com.qti.extphone.QtiCallForwardInfo;
 import com.qti.extphone.QRadioResponseInfo;
 import com.qti.extphone.SignalStrength;
 import com.qti.extphone.SmsResult;
@@ -143,4 +144,20 @@ interface IExtPhoneCallback {
     */
     void setCarrierInfoForImsiEncryptionResponse(int slotId, in Token token,
             in QRadioResponseInfo info);
+
+   /**
+     * @param status SUCCESS/FAILURE based on the modem Result code
+     * @param infos indicates array of CallForwardInfo, one for
+     *        each distinct registered phone number.
+     * @return void.
+     */
+    void queryCallForwardStatusResponse(in Status status, in QtiCallForwardInfo[] infos);
+
+   /**
+     * @param - status SUCCESS/FAILURE based on the modem Result code
+     * @param response 0 is the TS 27.007 service class bit vector of
+     *        services for which the specified barring facility
+     *        is active. "0" means "disabled for all"
+     */
+    void getFacilityLockForAppResponse(in Status status, in int[] response);
 }

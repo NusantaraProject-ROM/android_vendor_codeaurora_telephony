@@ -93,6 +93,21 @@ public class ExtTelephonyManager {
         return mServiceConnected;
     }
 
+    public boolean isFeatureSupported(int feature) {
+        boolean ret = false;
+        if (!mServiceConnected){
+            Log.e(LOG_TAG, "service not connected!");
+            return ret;
+        }
+        try {
+            ret = mExtTelephonyService.isFeatureSupported(feature);
+        } catch(RemoteException e){
+            Log.e(LOG_TAG, "isFeatureSupported, remote exception");
+            e.printStackTrace();
+        }
+        return ret;
+    }
+
     /**
     * Initiate connection with the service.
     *
@@ -665,6 +680,26 @@ public class ExtTelephonyManager {
         return token;
     }
 
+    public void queryCallForwardStatus(int slotId, int cfReason, int serviceClass, String number,
+            boolean expectMore, Client client) throws RemoteException {
+        try {
+            mExtTelephonyService.queryCallForwardStatus(slotId, cfReason, serviceClass, number,
+                    expectMore, client);
+        } catch(RemoteException e){
+            throw new RemoteException("queryCallForwardStatus ended in remote exception");
+        }
+    }
+
+    public void getFacilityLockForApp(int slotId, String facility, String password,
+            int serviceClass, String appId, boolean expectMore, Client client)
+            throws RemoteException {
+        try {
+            mExtTelephonyService.getFacilityLockForApp(slotId, facility, password, serviceClass,
+                    appId, expectMore, client);
+        } catch(RemoteException e){
+            throw new RemoteException("getFacilityLockForApp ended in remote exception");
+        }
+    }
 
     public Client registerCallback(String packageName, IExtPhoneCallback callback) {
         Client client = null;
