@@ -41,4 +41,7 @@ public class QtiCallExtras {
 
     /* Call Diversion Info extra key. The value will be a ArrayList of Strings. */
     public static final String EXTRAS_CALL_DIVERSION_INFO = "CallDiversionInfo";
+
+    /* MT DTMF Info extra key. The value will be a String. */
+    public static final String EXTRAS_INCOMING_DTMF_INFO = "IncomingDtmfInfo";
 }
