@@ -297,4 +297,32 @@ interface IExtPhone {
     */
     Token setCarrierInfoForImsiEncryption(int slotId,
             in ImsiEncryptionInfo info, in Client client);
+
+   /**
+     * Query call forward status for the given reason.
+     *
+     * cfReason is one of CF_REASON_*
+     * @param expectMore more messages are expected to be sent or not
+     * @param - client registered with packagename to receive
+     *         callbacks.
+     */
+    void queryCallForwardStatus(int slotId, int cfReason, int serviceClass, String number,
+            boolean expectMore, in Client client);
+
+    /**
+     * Query the status of a facility lock state
+     *
+     * @param facility is the facility string code from TS 27.007 7.4
+     *        (eg "AO" for BAOC, "SC" for SIM lock)
+     * @param password is the password, or "" if not required
+     * @param serviceClass is the TS 27.007 service class bit vector of services to query
+     * @param appId is AID value, See ETSI 102.221 8.1 and 101.220 4, empty string if no value.
+     *        This is only applicable in the case of Fixed Dialing Numbers (FDN) requests.
+     * @param - client registered with packagename to receive
+     *         callbacks.
+     */
+    void getFacilityLockForApp(int slotId, String facility, String password, int serviceClass,
+            String appId, boolean expectMore, in Client client);
+
+    boolean isFeatureSupported(int feature);
 }

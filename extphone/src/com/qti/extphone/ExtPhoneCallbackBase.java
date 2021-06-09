@@ -145,4 +145,18 @@ public class ExtPhoneCallbackBase extends IExtPhoneCallback.Stub {
         Log.d(TAG, "UNIMPLEMENTED: setCarrierInfoForImsiEncryptionResponse: slotId = " + slotId +
                 " token = " + token + " info = " + info);
     }
+
+    @Override
+    public void queryCallForwardStatusResponse(Status status, QtiCallForwardInfo[] infos) throws
+            RemoteException {
+        Log.d(TAG, "queryCallForwardStatusResponse: status = " + status + " CallForwardInfo = "
+                 + infos);
+    }
+
+    @Override
+    public void getFacilityLockForAppResponse(Status status, int[] response) throws
+            RemoteException {
+        Log.d(TAG, "getFacilityLockForAppResponse: status = " + status + " response = "
+                 + response);
+    }
 }
