@@ -734,4 +734,13 @@ public class QtiImsExtUtils {
         return QtiCarrierConfigHelper.getInstance().getStringArray(context, phoneId,
                 QtiCarrierConfigs.KEY_CARRIER_VIDEO_CUSTOMER_SERVICE_NUMBERS);
     }
+
+    /**
+     * Returns true if carrier supports set media config(screen size, max
+     * avc/hevc resolution) to modem.
+     */
+    public static boolean isSendMediaConfigurationSupported(int phoneId, Context context) {
+        return isCarrierConfigEnabled(phoneId, context,
+                QtiCarrierConfigs.KEY_CARRIER_SEND_MEDIA_CONFIG_SUPPORTED);
+    }
 }
