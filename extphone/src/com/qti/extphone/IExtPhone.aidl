@@ -324,5 +324,20 @@ interface IExtPhone {
     void getFacilityLockForApp(int slotId, String facility, String password, int serviceClass,
             String appId, boolean expectMore, in Client client);
 
+    /**
+     * Check whether the smart DDS switch feature supported
+     *
+     * @return - boolean value indicating whether the smart DDS switch feature is available
+     */
+    boolean isSmartDdsSwitchFeatureAvailable();
+
+    /**
+     * Enable/disable the smart DDS switch
+     *
+     * @param - isEnabled is the switch on or off, true: on, false: off
+     * @param - client registered with packagename to receive callbacks
+     */
+    void setSmartDdsSwitchToggle(boolean isEnabled, in Client client);
+
     boolean isFeatureSupported(int feature);
 }
