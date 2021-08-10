@@ -160,4 +160,11 @@ interface IExtPhoneCallback {
      *        is active. "0" means "disabled for all"
      */
     void getFacilityLockForAppResponse(in Status status, in int[] response);
+
+   /**
+    * Response to setSmartDdsSwitchToggle
+    * @param - token is the same token which is recived in setSmartDdsSwitchToggle
+    * @param - result SUCCESS/FAILURE based on the CnE HAL response
+    */
+    void setSmartDdsSwitchToggleResponse(in Token token, boolean result);
 }
