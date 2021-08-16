@@ -30,6 +30,7 @@
 
 package org.codeaurora.internal;
 
+
 /**
  * Interface used to interact with the telephony framework for
  * Telephony value adds.
@@ -41,6 +42,7 @@ interface IExtTelephony {
     * Get logical phone id for Emergency call.
     * @param - void
     * @return phone id
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     int getPhoneIdForECall();
 
@@ -49,6 +51,7 @@ interface IExtTelephony {
     * @param slotId user preferred slotId.
     * @param family UICC application family.
     * @return true or false
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     boolean hasGetIccFileHandler(int slotId, int family);
 
@@ -58,6 +61,7 @@ interface IExtTelephony {
     * @param family UICC application family.
     * @param efId the file ID in the SIM card.
     * @return true or false
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     boolean readEfFromIcc(int slotId, int family, int efId);
 
@@ -69,6 +73,7 @@ interface IExtTelephony {
     * @param efdata updated data to the EF.
     * @return true - send the request to load transparent files sucessfully
     *         false - failed to get the icc file handler
+    * Requires permission: android.Manifest.permission.MODIFY_PHONE_STATE
     */
     boolean writeEfToIcc(int slotId, int family, int efId, in byte[] efData);
 
@@ -76,6 +81,7 @@ interface IExtTelephony {
     * Check if slotId has PrimaryCarrier SIM card present or not.
     * @param - slotId
     * @return true or false
+    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     boolean isPrimaryCarrierSlotId(int slotId);
 
