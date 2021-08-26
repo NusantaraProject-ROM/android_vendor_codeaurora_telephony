@@ -128,9 +128,8 @@ public class ExtTelephonyManager {
         intent.setComponent(new ComponentName("com.qti.phone",
                                               "com.qti.phone.ExtTelephonyService"));
         mConnection = new ExtTelephonyServiceConnection();
-        boolean success = mContext.bindService(intent, mConnection,
-                                              Context.BIND_AUTO_CREATE);
-        log("bind Service result: " + success);
+        boolean success = mContext.bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+        log("bindService result: " + success);
         return success;
     }
 
@@ -698,6 +697,24 @@ public class ExtTelephonyManager {
                     appId, expectMore, client);
         } catch(RemoteException e){
             throw new RemoteException("getFacilityLockForApp ended in remote exception");
+        }
+    }
+
+
+    public boolean isSmartDdsSwitchFeatureAvailable() throws RemoteException {
+        try {
+            return mExtTelephonyService.isSmartDdsSwitchFeatureAvailable();
+        } catch (RemoteException e) {
+            throw new RemoteException("isSmartDdsSwitchFeatureAvailable ended in remote exception");
+        }
+    }
+
+    public void setSmartDdsSwitchToggle(boolean isEnabled, Client client)
+            throws RemoteException {
+        try {
+            mExtTelephonyService.setSmartDdsSwitchToggle(isEnabled, client);
+        } catch (RemoteException e) {
+            throw new RemoteException("setSmartDdsSwitchToggle ended in remote exception");
         }
     }
 

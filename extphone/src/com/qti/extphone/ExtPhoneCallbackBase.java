@@ -159,4 +159,10 @@ public class ExtPhoneCallbackBase extends IExtPhoneCallback.Stub {
         Log.d(TAG, "getFacilityLockForAppResponse: status = " + status + " response = "
                  + response);
     }
+
+    @Override
+    public void setSmartDdsSwitchToggleResponse(Token token, boolean result) throws
+            RemoteException {
+        Log.d(TAG, "setSmartDdsSwitchToggleResponse: token = " + token +  " result = " + result);
+    }
 }
