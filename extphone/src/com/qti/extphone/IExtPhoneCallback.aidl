@@ -36,6 +36,7 @@ import com.qti.extphone.NrConfigType;
 import com.qti.extphone.NrIconType;
 import com.qti.extphone.QtiCallForwardInfo;
 import com.qti.extphone.QRadioResponseInfo;
+import com.qti.extphone.QtiImeiInfo;
 import com.qti.extphone.SignalStrength;
 import com.qti.extphone.SmsResult;
 import com.qti.extphone.Status;
@@ -167,4 +168,15 @@ interface IExtPhoneCallback {
     * @param - result SUCCESS/FAILURE based on the CnE HAL response
     */
     void setSmartDdsSwitchToggleResponse(in Token token, boolean result);
+
+   /**
+    * Indication would be sent whenever Primary IMEI mapping changes
+    * @param - imeiInfo, array of imeiInfo object which contains
+    *          slotId, IMEI string and type
+    *
+    * The calling application should not assume received array index as slotId, instead the
+    * application has to use the slotId that present in QtiImeiInfo object to know the IMEI
+    * corresponds to a slot.
+    */
+    void onImeiTypeChanged(in QtiImeiInfo[] imeiInfo);
 }
