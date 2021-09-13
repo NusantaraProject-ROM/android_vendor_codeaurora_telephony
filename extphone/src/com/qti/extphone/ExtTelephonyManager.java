@@ -792,6 +792,38 @@ public class ExtTelephonyManager {
         }
     }
 
+    public Token getDdsSwitchCapability(int slot, Client client) {
+        Token token = null;
+        if (!isServiceConnected()) {
+            Log.e(LOG_TAG, "service not connected!");
+            return token;
+        }
+        try {
+            token = mExtTelephonyService.getDdsSwitchCapability(slot, client);
+        } catch(RemoteException e) {
+            Log.e(LOG_TAG, "getDdsSwitchCapability, remote exception");
+            e.printStackTrace();
+        }
+        return token;
+    }
+
+    public Token sendUserPreferenceForDataDuringVoiceCall(int slot,
+            boolean userPreference, Client client) {
+        Token token = null;
+        if (!isServiceConnected()) {
+            Log.e(LOG_TAG, "service not connected!");
+            return token;
+        }
+        try {
+            token = mExtTelephonyService.sendUserPreferenceForDataDuringVoiceCall(slot,
+                    userPreference, client);
+        } catch(RemoteException e) {
+            Log.e(LOG_TAG, "getDdsSwitchCapability, remote exception");
+            e.printStackTrace();
+        }
+        return token;
+    }
+
     public Client registerCallback(String packageName, IExtPhoneCallback callback) {
         Client client = null;
         if (!isServiceConnected()) {

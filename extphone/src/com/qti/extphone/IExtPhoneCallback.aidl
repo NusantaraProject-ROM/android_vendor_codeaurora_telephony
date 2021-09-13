@@ -162,11 +162,11 @@ interface IExtPhoneCallback {
      */
     void getFacilityLockForAppResponse(in Status status, in int[] response);
 
-   /**
-    * Response to setSmartDdsSwitchToggle
-    * @param - token is the same token which is recived in setSmartDdsSwitchToggle
-    * @param - result SUCCESS/FAILURE based on the CnE HAL response
-    */
+    /**
+     * Response to setSmartDdsSwitchToggle
+     * @param - token is the same token which is recived in setSmartDdsSwitchToggle
+     * @param - result SUCCESS/FAILURE based on the CnE HAL response
+     */
     void setSmartDdsSwitchToggleResponse(in Token token, boolean result);
 
    /**
@@ -179,4 +179,44 @@ interface IExtPhoneCallback {
     * corresponds to a slot.
     */
     void onImeiTypeChanged(in QtiImeiInfo[] imeiInfo);
+
+    /**
+     * Response to sendUserPreferenceForDataDuringVoiceCall
+     * @param - slotId slot ID on whcih this callback is recevied.
+     * @param - token is the same token which is recived in
+     *          sendUserPreferenceForDataDuringVoiceCall
+     * @param - status SUCCESS/FAILURE based on RIL data module response
+     */
+    void onSendUserPreferenceForDataDuringVoiceCall(int slotId, in Token token,
+            in Status status);
+
+    /**
+     * Indicates DDS switch capability could be changed to Smart DDS
+     * Upon receiving this message, HLOS has to inform modem if user has enabled/disabled
+     * UI preference for data during voice call.
+     * @param - slotId slot ID on whcih this callback is recevied.
+     * @param - token is the same token which is recived in
+     *          getDdsSwitchCapability
+     * @param - status SUCCESS/FAILURE based on the modem Result code
+     * @param - support true/false if smart DDS switch is supported or not
+     */
+    void onDdsSwitchCapabilityChange(int slotId, in Token token, in Status status,
+            boolean support);
+
+    /**
+     * Indicates if telephony has to enable/disable its temp DDS switch logic
+     * If telephony temp DDS switch is disabled, then telephony will wait for modem recommendations
+     * in seperate indication to perform temp DDS switch.
+     * @param - slotId
+     * @param - telephonyDdsSwitch true/false based on telephony temp DDS switch
+     *          logic should be enabled/disabled.
+     */
+    void onDdsSwitchCriteriaChange(int slotId, boolean telephonyDdsSwitch);
+
+    /**
+     * Indicates modem recommendation for temp DDS switch during voice call on non-DDS.
+     * @param - slotId slot ID on whcih this callback is recevied.
+     * @param - recommendedSlotId slot ID to which DDS has to be switched.
+     */
+    void onDdsSwitchRecommendation(int slotId, int recommendedSlotId);
 }
