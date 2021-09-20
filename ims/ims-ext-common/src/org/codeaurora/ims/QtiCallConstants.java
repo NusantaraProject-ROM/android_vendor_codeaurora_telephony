@@ -98,8 +98,16 @@ public class QtiCallConstants {
 
     /* call fail error code to retry ims call without rtt */
     public static final int CODE_RETRY_ON_IMS_WITHOUT_RTT = 3001;
+
     /* Unknown disconnect cause */
     public static final int DISCONNECT_CAUSE_UNSPECIFIED = -1;
+
+    /* Call fail error code due to concurrent calls not possible, {link@ ImsReasonInfo#
+     * CODE_CONCURRENT_CALLS_NOT_POSSIBLE} */
+    public static final int CODE_CONCURRENT_CALLS_NOT_POSSIBLE = 3002;
+
+    // Default code to use for additional call info code.
+    public static final int CODE_UNSPECIFIED = -1;
 
     /**
      * Whether the IMS to CS retry is enabled
