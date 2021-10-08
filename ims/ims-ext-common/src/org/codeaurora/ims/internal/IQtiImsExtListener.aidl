@@ -192,4 +192,9 @@ oneway interface IQtiImsExtListener {
      */
    void queryCallBarringResponse(in int[] response);
 
+   /** Notifies client on exit of SCBM
+     * @return void.
+     */
+   void onScbmExited(boolean status);
+
 }

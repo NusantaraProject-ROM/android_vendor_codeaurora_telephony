@@ -63,6 +63,25 @@ public class ExtTelephonyManager {
     private static int mClientCount = 0;
 
     /**
+     * Intent action broadcasted when Sms Callback Mode changed.
+     */
+    public static final String ACTION_SMS_CALLBACK_MODE_CHANGED =
+            "org.codeaurora.intent.action.SMS_CALLBACK_MODE_CHANGED";
+    /**
+     * Extra included in {@link #ACTION_SMS_CALLBACK_MODE_CHANGED}.
+     * Indicates whether the phone is in an sms callback mode.
+     */
+    public static final String EXTRA_PHONE_IN_SCM_STATE =
+            "org.codeaurora.extra.PHONE_IN_SCM_STATE";
+
+    /**
+     * Intent broadcasted to indicate the sms callback mode blocks
+     * datacall/sms.
+     */
+    public static final String ACTION_SHOW_NOTICE_SCM_BLOCK_OTHERS =
+            "org.codeaurora.intent.action.SHOW_NOTICE_SCM_BLOCK_OTHERS";
+
+    /**
     * Constructor
     * @param context context in which the bindService will be
     *                initiated.
