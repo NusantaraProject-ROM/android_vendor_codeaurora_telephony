@@ -76,13 +76,4 @@ interface IExtTelephony {
     * Requires permission: android.Manifest.permission.MODIFY_PHONE_STATE
     */
     boolean writeEfToIcc(int slotId, int family, int efId, in byte[] efData);
-
-    /**
-    * Check if slotId has PrimaryCarrier SIM card present or not.
-    * @param - slotId
-    * @return true or false
-    * Requires permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
-    */
-    boolean isPrimaryCarrierSlotId(int slotId);
-
 }
