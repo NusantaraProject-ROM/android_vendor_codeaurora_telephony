@@ -138,6 +138,7 @@ public class ExtTelephonyManager {
         boolean success = true;
         if (!isServiceConnected() && mServiceCbs.isEmpty()) {
             log("Creating ExtTelephonyService. If not started yet, start ...");
+            addServiceCallback(cb);
             Intent intent = new Intent();
             intent.setComponent(new ComponentName("com.qti.phone",
                     "com.qti.phone.ExtTelephonyService"));
@@ -145,12 +146,18 @@ public class ExtTelephonyManager {
                     Context.BIND_AUTO_CREATE);
             log("bind Service result: " + success);
         } else {
+            addServiceCallback(cb);
             if (isServiceConnected() && cb != null) {
                 cb.onConnected();
             }
         }
-        if (cb != null) mServiceCbs.add(cb);
         return success;
+    }
+
+    private void addServiceCallback(ServiceCallback cb) {
+        if (cb != null && !mServiceCbs.contains(cb)) {
+             mServiceCbs.add(cb);
+        }
     }
 
     /**
@@ -175,11 +182,11 @@ public class ExtTelephonyManager {
             if (!isServiceConnected()) {
                 cb.onDisconnected();
             }
-            if (mServiceCbs.size() > 1) {
+            if (mServiceCbs.contains(cb)) {
                 mServiceCbs.remove(cb);
             }
         }
-        if (isServiceConnected() && mServiceCbs.size() <= 1) {
+        if (isServiceConnected() && mServiceCbs.isEmpty()) {
             mContext.unbindService(mConnection);
         }
     }
