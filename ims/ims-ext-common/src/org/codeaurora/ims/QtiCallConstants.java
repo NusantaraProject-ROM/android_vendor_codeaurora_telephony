@@ -434,4 +434,10 @@ public class QtiCallConstants {
      * Type: boolean
      */
     public static String EXTRA_SMS_CALLBACK_MODE = "sms_callback_mode";
+
+    /* Call Forward service related error.
+     * This error code will be notified when user tries to
+     *  - activate CFx before register operation
+     *  - query CFNL while network does not support CFNL feature */
+    public static final int CODE_UT_CF_SERVICE_NOT_REGISTERED = 850;
 }
