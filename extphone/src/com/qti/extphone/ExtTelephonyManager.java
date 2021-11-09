@@ -754,6 +754,26 @@ public class ExtTelephonyManager {
         }
     }
 
+   /**
+    * To get the IMEI information of all slots on device.
+    * @return
+    *        QtiImeiInfo[], contains array of imeiInfo(i.e slotId, IMEI string and IMEI type).
+    *
+    * The calling application should not assume returned array index as slotId, instead the
+    * application has to use the slotId that present in QtiImeiInfo object to know the IMEI
+    * corresponds to a slot.
+    *
+    * Requires Permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
+    */
+    public QtiImeiInfo[] getImeiInfo() {
+        try {
+            return mExtTelephonyService.getImeiInfo();
+        } catch (RemoteException e) {
+            Log.e(LOG_TAG, "getImeiInfo ended in remote exception");
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public boolean isSmartDdsSwitchFeatureAvailable() throws RemoteException {
         try {

@@ -36,6 +36,7 @@ import com.qti.extphone.Client;
 import com.qti.extphone.IDepersoResCallback;
 import com.qti.extphone.IExtPhoneCallback;
 import com.qti.extphone.NrConfig;
+import com.qti.extphone.QtiImeiInfo;
 
 interface IExtPhone {
 
@@ -340,4 +341,12 @@ interface IExtPhone {
     void setSmartDdsSwitchToggle(boolean isEnabled, in Client client);
 
     boolean isFeatureSupported(int feature);
+
+   /**
+    * To get the IMEI information of all slots on device
+    * @return
+    *        QtiImeiInfo[], contains array imeiInfo(i.e slotId, IMEI string and type)
+    * Requires Permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
+    */
+    QtiImeiInfo[] getImeiInfo();
 }
