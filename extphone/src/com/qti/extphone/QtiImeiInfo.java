@@ -37,9 +37,9 @@ import java.util.Objects;
 public class QtiImeiInfo implements Parcelable {
     private static final String TAG = "QtiImeiInfo";
 
-    public static final int IMEI_TYPE_INVALID = -1;
-    public static final int IMEI_TYPE_PRIMARY = 0;
-    public static final int IMEI_TYPE_SECONDARY = 1;
+    public static final int IMEI_TYPE_INVALID = 0;
+    public static final int IMEI_TYPE_PRIMARY = 1;
+    public static final int IMEI_TYPE_SECONDARY = 2;
 
     private int mSlotId;
     private String mImei;
