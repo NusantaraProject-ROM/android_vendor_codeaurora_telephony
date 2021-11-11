@@ -188,4 +188,14 @@ public class ExtPhoneCallbackBase extends IExtPhoneCallback.Stub {
     public void onDdsSwitchRecommendation(int slotId,
             int recommendedSlotId) throws RemoteException {
     }
+
+    @Override
+    public void onDataDeactivateDelayTime(int slotId, long delayTimeMilliSecs)
+            throws RemoteException {
+    }
+
+    @Override
+    public void onEpdgOverCellularDataSupported(int slotId, boolean support)
+            throws RemoteException {
+    }
 }

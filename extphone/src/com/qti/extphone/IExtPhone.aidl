@@ -369,4 +369,12 @@ interface IExtPhone {
      */
      Token sendUserPreferenceForDataDuringVoiceCall(int slotId,
              boolean userPreference, in Client client);
+
+    /**
+     * Request for epdg over cellular data (cellular IWLAN) feature is supported or not.
+     *
+     * @param - slotId slot ID
+     * @return - boolean value indicates if the feature is supported or not
+     */
+     boolean isEpdgOverCellularDataSupported(int slotId);
 }
