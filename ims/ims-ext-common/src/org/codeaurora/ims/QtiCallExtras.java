@@ -44,4 +44,9 @@ public class QtiCallExtras {
 
     /* MT DTMF Info extra key. The value will be a String. */
     public static final String EXTRAS_INCOMING_DTMF_INFO = "IncomingDtmfInfo";
+
+    /* Call audio quality extra key. The value will be an Integer.
+     * {@link QtiCallConstants#CALL_AUDIO_QUALITY_*}
+     */
+    public static final String EXTRAS_CALL_AUDIO_QUALITY = "CallAudioQuality";
 }

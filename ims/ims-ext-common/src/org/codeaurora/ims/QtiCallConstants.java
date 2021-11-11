@@ -420,6 +420,11 @@ public class QtiCallConstants {
     public static final String EXTRAS_CALL_PROGRESS_REASON_CODE = "CallProgReasonCode";
     public static final String EXTRAS_CALL_PROGRESS_REASON_TEXT = "CallProgReasonText";
 
+    // Call audio quality constants.
+    public static final int CALL_AUDIO_QUALITY_NO_HD = 0;
+    public static final int CALL_AUDIO_QUALITY_HD = 1;
+    public static final int CALL_AUDIO_QUALITY_HD_PLUS = 2;
+
     /*Sms call back constants*/
     public static final int SCBM_STATUS_EXIT = 0;
     public static final int SCBM_STATUS_ENTER = 1;
