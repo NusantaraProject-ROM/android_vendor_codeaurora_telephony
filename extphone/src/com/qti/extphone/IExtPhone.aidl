@@ -349,4 +349,24 @@ interface IExtPhone {
     * Requires Permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
     */
     QtiImeiInfo[] getImeiInfo();
+
+    /**
+     * Request for smart DDS switch capability supported by modem.
+     * @param - slotId slot ID
+     * @return - Integer Token can be used to compare with the response.
+     */
+    Token getDdsSwitchCapability(int slotId, in Client client);
+
+    /**
+     * Inform modem if user enabled/disabled UI preference for data during voice call.
+     * if its enabled then modem can send recommendations to switch DDS during
+     * voice call on nonDDS.
+     * @param - slotId slot ID
+     * @param - userPreference true/false based on UI preference
+     * @param - client registered with packagename to receive
+     *         callbacks.
+     * @return - Integer Token can be used to compare with the response.
+     */
+     Token sendUserPreferenceForDataDuringVoiceCall(int slotId,
+             boolean userPreference, in Client client);
 }
