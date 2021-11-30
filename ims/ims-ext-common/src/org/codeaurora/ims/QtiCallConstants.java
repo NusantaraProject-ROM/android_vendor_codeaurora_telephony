@@ -420,6 +420,11 @@ public class QtiCallConstants {
     public static final String EXTRAS_CALL_PROGRESS_REASON_CODE = "CallProgReasonCode";
     public static final String EXTRAS_CALL_PROGRESS_REASON_TEXT = "CallProgReasonText";
 
+    // Call audio quality constants.
+    public static final int CALL_AUDIO_QUALITY_NO_HD = 0;
+    public static final int CALL_AUDIO_QUALITY_HD = 1;
+    public static final int CALL_AUDIO_QUALITY_HD_PLUS = 2;
+
     /*Sms call back constants*/
     public static final int SCBM_STATUS_EXIT = 0;
     public static final int SCBM_STATUS_ENTER = 1;
@@ -434,4 +439,10 @@ public class QtiCallConstants {
      * Type: boolean
      */
     public static String EXTRA_SMS_CALLBACK_MODE = "sms_callback_mode";
+
+    /* Call Forward service related error.
+     * This error code will be notified when user tries to
+     *  - activate CFx before register operation
+     *  - query CFNL while network does not support CFNL feature */
+    public static final int CODE_UT_CF_SERVICE_NOT_REGISTERED = 850;
 }

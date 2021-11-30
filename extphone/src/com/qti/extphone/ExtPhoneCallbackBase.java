@@ -165,4 +165,27 @@ public class ExtPhoneCallbackBase extends IExtPhoneCallback.Stub {
             RemoteException {
         Log.d(TAG, "setSmartDdsSwitchToggleResponse: token = " + token +  " result = " + result);
     }
+
+    @Override
+    public void onImeiTypeChanged(QtiImeiInfo[] imeiInfo) throws RemoteException {
+    }
+
+    public void onSendUserPreferenceForDataDuringVoiceCall(int slotId, Token token,
+            Status status) throws RemoteException {
+    }
+
+    @Override
+    public void onDdsSwitchCapabilityChange(int slotId, Token token, Status status,
+            boolean support) throws RemoteException {
+    }
+
+    @Override
+    public void onDdsSwitchCriteriaChange(int slotId, boolean telephonyDdsSwitch)
+            throws RemoteException {
+    }
+
+    @Override
+    public void onDdsSwitchRecommendation(int slotId,
+            int recommendedSlotId) throws RemoteException {
+    }
 }

@@ -36,6 +36,7 @@ import com.qti.extphone.Client;
 import com.qti.extphone.IDepersoResCallback;
 import com.qti.extphone.IExtPhoneCallback;
 import com.qti.extphone.NrConfig;
+import com.qti.extphone.QtiImeiInfo;
 
 interface IExtPhone {
 
@@ -340,4 +341,32 @@ interface IExtPhone {
     void setSmartDdsSwitchToggle(boolean isEnabled, in Client client);
 
     boolean isFeatureSupported(int feature);
+
+   /**
+    * To get the IMEI information of all slots on device
+    * @return
+    *        QtiImeiInfo[], contains array imeiInfo(i.e slotId, IMEI string and type)
+    * Requires Permission: android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
+    */
+    QtiImeiInfo[] getImeiInfo();
+
+    /**
+     * Request for smart DDS switch capability supported by modem.
+     * @param - slotId slot ID
+     * @return - Integer Token can be used to compare with the response.
+     */
+    Token getDdsSwitchCapability(int slotId, in Client client);
+
+    /**
+     * Inform modem if user enabled/disabled UI preference for data during voice call.
+     * if its enabled then modem can send recommendations to switch DDS during
+     * voice call on nonDDS.
+     * @param - slotId slot ID
+     * @param - userPreference true/false based on UI preference
+     * @param - client registered with packagename to receive
+     *         callbacks.
+     * @return - Integer Token can be used to compare with the response.
+     */
+     Token sendUserPreferenceForDataDuringVoiceCall(int slotId,
+             boolean userPreference, in Client client);
 }
