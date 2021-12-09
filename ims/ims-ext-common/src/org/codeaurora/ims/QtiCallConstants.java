@@ -326,18 +326,23 @@ public class QtiCallConstants {
     public static final int CALL_COMPOSER_MODE = 1004;
 
     /**
-     * Key values for the Call Composer elements
+     * Key values for the pre alerting call elements
      */
-    // Intent action broadcasted when call composer elements are available for MT
-    public static final String ACTION_CALL_COMPOSER_INFO =
-            "org.codeaurora.intent.action.CALL_COMPOSER_INFO";
-    // set for MT call composer call (unique ID to match each call)
+    // Intent action broadcasted when pre alerting call elements are available for MT
+    public static final String ACTION_PRE_ALERTING_CALL_INFO =
+            "org.codeaurora.intent.action.PRE_ALERTING_CALL_INFO";
+    // Set for MT pre alerting call (unique ID to match each call)
     // Type: int
-    public static String EXTRA_CALL_COMPOSER_TOKEN = "call_composer_token";
+    public static String EXTRA_PRE_ALERTING_CALL_TOKEN = "pre_alerting_call_token";
+    public static final int INVALID_TOKEN = -1;
 
-    // set for MT call composer call (only set when the call has ended)
+    // Set for MT pre alerting call (unique ID to match subscription)
+    // Type: int
+    public static final String EXTRA_PRE_ALERTING_CALL_PHONE_ID = " pre_alerting_call_phoneId";
+
+    // Set for MT pre alerting call (only set when the call has ended)
     // Type: boolean
-    public static String EXTRA_CALL_COMPOSER_CALL_ENDED = "call_composer_call_ended";
+    public static String EXTRA_PRE_ALERTING_CALL_ENDED = "pre_alerting_call_ended";
 
     // set for call composer call
     public static String EXTRA_CALL_COMPOSER_INFO = "call_composer_info";
@@ -370,6 +375,25 @@ public class QtiCallConstants {
     // Type: double
     public static String EXTRA_CALL_COMPOSER_LOCATION_LONGITUDE =
             "call_composer_location_longitude";
+
+    // Set for eCnam info
+    public static String EXTRA_CALL_ECNAM = "call_ecnam";
+
+    // Set when ecnam display name is added
+    // Type: String
+    public static final String EXTRA_CALL_ECNAM_DISPLAY_NAME = "call_ecnam_display_name";
+
+    // Set when ecnam icon url is added
+    // Type: parcelable Uri
+    public static final String EXTRA_CALL_ECNAM_ICON = "call_ecnam_icon";
+
+    // Set when ecnam info url is added
+    // Type: parcelable Uri
+    public static final String EXTRA_CALL_ECNAM_INFO = "call_ecnam_info";
+
+    // Set when ecnam card url is added
+    // Type: parcelable Uri
+    public static final String EXTRA_CALL_ECNAM_CARD = "call_ecnam_card";
 
     /**
      * User setting to control whether dialing call composer calls are allowed
