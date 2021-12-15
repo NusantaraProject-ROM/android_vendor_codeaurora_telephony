@@ -403,4 +403,24 @@ public class QtiImsExtManager {
         }
     }
 
+    public void exitScbm(int phoneId, IQtiImsExtListener listener)
+            throws QtiImsException {
+        validateInvariants(phoneId);
+        try {
+            mQtiImsExt.exitScbm(phoneId, listener);
+        } catch (RemoteException e) {
+            throw new QtiImsException("Remote ImsService exitScbm: " + e);
+        }
+    }
+
+    public boolean isExitScbmFeatureSupported(int phoneId)
+            throws QtiImsException {
+        validateInvariants(phoneId);
+        try {
+            return mQtiImsExt.isExitScbmFeatureSupported(phoneId);
+        } catch (RemoteException e) {
+            throw new QtiImsException("Remote ImsService isExitScbmFeatureSupported: " + e);
+        }
+    }
+
 }

@@ -319,4 +319,26 @@ interface IQtiImsExt {
      */
     oneway void queryCallBarring(int phoneId, int cbType, String password, int serviceClass,
             boolean expectMore, IQtiImsExtListener listener);
+
+    /**
+      * exitScbm
+      * Exit SCBM mode
+      *
+      * @param phoneId indicates the phone instance which triggered the request
+      * @param listener an IQtiImsExtListener instance to indicate the response
+      * @return boolean request got success or not
+      *
+      * @throws RemoteException if calling the IMS service results in an error.
+      */
+     oneway void exitScbm(int phoneId, IQtiImsExtListener listener);
+
+    /**
+      * Checks whether the SCBM exit feature is supported.
+      *
+      * @param phoneId indicates the phone instance which triggered the request
+      * @return boolean request got success or not
+      *
+      * @throws RemoteException if calling the IMS service results in an error.
+      */
+     boolean isExitScbmFeatureSupported(int phoneId);
 }

@@ -102,5 +102,9 @@ public class QtiImsExtListenerBaseImpl extends IQtiImsExtListener.Stub {
     @Override
     public void queryCallBarringResponse(int[] response) {
     }
+
+    @Override
+    public void onScbmExited(boolean status) {
+    }
 }
 

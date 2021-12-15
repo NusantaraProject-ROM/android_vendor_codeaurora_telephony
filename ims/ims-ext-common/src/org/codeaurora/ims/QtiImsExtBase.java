@@ -175,6 +175,16 @@ public abstract class QtiImsExtBase {
             onQueryCallBarringStatus(phoneId, cbType, password, serviceClass, expectMore,
                     listener);
         }
+
+        @Override
+        public void exitScbm(int phoneId, IQtiImsExtListener listener) {
+            onExitScbm(phoneId, listener);
+        }
+
+        @Override
+        public boolean isExitScbmFeatureSupported(int phoneId) {
+            return onIsExitScbmFeatureSupported(phoneId);
+        }
     };
 
     private QtiImsExtBinder mQtiImsExtBinder;
@@ -279,5 +289,13 @@ public abstract class QtiImsExtBase {
     protected void onQueryCallBarringStatus(int phoneId, int cbType, String password,
             int serviceClass, boolean expectMore, IQtiImsExtListener listener) {
         // no-op
+    }
+    protected void onExitScbm(int phoneId, IQtiImsExtListener listener) {
+        // no-op
+    }
+
+    protected boolean onIsExitScbmFeatureSupported(int phoneId) {
+        // no-op
+        return false;
     }
 }
