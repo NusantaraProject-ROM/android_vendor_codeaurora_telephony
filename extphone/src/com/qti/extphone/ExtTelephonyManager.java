@@ -69,6 +69,12 @@ public class ExtTelephonyManager {
     private AtomicBoolean mServiceConnected = new AtomicBoolean();
 
     /**
+     * This represents the state of the SIM before SIM_STATE_LOADED, when only the
+     * essential records have been loaded.
+     */
+    public static final String SIM_STATE_ESSENTIAL_RECORDS_LOADED = "ESSENTIAL_LOADED";
+
+    /**
      * Intent action broadcasted when Sms Callback Mode changed.
      */
     public static final String ACTION_SMS_CALLBACK_MODE_CHANGED =
