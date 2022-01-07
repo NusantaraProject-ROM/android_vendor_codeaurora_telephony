@@ -149,6 +149,10 @@ public class QtiImsExtUtils {
     public static final int QTI_IMS_TIR_PRESENTATION_RESTRICTED = 1;
     public static final int QTI_IMS_TIR_PRESENTATION_DEFAULT = 2;
 
+    /*RTT downgrade not supported */
+    public static final int QTI_IMS_RTT_DOWNGRADE_NOT_SUPPORTED = 0;
+    /*RTT upgrade not supported */
+    public static final int QTI_IMS_RTT_NOT_SUPPORTED = 0;
 
     /**
      * Private constructor for QtiImsExtUtils as we don't want to instantiate this class
@@ -635,6 +639,26 @@ public class QtiImsExtUtils {
     public static boolean isRttDowngradeSupported(int phoneId, Context context) {
         return isCarrierConfigEnabled(phoneId, context,
             CarrierConfigManager.KEY_RTT_DOWNGRADE_SUPPORTED_BOOL);
+    }
+
+    // Returns true if previous carrier supported RTT downgrade
+    // False otherwise
+    public static boolean isSimlessRttDowgradeSupported(int phoneId, Context context) {
+        int simLessRttDowngradeSupportedValue = android.provider.Settings.Secure.getInt(
+                context.getContentResolver(), QtiCallConstants.
+                SIMLESS_RTT_DOWNGRADE_SUPPORTED + convertRttPhoneId(phoneId),
+                QTI_IMS_RTT_DOWNGRADE_NOT_SUPPORTED);
+        return simLessRttDowngradeSupportedValue != QTI_IMS_RTT_DOWNGRADE_NOT_SUPPORTED;
+    }
+
+    // Returns true if previous carrier supported RTT upgrade
+    // False otherwise
+    public static boolean isSimlessRttSupported(int phoneId, Context context) {
+        int simLessRttSupportedValue = android.provider.Settings.Secure.getInt(
+                context.getContentResolver(), QtiCallConstants.
+                SIMLESS_RTT_SUPPORTED + convertRttPhoneId(phoneId),
+                QTI_IMS_RTT_NOT_SUPPORTED);
+        return simLessRttSupportedValue != QTI_IMS_RTT_NOT_SUPPORTED;
     }
 
     // Returns true if Carrier support RTT visibility setting
