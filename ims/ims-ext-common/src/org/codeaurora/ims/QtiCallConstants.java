@@ -92,6 +92,9 @@ public class QtiCallConstants {
     public static final int CALL_FAIL_EXTRA_CODE_CALL_CS_RETRY_REQUIRED =
             ImsReasonInfo.CODE_LOCAL_CALL_CS_RETRY_REQUIRED;
 
+    public static final String SIMLESS_RTT_DOWNGRADE_SUPPORTED = "simless_rtt_downgrade_supported";
+    public static final String SIMLESS_RTT_SUPPORTED = "simless_rtt_supported";
+
     /* Calls are rejected due to low battery */
     public static final int CALL_FAIL_EXTRA_CODE_LOCAL_LOW_BATTERY =
             ImsReasonInfo.CODE_LOCAL_LOW_BATTERY;

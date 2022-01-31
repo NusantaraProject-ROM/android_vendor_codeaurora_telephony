@@ -226,7 +226,6 @@ public class ExtTelephonyManager {
         for (ServiceCallback cb : mServiceCbs) {
             cb.onDisconnected();
         }
-        mServiceCbs.clear();
     }
 
     /**
