@@ -219,4 +219,20 @@ interface IExtPhoneCallback {
      * @param - recommendedSlotId slot ID to which DDS has to be switched.
      */
     void onDdsSwitchRecommendation(int slotId, int recommendedSlotId);
+
+    /**
+     * Indiactes the delay time to deactivate default data pdn when cellular IWLAN feature is ON.
+     * @param - delayTimeMilliSecs delayTimeMilliSecs>0 indicates one or more pdns
+     *           are present on cellular IWLAN RAT and wait for delayTimeMilliSecs
+     *           to deactivate default data pdn if required.
+     *           delayTimeMilliSecs<=0 indicates no pdns are available on cellular IWLAN RAT.
+     */
+    void onDataDeactivateDelayTime(int slotId, long delayTimeMilliSecs);
+
+    /**
+     * Indicates epdg over cellular data (cellular IWLAN) feature is supported or not.
+     *
+     * @param - support support indicates if the feature is supported or not.
+     */
+    void onEpdgOverCellularDataSupported(int slotId, boolean support);
 }
