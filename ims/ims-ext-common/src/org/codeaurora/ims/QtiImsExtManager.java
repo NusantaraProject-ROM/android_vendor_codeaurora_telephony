@@ -381,4 +381,46 @@ public class QtiImsExtManager {
             throw new QtiImsException("Failed to retrieve CrsCrbtInterface : " + e);
         }
     }
+
+    public void queryCallForwardStatus(int phoneId, int reason, int serviceClass,
+            boolean expectMore, IQtiImsExtListener listener) throws QtiImsException {
+        validateInvariants(phoneId);
+        try {
+            mQtiImsExt.queryCallForwardStatus(phoneId, reason, serviceClass, expectMore, listener);
+        } catch(RemoteException e) {
+            throw new QtiImsException("Remote ImsService queryCallForwardStatus : " + e);
+        }
+    }
+
+    public void queryCallBarring(int phoneId, int cbType, String password, int serviceClass,
+            boolean expectMore, IQtiImsExtListener listener) throws QtiImsException {
+        validateInvariants(phoneId);
+        try {
+            mQtiImsExt.queryCallBarring(phoneId, cbType, password, serviceClass, expectMore,
+                    listener);
+        } catch(RemoteException e) {
+            throw new QtiImsException("Remote ImsService queryCallBarring : " + e);
+        }
+    }
+
+    public void exitScbm(int phoneId, IQtiImsExtListener listener)
+            throws QtiImsException {
+        validateInvariants(phoneId);
+        try {
+            mQtiImsExt.exitScbm(phoneId, listener);
+        } catch (RemoteException e) {
+            throw new QtiImsException("Remote ImsService exitScbm: " + e);
+        }
+    }
+
+    public boolean isExitScbmFeatureSupported(int phoneId)
+            throws QtiImsException {
+        validateInvariants(phoneId);
+        try {
+            return mQtiImsExt.isExitScbmFeatureSupported(phoneId);
+        } catch (RemoteException e) {
+            throw new QtiImsException("Remote ImsService isExitScbmFeatureSupported: " + e);
+        }
+    }
+
 }

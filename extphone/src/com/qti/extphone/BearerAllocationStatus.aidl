@@ -1,4 +1,5 @@
-/* Copyright (c) 2016, The Linux Foundation. All rights reserved.
+/*
+ * Copyright (c) 2021, The Linux Foundation. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -24,23 +25,9 @@
  * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
  * IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
  */
-package org.codeaurora.ims;
 
-/**
- * This class is to handle custom unsupported image format exception
- */
-public class QtiImsUnsupportedImageFormatException extends QtiImsException {
+package com.qti.extphone;
 
-    public QtiImsUnsupportedImageFormatException() {
-        // Empty constructor
-    }
-
-    public QtiImsUnsupportedImageFormatException(String message) {
-        super(message);
-    }
-
-    public QtiImsUnsupportedImageFormatException(String message, Throwable cause) {
-        super(message, cause);
-    }
-}
+parcelable BearerAllocationStatus;

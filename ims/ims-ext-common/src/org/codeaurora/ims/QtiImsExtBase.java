@@ -162,6 +162,29 @@ public abstract class QtiImsExtBase {
         public ICrsCrbtController getCrsCrbtController(int phoneId) {
             return onGetCrsCrbtController(phoneId);
         }
+
+        @Override
+        public void queryCallForwardStatus(int phoneId, int reason, int serviceClass,
+                boolean expectMore, IQtiImsExtListener listener) {
+            onQueryCallForwardStatus(phoneId, reason, serviceClass, expectMore, listener);
+        }
+
+        @Override
+        public void queryCallBarring(int phoneId, int cbType, String password, int serviceClass,
+                boolean expectMore, IQtiImsExtListener listener) {
+            onQueryCallBarringStatus(phoneId, cbType, password, serviceClass, expectMore,
+                    listener);
+        }
+
+        @Override
+        public void exitScbm(int phoneId, IQtiImsExtListener listener) {
+            onExitScbm(phoneId, listener);
+        }
+
+        @Override
+        public boolean isExitScbmFeatureSupported(int phoneId) {
+            return onIsExitScbmFeatureSupported(phoneId);
+        }
     };
 
     private QtiImsExtBinder mQtiImsExtBinder;
@@ -258,5 +281,21 @@ public abstract class QtiImsExtBase {
     protected ICrsCrbtController onGetCrsCrbtController(int phoneId) {
         //no-op
         return null;
+    }
+    protected void onQueryCallForwardStatus(int phoneId, int reason, int serviceClass,
+            boolean expectMore, IQtiImsExtListener listener) {
+        // no-op
+    }
+    protected void onQueryCallBarringStatus(int phoneId, int cbType, String password,
+            int serviceClass, boolean expectMore, IQtiImsExtListener listener) {
+        // no-op
+    }
+    protected void onExitScbm(int phoneId, IQtiImsExtListener listener) {
+        // no-op
+    }
+
+    protected boolean onIsExitScbmFeatureSupported(int phoneId) {
+        // no-op
+        return false;
     }
 }
